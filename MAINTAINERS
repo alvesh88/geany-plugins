@@ -23,6 +23,13 @@ M:
 W:
 S:
 
+commander
+P: Colomban Wendling <ban@herbesfolles.org>
+M: Colomban Wendling <ban@herbesfolles.org>
+W:
+S: Maintained
+
+
 debugger
 P: Alexander Petukhov <devel@apetukhov.ru>
 M: Alexander Petukhov <devel@apetukhov.ru>
@@ -46,12 +53,6 @@ P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 W: http://sheckley.users.sourceforge.net
 S: Maintained
-
-geanygdb
-P: Dominic Hopf
-M: Dominic Hopf <dmaphy@googlemail.com>
-W: http://plugins.geany.org/geanygdb.html
-S: Odd Fixes
 
 geanygendoc
 P: Colomban Wendling <ban@herbesfolles.org>
@@ -137,6 +138,12 @@ M: Jiří Techet <techet@gmail.com>
 W: http://plugins.geany.org/gproject.html
 S: Maintained
 
+markdown 
+P: Matthew Brush <matt@geany.org>
+M: Matthew Brush <matt@geany.org>
+W: 
+S: Maintained
+
 multiterm
 P: Matthew Brush <matt@geany.org>
 M: Matthew Brush <matt@geany.org>
@@ -148,6 +155,12 @@ P:
 M:
 W:
 S:
+
+scope
+P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+W: http://sheckley.users.sourceforge.net
+S: Maintained
 
 shiftcolumn
 P:

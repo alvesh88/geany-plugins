@@ -1,0 +1,53 @@
+2012-12-23  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * docs/scope.html, src/prefs.c, src/prefs.h, src/thread.c:
+   Added option "keep_exec_point" to keep the execution point marker
+   and Threads location columns when a thread execution is resumed.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.78.
+
+2012-12-22  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * NEWS:
+   Real NEWS.
+ * docs/scope.html:
+   Small clarification.
+ * src/parse.c:
+   Fixed breakpoint-deleted id format.
+ * src/parse.h:
+   Removed parse_lead_locale(), not used.
+ * src/program.c, src/scope.c:
+   Unified error message format.
+ 
+2012-12-18  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * build/scope.m4, scope/src/Makefile.am:
+   No -lutil under win32.
+
+2012-12-16  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/common.h, src/menu.h:
+   Fixed forward declarations (though my gcc accepts them).
+ * src/menu.c, src/tooltip.c, src/views.c, src/views.h:
+   Clear scid_gen on program exit. No real risk of overflow,
+   but smaller values look better in Debug Console.
+ * src/menu.c:
+   Position cursor in modify dialog after " = ".
+ * src/tooltip.c:
+   Reset internal variables on program exit.
+ * src/debug.c:
+   Escape "\ in evaluate expressions.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.77.
+
+2012-12-13  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, src/local.c, src/parse.c, src/parse.h,
+   src/stack.c, src/stack.h:
+   Per-function display of @entry arguments.
+ * src/inspect.c, src/menu.c:
+   Small per-function @entry arguments related changes.
+ * src/inspect.c, src/local.c
+   (int) strlen(...) to avoid format warnings.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.76, small fixes and clarifications.

@@ -400,7 +400,8 @@ static void devhelp_plugin_init_edit_menu(DevhelpPlugin *self)
 		gtk_widget_show(man_item);
 	}
 
-	g_signal_connect(geany->main_widgets->editor_menu, "show", G_CALLBACK(on_editor_menu_popup), self);
+	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->editor_menu), "show", TRUE,
+		G_CALLBACK(on_editor_menu_popup), self);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(p->editor_menu_item), doc_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(geany->main_widgets->editor_menu), p->editor_menu_sep);
 	gtk_menu_shell_append(GTK_MENU_SHELL(geany->main_widgets->editor_menu), p->editor_menu_item);
@@ -562,8 +563,15 @@ DevhelpPlugin *devhelp_plugin_new(void)
  */
 const gchar *devhelp_plugin_get_webview_uri(DevhelpPlugin *self)
 {
+	WebKitWebFrame *frame;
+
 	g_return_val_if_fail(DEVHELP_IS_PLUGIN(self), NULL);
-	return webkit_web_view_get_uri(WEBKIT_WEB_VIEW(self->priv->webview));
+
+	frame = webkit_web_view_get_main_frame(WEBKIT_WEB_VIEW(self->priv->webview));
+	if (frame)
+		return webkit_web_frame_get_uri(WEBKIT_WEB_FRAME(frame));
+	else
+		return NULL;
 }
 
 
@@ -1026,7 +1034,11 @@ gboolean devhelp_plugin_get_have_man_prog(DevhelpPlugin *self)
 gboolean devhelp_plugin_get_devhelp_sidebar_visible(DevhelpPlugin *self)
 {
 	g_return_val_if_fail(DEVHELP_IS_PLUGIN(self), FALSE);
+#if GTK_CHECK_VERSION(2,18,0)
 	return gtk_widget_get_visible(self->priv->sb_notebook);
+#else
+	return GTK_WIDGET_VISIBLE(self->priv->sb_notebook);
+#endif
 }
 
 
