@@ -28,6 +28,13 @@
 
 #include "geanyplugin.h"
 
+#ifndef GTK_COMPAT_H
+#define GtkComboBoxText GtkComboBox
+#define GTK_COMBO_BOX_TEXT GTK_COMBO_BOX
+#define gtk_combo_box_text_new_with_entry gtk_combo_box_entry_new_text
+#define gtk_combo_box_text_append_text gtk_combo_box_append_text
+#endif
+
 GeanyPlugin	*geany_plugin;
 GeanyData	*geany_data;
 GeanyFunctions	*geany_functions;
@@ -35,7 +42,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(189)
 
 PLUGIN_SET_INFO(_("Insert Numbers"), _("Insert/Fill columns with numbers."),
-	"0.2.1", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	"0.2.2", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
@@ -44,15 +51,13 @@ enum
 	COUNT_KB
 };
 
-PLUGIN_KEY_GROUP(insert_numbers, COUNT_KB)
-
 /* when altering the RANGE_ or MAX_LINES, make sure that RANGE_ * MAX_LINES
    fit in gint64, and that RANGE_LEN is enough for RANGE_ digits and sign */
 #define RANGE_MIN (-2147483647 - 1)
 #define RANGE_MAX 2147483647
 #define RANGE_LEN 11
 #define RANGE_TOOLTIP "-2147483648..2147483647"
-#define MAX_LINES 100000
+#define MAX_LINES 250000
 
 typedef struct _InsertNumbersDialog
 {
@@ -64,7 +69,6 @@ typedef struct _InsertNumbersDialog
 
 typedef gboolean (*entry_valid)(const gchar *text);
 
-static GObject *tools1_menu = NULL;
 static GtkWidget *main_menu_item = NULL;
 static gint start_pos, start_line;
 static gint end_pos, end_line;
@@ -108,7 +112,7 @@ static gboolean can_insert_numbers(void)
 static void update_display(void)
 {
 	while (gtk_events_pending())
-        	gtk_main_iteration();
+		gtk_main_iteration();
 }
 
 #define sci_point_x_from_position(sci, position) \
@@ -141,7 +145,7 @@ static void insert_numbers(gboolean *cancel)
 	/* lines shorter than the current selection are skipped */
 	for (line = start_line, i = 0; line <= end_line; line++, i++)
 	{
-          	if (sci_point_x_from_position(sci,
+		if (sci_point_x_from_position(sci,
 			scintilla_send_message(sci, SCI_GETLINEENDPOSITION, line, 0)) >= xinsert)
 		{
 			line_pos[i] = sci_get_pos_at_line_sel_start(sci, line) -
@@ -308,23 +312,25 @@ static void set_entry(GtkWidget *entry, gint maxlen, GtkWidget *label, const gch
 	ui_widget_set_tooltip_text(entry, tooltip);
 }
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
+#define GtkGrid GtkTable
+#define GTK_GRID GTK_TABLE
+#define gtk_grid_attach(grid, child, left, top, width, height) \
+	gtk_table_attach_defaults(grid, child, left, left + width, top, top + height)
+#define gtk_grid_set_row_spacing gtk_table_set_row_spacings
+#define gtk_grid_set_column_spacing gtk_table_set_col_spacings
+#endif
+
 static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED
 	gpointer gdata)
 {
 	InsertNumbersDialog d;
 	GtkWidget *vbox, *label, *upper, *space, *button;
-	GtkTable *table;
-	GtkComboBox *combo;
+	GtkGrid *grid;
+	GtkComboBoxText *combo;
 	const char *case_tip = _("For base 11 and above");
 	gchar *base_text;
 	gint result;
-
-	if (!can_insert_numbers())
-	{
-		if (!tools1_menu)
-			plugin_beep();	/* no visual feedback, so beep */
-		return;
-	}
 
 	d.dialog = gtk_dialog_new_with_buttons(_("Insert Numbers"),
 		GTK_WINDOW(geany->main_widgets->window),
@@ -333,63 +339,77 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(d.dialog));
 	gtk_box_set_spacing(GTK_BOX(vbox), 9);
 
-	table = GTK_TABLE(gtk_table_new(3, 6, FALSE));
-	gtk_table_set_row_spacings(table, 6);
-	gtk_table_set_col_spacings(table, 6);
-	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(table), TRUE, TRUE, 0);
+#if GTK_CHECK_VERSION(3, 0, 0)
+	grid = GTK_GRID(gtk_grid_new());
+#else
+	grid = GTK_TABLE(gtk_table_new(3, 6, FALSE));
+#endif
+	gtk_grid_set_row_spacing(grid, 6);
+	gtk_grid_set_column_spacing(grid, 6);
+	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(grid), TRUE, TRUE, 0);
 
 	label = gtk_label_new_with_mnemonic(_("_Start:"));
-	gtk_table_attach_defaults(table, label, 0, 1, 0, 1);
+	gtk_grid_attach(grid, label, 0, 0, 1, 1);
 	d.start = gtk_spin_button_new_with_range(RANGE_MIN, RANGE_MAX, 1);
 	set_entry(d.start, RANGE_LEN, label, RANGE_TOOLTIP);
-	gtk_table_attach_defaults(table, d.start, 1, 3, 0, 1);
+	gtk_grid_attach(grid, d.start, 1, 0, 2, 1);
 	label = gtk_label_new_with_mnemonic(_("S_tep:"));
-	gtk_table_attach_defaults(table, label, 3, 4, 0, 1);
+	gtk_grid_attach(grid, label, 3, 0, 1, 1);
 	d.step = gtk_spin_button_new_with_range(RANGE_MIN, RANGE_MAX, 1);
 	set_entry(d.step, RANGE_LEN, label, RANGE_TOOLTIP);
-	gtk_table_attach_defaults(table, d.step, 4, 6, 0, 1);
+	gtk_grid_attach(grid, d.step, 4, 0, 2, 1);
 
 	label = gtk_label_new_with_mnemonic(_("_Base:"));
-	gtk_table_attach_defaults(table, label, 0, 1, 1, 2);
-	combo = GTK_COMBO_BOX(gtk_combo_box_entry_new_text());
+	gtk_grid_attach(grid, label, 0, 1, 1, 1),
+	combo = GTK_COMBO_BOX_TEXT(gtk_combo_box_text_new_with_entry());
 	d.base = gtk_bin_get_child(GTK_BIN(combo));
 	set_entry(d.base, 2, label, "2..36");
 	g_signal_connect(d.base, "insert-text", G_CALLBACK(on_base_insert_text), NULL);
-	gtk_combo_box_append_text(combo, "2");
-	gtk_combo_box_append_text(combo, "8");
-	gtk_combo_box_append_text(combo, "10");
-	gtk_combo_box_append_text(combo, "16");
-	gtk_table_attach(table, GTK_WIDGET(combo), 1, 3, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_combo_box_text_append_text(combo, "2");
+	gtk_combo_box_text_append_text(combo, "8");
+	gtk_combo_box_text_append_text(combo, "10");
+	gtk_combo_box_text_append_text(combo, "16");
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gtk_grid_attach(grid, GTK_WIDGET(combo), 1, 1, 2, 1);
+	gtk_widget_set_hexpand(GTK_WIDGET(combo), TRUE);
+#else
+	gtk_table_attach(grid, GTK_WIDGET(combo), 1, 3, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+#endif
 	label = gtk_label_new(_("Letters:"));
 	ui_widget_set_tooltip_text(label, case_tip);
-	gtk_table_attach_defaults(table, label, 3, 4, 1, 2);
+	gtk_grid_attach(grid, label, 3, 1, 1, 1);
 	upper = gtk_radio_button_new_with_mnemonic(NULL, _("_Upper"));
 	ui_widget_set_tooltip_text(upper, case_tip);
-	gtk_table_attach_defaults(table, upper, 4, 5, 1, 2);
+	gtk_grid_attach(grid, upper, 4, 1, 1, 1);
 	d.lower = gtk_radio_button_new_from_widget(GTK_RADIO_BUTTON(upper));
 	ui_widget_set_tooltip_text(label, case_tip);
 	label = gtk_label_new_with_mnemonic(_("_Lower"));
 	ui_widget_set_tooltip_text(label, case_tip);
 	gtk_container_add(GTK_CONTAINER(d.lower), label);
-	gtk_table_attach_defaults(table, d.lower, 5, 6, 1, 2);
+	gtk_grid_attach(grid, d.lower, 5, 1, 1, 1);
 
 	d.prefix = gtk_check_button_new_with_mnemonic(_("Base _prefix"));
 	ui_widget_set_tooltip_text(d.prefix,
 		_("0 for octal, 0x for hex, + for positive decimal"));
-	gtk_table_attach_defaults(table, d.prefix, 1, 3, 2, 3);
+	gtk_grid_attach(grid, d.prefix, 1, 2, 2, 1);
 	label = gtk_label_new(_("Padding:"));
-	gtk_table_attach_defaults(table, label, 3, 4, 2, 3);
+	gtk_grid_attach(grid, label, 3, 2, 1, 1);
 	space = gtk_radio_button_new_with_mnemonic(NULL, _("Sp_ace"));
-	gtk_table_attach_defaults(table, space, 4, 5, 2, 3);
+	gtk_grid_attach(grid, space, 4, 2, 1, 1);
 	d.zero = gtk_radio_button_new_from_widget(GTK_RADIO_BUTTON(space));
 	label = gtk_label_new_with_mnemonic(_("_Zero"));
 	gtk_container_add(GTK_CONTAINER(d.zero), label);
-	gtk_table_attach_defaults(table, d.zero, 5, 6, 2, 3);
+	gtk_grid_attach(grid, d.zero, 5, 2, 1, 1);
 
 	button = gtk_button_new_from_stock(GTK_STOCK_OK);
 	g_signal_connect(button, "clicked", G_CALLBACK(on_insert_numbers_ok_clicked), &d);
-	gtk_box_pack_end(GTK_BOX(GTK_DIALOG(d.dialog)->action_area), button, TRUE, TRUE, 0);
+	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(d.dialog))), button,
+		TRUE, TRUE, 0);
+#if GTK_CHECK_VERSION(2, 18, 0)
+	gtk_widget_set_can_default(button, TRUE);
+#else
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+#endif
 	gtk_widget_grab_default(button);
 
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(d.start), start_value);
@@ -418,7 +438,7 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 			{
 				gboolean cancel = FALSE;
 
-				gtk_widget_set_sensitive(GTK_WIDGET(table), FALSE);
+				gtk_widget_set_sensitive(GTK_WIDGET(grid), FALSE);
 				gtk_widget_set_sensitive(button, FALSE);
 				update_display();
 				g_signal_connect(d.dialog, "response",
@@ -435,17 +455,21 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 
 static void on_insert_numbers_key(G_GNUC_UNUSED guint key_id)
 {
-	on_insert_numbers_activate(NULL, NULL);
+	if (can_insert_numbers())
+		on_insert_numbers_activate(NULL, NULL);
 }
 
-static void on_tools1_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
+static void on_tools_show(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
 {
 	gtk_widget_set_sensitive(main_menu_item, can_insert_numbers());
 }
 
 void plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
+	GeanyKeyGroup *plugin_key_group;
+
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+	plugin_key_group = plugin_set_key_group(geany_plugin, "insert_numbers", COUNT_KB, NULL);
 
 	start_value = 1;
 	step_value = 1;
@@ -460,14 +484,8 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 	keybindings_set_item(plugin_key_group, INSERT_NUMBERS_KB, on_insert_numbers_key,
 		0, 0, "insert_numbers", _("Insert Numbers"), main_menu_item);
 
-	/* an "update-tools-menu" or something would have been nice */
-	tools1_menu = G_OBJECT(g_object_get_data((gpointer) geany->main_widgets->window,
-		"tools1"));
-	if (tools1_menu)
-	{
-		plugin_signal_connect(geany_plugin, tools1_menu, "activate", FALSE,
-			(GCallback) on_tools1_activate, NULL);
-	}
+	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->tools_menu), "show",
+		FALSE, (GCallback) on_tools_show, NULL);
 }
 
 void plugin_cleanup(void)

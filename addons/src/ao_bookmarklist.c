@@ -178,7 +178,7 @@ static void add_line(AoBookmarkList *bm, ScintillaObject *sci, gint line_nr)
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
 
 	line = g_strstrip(sci_get_line(sci, line_nr));
-	if (! NZV(line))
+	if (EMPTY(line))
 		line = g_strdup(_("(Empty Line)"));
 	tooltip = g_markup_escape_text(line, -1);
 
@@ -330,6 +330,7 @@ static void ao_bookmark_list_show(AoBookmarkList *bm)
 
 	text_renderer = gtk_cell_renderer_text_new();
 	column = gtk_tree_view_column_new();
+	// Translators: Number is meant at this point.
 	gtk_tree_view_column_set_title(column, _("No."));
 	gtk_tree_view_column_pack_start(column, text_renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, text_renderer, "text", BMLIST_COL_LINE, NULL);

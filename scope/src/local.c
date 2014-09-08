@@ -31,14 +31,13 @@ enum
 	LOCAL_ARG1
 };
 
-static GtkListStore *store;
-static GtkTreeModel *model;
+static ScpTreeStore *store;
 static GtkTreeSelection *selection;
 
 static void on_local_display_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	gchar *path_str, gchar *new_text, G_GNUC_UNUSED gpointer gdata)
 {
-	view_display_edited(model, thread_state >= THREAD_STOPPED && frame_id, path_str,
+	view_display_edited(store, thread_state >= THREAD_STOPPED && frame_id, path_str,
 		"07-gdb-set var %s=%s", new_text);
 }
 
@@ -68,10 +67,10 @@ static void local_node_variable(const ParseNode *node, const LocalData *ld)
 
 			if (!arg1 || ld->entry || !g_str_has_suffix(var.name, "@entry"))
 			{
-				gtk_list_store_append(store, &iter);
-				gtk_list_store_set(store, &iter, LOCAL_NAME, var.name, LOCAL_DISPLAY,
-					var.display, LOCAL_VALUE, var.value, LOCAL_HB_MODE, var.hb_mode,
-					LOCAL_MR_MODE, var.mr_mode, LOCAL_ARG1, arg1, -1);
+				scp_tree_store_append_with_values(store, &iter, NULL, LOCAL_NAME,
+					var.name, LOCAL_DISPLAY, var.display, LOCAL_VALUE, var.value,
+					LOCAL_HB_MODE, var.hb_mode, LOCAL_MR_MODE, var.mr_mode,
+					LOCAL_ARG1, arg1, -1);
 
 				if (!g_strcmp0(var.name, ld->name))
 					gtk_tree_selection_select_iter(selection, &iter);
@@ -83,33 +82,28 @@ static void local_node_variable(const ParseNode *node, const LocalData *ld)
 
 void on_local_variables(GArray *nodes)
 {
-	const char *token = parse_grab_token(nodes);
-	size_t len = *token - '0' + 1;
-
-	if (thread_id && frame_id && len == strlen(thread_id) &&
-		!memcmp(++token, thread_id, len) && !strcmp(token + len, frame_id))
+	if (utils_matches_frame(parse_grab_token(nodes)))
 	{
 		GtkTreeIter iter;
 		LocalData ld = { NULL, stack_entry() };
 
 		if (gtk_tree_selection_get_selected(selection, NULL, &iter))
-			gtk_tree_model_get(model, &iter, LOCAL_NAME, &ld.name, -1);
+			gtk_tree_model_get((GtkTreeModel *) store, &iter, LOCAL_NAME, &ld.name, -1);
 
 		locals_clear();
-		array_foreach(parse_lead_array(nodes), (GFunc) local_node_variable, &ld);
+		parse_foreach(parse_lead_array(nodes), (GFunc) local_node_variable, &ld);
 		g_free(ld.name);
 	}
 }
 
 void locals_clear(void)
 {
-	gtk_list_store_clear(store);
+	store_clear(store);
 }
 
-static void local_send_update(char token)
+static void locals_send_update(char token)
 {
-	debug_send_format(F, "0%c%c%s%s-stack-list-variables 1", token,
-		'0' + (int) strlen(thread_id) - 1, thread_id, frame_id);
+	debug_send_format(F, "0%c%c%s%s-stack-list-variables 1", token, FRAME_ARGS);
 }
 
 gboolean locals_update(void)
@@ -118,7 +112,7 @@ gboolean locals_update(void)
 		return FALSE;
 
 	if (frame_id)
-		local_send_update('4');
+		locals_send_update('4');
 	else
 		locals_clear();
 
@@ -134,7 +128,7 @@ void locals_update_state(DebugState state)
 
 static void on_local_refresh(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	local_send_update('2');
+	locals_send_update('2');
 }
 
 static void on_local_unsorted(G_GNUC_UNUSED const MenuItem *menu_item)
@@ -156,12 +150,11 @@ static void on_local_modify(const MenuItem *menu_item)
 static void on_local_watch(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	char *name;
+	const char *name;
 
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	gtk_tree_model_get(model, &iter, LOCAL_NAME, &name, -1);
+	scp_tree_store_get(store, &iter, LOCAL_NAME, &name, -1);
 	watch_add(name);
-	g_free(name);
 }
 
 static void on_local_inspect(G_GNUC_UNUSED const MenuItem *menu_item)
@@ -233,10 +226,9 @@ void local_init(void)
 {
 	GtkWidget *menu;
 
-	view_connect("local_view", &model, &selection, local_cells, "local_window",
+	view_connect("local_view", &store, &selection, local_cells, "local_window",
 		&local_display);
 	menu = menu_select("local_menu", &local_menu_info, selection);
-	store = GTK_LIST_STORE(model);
 
 	g_signal_connect(menu, "show", G_CALLBACK(on_local_menu_show), NULL);
 	g_signal_connect(get_widget("local_modify"), "button-release-event",

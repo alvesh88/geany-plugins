@@ -1,7 +1,7 @@
 /*
  *      geanysendmail.c
  *
- *      Copyright 2007-2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2007-2011, 2013 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *      Copyright 2007 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
  *      Copyright 2007, 2008 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
  *      Copyright 2008, 2009 Timothy Boronczyk <tboronczyk(at)gmail(dot)com>
@@ -111,6 +111,8 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
  				}
  				else
  				{
+					g_string_free(cmd_str, TRUE);
+					g_free(locale_filename);
 					return;
 				}
 
@@ -170,6 +172,8 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 	{
 		ui_set_statusbar(FALSE, _("File has to be saved before sending."));
 	}
+
+	g_key_file_free(config);
 }
 
 static void key_send_as_attachment(G_GNUC_UNUSED guint key_id)
@@ -184,7 +188,7 @@ static void add_stock_item(void)
 	GtkIconSet *icon_set;
 	GtkIconFactory *factory = gtk_icon_factory_new();
 	GtkIconTheme *theme = gtk_icon_theme_get_default();
-	GtkStockItem item = { GEANYSENDMAIL_STOCK_MAIL, N_("Mail"), 0, 0, GETTEXT_PACKAGE };
+	GtkStockItem item = { (gchar*)(GEANYSENDMAIL_STOCK_MAIL), (gchar*)(N_("Mail")), 0, 0, (gchar*)(GETTEXT_PACKAGE) };
 
 	if (gtk_icon_theme_has_icon(theme, "mail-message-new"))
 	{

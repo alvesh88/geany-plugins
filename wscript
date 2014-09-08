@@ -39,18 +39,18 @@ Requires WAF 1.6.1 and Python 2.5 (or later).
 
 import os
 import tempfile
-from glob import glob
 from waflib import Logs, Scripting, Utils
 from waflib.Tools import c_preproc
 from waflib.Errors import ConfigurationError
 from waflib.TaskGen import feature
+from waflib.Tools.compiler_c import c_compiler
 from build.wafutils import (
     add_define_to_env,
     add_to_env_and_define,
     check_cfg_cached,
     get_plugins,
     get_enabled_plugins,
-    get_svn_rev,
+    get_git_rev,
     install_docs,
     launch,
     load_intltool_if_available,
@@ -60,7 +60,7 @@ from build.wafutils import (
 
 
 APPNAME = 'geany-plugins'
-VERSION = '1.23'
+VERSION = '1.25'
 LINGUAS_FILE = 'po/LINGUAS'
 
 top = '.'
@@ -87,44 +87,44 @@ def configure(conf):
                    args='--cflags --libs')
     check_cfg_cached(conf,
                    package='geany',
-                   atleast_version='1.23',
+                   atleast_version='1.24',
                    uselib_store='GEANY',
                    mandatory=True,
                    args='--cflags --libs')
 
     set_lib_dir(conf)
-    # SVN/GIT detection
-    svn_rev = get_svn_rev(conf)
-    conf.define('REVISION', svn_rev, 1)
+    # GIT detection
+    revision = get_git_rev(conf)
+    conf.define('REVISION', revision, 1)
     # GTK/Geany versions
     geany_version = conf.check_cfg(modversion='geany') or 'Unknown'
     gtk_version = conf.check_cfg(modversion='gtk+-2.0') or 'Unknown'
 
     load_intltool_if_available(conf)
+    setup_configuration_env(conf)
 
     # build plugin list
     enabled_plugins = get_enabled_plugins(conf)
 
-    # execute plugin specific coniguration code
+    # execute plugin specific configuration code
     configure_plugins(conf, enabled_plugins)
     # now add the enabled_plugins to the env to remember them
     conf.env.append_value('enabled_plugins', enabled_plugins)
 
-    setup_configuration_env(conf)
     setup_makefile(conf)
     conf.write_config_header('config.h')
 
     # enable debug when compiling from VCS
-    if svn_rev > 0:
-        conf.env.append_value('CFLAGS', '-g -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED
+    if revision > 0:
+        conf.env.append_value('CFLAGS', '-g -DDEBUG'.split())  # -DGEANY_DISABLE_DEPRECATED
 
     # summary
     Logs.pprint('BLUE', 'Summary:')
     conf.msg('Install Geany Plugins ' + VERSION + ' in', conf.env['G_PREFIX'])
     conf.msg('Using GTK version', gtk_version)
     conf.msg('Using Geany version', geany_version)
-    if svn_rev > 0:
-        conf.msg('Compiling Subversion revision', svn_rev)
+    if revision > 0:
+        conf.msg('Compiling Git revision', revision)
     conf.msg('Plugins to compile', ' '.join(enabled_plugins))
 
 
@@ -151,7 +151,7 @@ def setup_configuration_env(conf):
         conf.env['G_PREFIX'] = conf.env['PREFIX']
         # paths
         add_to_env_and_define(conf, 'PREFIX', '', quote=True)
-        add_to_env_and_define(conf, 'LIBDIR', '', quote=True)
+        add_to_env_and_define(conf, 'LIBDIR', 'lib', quote=True)
         add_to_env_and_define(conf, 'LIBEXECDIR', '', quote=True)
         add_to_env_and_define(conf, 'DOCDIR', 'doc', quote=True)
         conf.define('LOCALEDIR', 'share/locale', 1)
@@ -174,9 +174,9 @@ def setup_configuration_env(conf):
         add_to_env_and_define(conf, 'GEANYPLUGINS_DATADIR', conf.env['DATADIR'], quote=True)
         conf.env['GEANYPLUGINS_DATADIR'] = conf.env['DATADIR']
     # common
-    pkgdatadir = os.path.join(conf.env['GEANYPLUGINS_DATADIR'], 'geany-plugins')
-    pkglibdir = os.path.join(conf.env['LIBDIR'], 'geany-plugins')
-    pkgincludedir = os.path.join(conf.env['G_PREFIX'], 'include')
+    pkgdatadir = '%s/%s' % (conf.env['GEANYPLUGINS_DATADIR'], 'geany-plugins')
+    pkglibdir = '%s/%s' % (conf.env['LIBDIR'], 'geany-plugins')
+    pkgincludedir = '%s/%s' % (conf.env['G_PREFIX'], 'include')
     add_to_env_and_define(conf, 'INCLUDEDIR', pkgincludedir, quote=True)
     add_to_env_and_define(conf, 'DATAROOTDIR', conf.env['GEANYPLUGINS_DATADIR'], quote=True)
     add_to_env_and_define(conf, 'PKGDATADIR', pkgdatadir, quote=True)
@@ -190,6 +190,10 @@ def setup_configuration_env(conf):
 
 
 def options(opt):
+    # Disable MSVC detetion on win32: building Geany-Plugins with MSVC is currently not supported
+    # If anyone wants to add support for building with MSVC, this hack should be removed.
+    c_compiler['win32'] = ['gcc']
+
     opt.tool_options('compiler_cc')
     opt.tool_options('intltool')
 
@@ -198,6 +202,9 @@ def options(opt):
     # execute plugin specific option code
     opt.recurse(plugins, mandatory=False)
 
+    # Options
+    opt.add_option('--no-scm', action='store_true', default=False,
+        help='Disable SCM detection [default: No]', dest='no_scm')
     # Paths
     opt.add_option('--libdir', type='string', default='',
         help='object code libraries', dest='libdir')
@@ -208,8 +215,8 @@ def options(opt):
         help='list plugins which can be built', dest='list_plugins')
 
     opt.add_option('--enable-plugins', action='store', default='',
-        help='plugins to be built [plugins in CSV format, e.g. "%(1)s,%(2)s"]' % \
-        { '1' : plugins[0], '2' : plugins[1] }, dest='enable_plugins')
+        help='plugins to be built [plugins in CSV format, e.g. "%(1)s,%(2)s"]' %
+        {'1': plugins[0], '2': plugins[1]}, dest='enable_plugins')
     opt.add_option('--skip-plugins', action='store', default='',
         help='plugins which should not be built, ignored when --enable-plugins is set, same format as --enable-plugins',
         dest='skip_plugins')
@@ -267,9 +274,9 @@ def listplugins(ctx):
     Logs.pprint('GREEN', 'The following targets can be chosen with the --enable-plugins option:')
     Logs.pprint('NORMAL', ' '.join(plugins))
 
-    Logs.pprint('GREEN', \
-    '\nTo compile only "%(1)s" and "%(2)s", use "./waf configure --enable-plugins=%(1)s,%(2)s".' % \
-            { '1' : plugins[0], '2' : plugins[1] } )
+    Logs.pprint('GREEN',
+    '\nTo compile only "%(1)s" and "%(2)s", use "./waf configure --enable-plugins=%(1)s,%(2)s".' %
+            {'1': plugins[0], '2': plugins[1]})
     exit(0)
 
 
@@ -294,7 +301,7 @@ def write_linguas_file(self):
     if 'LINGUAS' in self.env:
         files = self.env['LINGUAS']
         for po_filename in files.split(' '):
-            if os.path.exists ('po/%s.po' % po_filename):
+            if os.path.exists('po/%s.po' % po_filename):
                 linguas += '%s ' % po_filename
     else:
         files = os.listdir('%s/po' % self.path.abspath())
@@ -305,27 +312,6 @@ def write_linguas_file(self):
     file_h = open(LINGUAS_FILE, 'w')
     file_h.write('# This file is autogenerated. Do not edit.\n%s\n' % linguas)
     file_h.close()
-
-
-def create_installer(ctx):
-    """create the Windows installer (maintainer and Win32 only)"""
-    # must be called *after* everything has been installed
-    do_sign = os.path.exists('sign.bat') # private file to sign the binary files, not needed
-    def sign_binary(filename):
-        if do_sign:
-            ctx.exec_command('sign.bat %s' % filename)
-
-    # strip all binaries
-    Logs.pprint('CYAN', 'Stripping %sfiles' % ('and signing binary ' if do_sign else ''))
-    install_dir = '%s-%s' % (APPNAME, VERSION) # should be ctx.env['G_PREFIX']
-    files = glob(os.path.join(install_dir, 'lib', '*.dll'))
-    files.append(os.path.join(install_dir, 'lib\geany-plugins\geanylua\libgeanylua.dll'))
-    for filename in files: # sign the DLL files
-        ctx.exec_command('strip %s' % filename)
-        sign_binary(filename)
-    # create the installer
-    launch(ctx, 'makensis /V2 /NOCD build/geany-plugins.nsi', 'Creating the installer', 'CYAN')
-    sign_binary('geany-plugins-%s_setup.exe' % VERSION)
 
 
 def updatepo(ctx):

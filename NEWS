@@ -1,63 +1,172 @@
-Geany Plugins 1.23 (xxxx-xx-xx)
+Geany Plugins 1.24 (2014-04-13)
 
-	* Depend on Geany 1.23
-	* Add new plugin Commander
-	* Add new plugin markdown
-	* Add new plugin Scope
-	* Removing plugin geanyGDB
-	* Improvement of error handling in autogen.sh
-	* Improvement of general documentation
-	* Buildfix with waf on Windows-Systems
+    Known issues
+    * If the Geanypy plugin is closed when any Python plugins are still
+      running it may cause a crash.
+    * Closing Geany having GeanyLaTeX and Devhelp-plugin active, might
+      cause a not clean shutdown of Geany
 
-	Addons:
-	* Fixing of memory leaks
-	* Little rewordings
+    General:
+    * Depend on Geany 1.24
+    * New plugin Pohelper
+    * New plugin PairTagHighlighter
+    * New plugin Autoclose
+    * New plugin Geanypy (Python bindings)
+    * New plugin Defineformat
+    * Build system improvements
 
-	Devhelp:
-	* Fix API-calls for older GTK-versions
-	* Fix a signal to avoid crash on closing of Geany
+    Commander:
+    * Add Gtk3 support
 
-	GeanyGenDoc:
-	* Improvement of waf-build
+    Debugger:
+    * Fixing a crash when re-loading plugin
 
-	GeanyLaTeX:
-	* Fix installation path for documentation.
+    GeanyGenDoc:
+    * Add Gtk3 support
+    * Fix a memory leak
 
-	GeanyLua:
-	* Update of Scintilla bindings to 3.2.0
-	* Improve pointer->int casts
-	* Revisiting mechanism to find Lua-package on configuration-time
+    GeanyExtraSel:
+    * Add "Toggle Rectangular/Stream"
 
-	GeanyMacro:
-	* Fix some typos
+    GeanyInsertNum:
+    * Add Gtk3 support
+    * Increase maxlines to 250000
 
-	GeanyPG:
-	* Fix adding of \0 when encryption a selection (#3557458)
+    GeanyLipsum:
+    * Add Gtk3 support
+    * Ensure whitespace between repetitions of Lorem Ipsum text
 
-	GeanyPrj:
-	* Buildfix for function not marked as external
+    GeanyLua:
+    * Add Gtk3 support
+    * Re-enable build with C89
 
-	GeniusPaste:
-	* Fixing of memory leaks
-	* Fixing of a invalid memory free
+    GeanyMiniScript:
+    * Add Gtk3 support
 
-	Spellcheck:
-	* Perform a recheck/clear when toggling 'check while typing' (#3495051)
+    GeanyPG:
+    * Improve portability and check for system requirements
 
-	Tableconvert:
-	* Rework to be more generic
-	* Improvement of LaTeX-tables being created
+    GeanyVC:
+    * Add support for Subversion 1.7
+    * Limit the display of diff output to 16 KB to not freeze the UI on
+      huge commit-diffs
+    * Show line and column of the cursor in the commit
+      message text window
 
-	Treebrowser:
-	* Added backspace to browse up a directory
-	* Eexpand/collapse with spacebar
+    GProject:
+    * Add Gtk3 support
+    * Display content-type-specific icons for files in the sidebar
+    * Make toolbar buttons insensitive when no files displayed
+    * Smaller fixes and improvements
 
-	Webhelper:
-	* Show the currently hovered link in the statusbar
-	* Don't use deprecated GTK API
+    Markdown:
+    * Add Gtk3 support
+    * Fix scroll jumping behavior
+
+    Multiterm:
+    * Implement the other config VTE properties
+
+    Prettyprinter:
+    * Add Gtk3 support
+
+    Scope:
+    * Add Gtk3 support
+    * Add support for registers
+    * Various fixes and improvements
+
+    Shiftcolumn:
+    * Removed default keybindings
+
+    Spellcheck:
+    * Add Gtk3 support
+    * Fix check for default language if LANG contains UTF-8
+    * Remove check while typing idle callback when unloading the plugin
+      (closing #96)
+    * Improve stripping of whitespace and punctuation characters
+      (fixes #98)
+    * Fix crash when closing a document quickly after modifying it
+
+    Tableconvert:
+    * Add support for HTML tables in markdown files
+
+    TreeBrowser:
+    * Add Gtk3 support
+    * Don't collapse expanded child of node when node gets selected
+    * Add and improve some keybindings
+    * Add a way to open newly created files
+    * Focus editor on file open
+
+    Updatechecker:
+    * Fix comparing major versions
+
+    WebHelper:
+    * Add Gtk3 support
+
+    Internationalization:
+    * Update translations: de, es, fr, nl, ru, tr
+    * New translations: it
+
+
+Geany Plugins 1.23 (2013-03-10)
+
+    * Depend on Geany 1.23
+    * Add new plugin Commander
+    * Add new plugin markdown
+    * Add new plugin Scope
+    * Removing plugin geanyGDB
+    * Improvement of error handling in autogen.sh
+    * Improvement of general documentation
+    * Buildfix with waf on Windows-Systems
+
+    Addons:
+    * Fixing of memory leaks
+    * Little rewordings
+
+    Devhelp:
+    * Fix API-calls for older GTK-versions
+    * Fix a signal to avoid crash on closing of Geany
+
+    GeanyGenDoc:
+    * Improvement of waf-build
+
+    GeanyLaTeX:
+    * Fix installation path for documentation.
+
+    GeanyLua:
+    * Update of Scintilla bindings to 3.2.0
+    * Improve pointer->int casts
+    * Revisiting mechanism to find Lua-package on configuration-time
+
+    GeanyMacro:
+    * Fix some typos
+
+    GeanyPG:
+    * Fix adding of \0 when encryption a selection (#3557458)
+
+    GeanyPrj:
+    * Buildfix for function not marked as external
+
+    GeniusPaste:
+    * Fixing of memory leaks
+    * Fixing of a invalid memory free
+
+    Spellcheck:
+    * Perform a recheck/clear when toggling 'check while typing' (#3495051)
+
+    Tableconvert:
+    * Rework to be more generic
+    * Improvement of LaTeX-tables being created
+
+    Treebrowser:
+    * Added backspace to browse up a directory
+    * Eexpand/collapse with spacebar
+
+    Webhelper:
+    * Show the currently hovered link in the statusbar
+    * Don't use deprecated GTK API
 
     Internationalisation:
-    * Update translations: de, tr
+    * Update translations: ca, de, es, fr, nl, tr
 
 
 Geany Plugins 1.22 (2012-07-10)

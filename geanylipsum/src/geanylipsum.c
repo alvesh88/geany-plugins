@@ -1,7 +1,7 @@
 /*
  *      geanylipsum.c
  *
- *      Copyright 2008-2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2008-2013 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -39,16 +39,19 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	GETTEXT_PACKAGE,
 	_("GeanyLipsum"),
 	_("Creating dummy text with Geany"),
-	"0.4.3",
+	"0.4.4",
 	"Frank Lanitz <frank@frank.uvena.de>")
 
 static GtkWidget *main_menu_item = NULL;
 static gchar *lipsum = NULL;
 static const gchar *default_loremipsum = "\
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy\
-eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam\
-voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet \
-clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do\
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim\
+ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut\
+aliquip ex ea commodo consequat. Duis aute irure dolor in\
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla\
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in\
+culpa qui officia deserunt mollit anim id est laborum.";
 
 
 /* Doing some basic keybinding stuff */
@@ -120,8 +123,9 @@ lipsum_activated(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gda
 			g_free(missing_text);
 		}
 		for (i = 0; i < x; i++)
+		{
 			insert_string(doc, lipsum);
-
+		}
 		sci_end_undo_action(doc->editor->sci);
 	}
 }
@@ -140,11 +144,8 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
 	GtkWidget *menu_lipsum = NULL;
 	GKeyFile *config = g_key_file_new();
-	GtkTooltips *tooltips = NULL;
 	gchar *config_file = NULL;
 	GeanyKeyGroup *key_group;
-
-	tooltips = gtk_tooltips_new();
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
@@ -161,8 +162,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 
 	/* Building menu entry */
 	menu_lipsum = gtk_image_menu_item_new_with_mnemonic(_("_Lipsum"));
-	gtk_tooltips_set_tip(tooltips, menu_lipsum,
-			     _("Include Pseudotext to your code"), NULL);
+	gtk_widget_set_tooltip_text(menu_lipsum, _("Include Pseudotext to your code"));
 	gtk_widget_show(menu_lipsum);
 	g_signal_connect((gpointer) menu_lipsum, "activate",
 			 G_CALLBACK(lipsum_activated), NULL);

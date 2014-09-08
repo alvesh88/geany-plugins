@@ -21,6 +21,8 @@
 
 void on_inspect_variable(GArray *nodes);
 void on_inspect_format(GArray *nodes);
+void on_inspect_evaluate(GArray *nodes);
+void on_inspect_assign(GArray *nodes);
 void on_inspect_children(GArray *nodes);
 void on_inspect_ndeleted(GArray *nodes);
 void on_inspect_path_expr(GArray *nodes);
@@ -29,7 +31,6 @@ void on_inspect_signal(const char *name);
 
 void inspects_clear(void);
 gboolean inspects_update(void);
-gboolean inspects_current(void);
 void inspects_apply(void);
 
 #define EXPAND_MAX 99999

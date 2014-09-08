@@ -33,12 +33,12 @@ They currently are:
   ``--disable-cppcheck`` configuration flag) -- this test is run during
   ``make check``.
 
-These features are only here to help you writing better code: they 
-are not necessarily and always right -- though they try. However 
-it's highly recommended to make usage of them and fix maybe occuring 
-issues before submitting a patch. If you think they reports wrong 
-problems, please file a report on the appropriate place (either the 
-mailing lists or the geany-plugins bug tracker). 
+These features are only here to help you writing better code: they
+are not necessarily and always right -- though they try. However
+it's highly recommended to make usage of them and fix maybe occuring
+issues before submitting a patch. If you think they reports wrong
+problems, please file a report on the appropriate place (either the
+mailing lists or the geany-plugins bug tracker).
 
 
 Documentation
@@ -54,10 +54,10 @@ documentation.
 Markup language
 ###############
 
-The `README` is intended to be written in `Restructured Text 
-<http://sphinx.pocoo.org/rest.html>`_ (as this document is) and 
-therefore should work with ``rst2html`` or similar tools. The reason 
-for this is that this information is used to generate the content of 
+The `README` is intended to be written in `Restructured Text
+<http://sphinx.pocoo.org/rest.html>`_ (as this document is) and
+therefore should work with ``rst2html`` or similar tools. The reason
+for this is that this information is used to generate the content of
 the `Plugins Website <http://plugins.geany.org>`.
 
 
@@ -141,19 +141,176 @@ Example::
     This avoid spawning an unexpected browser when the configured one is
     wrong, and gives the user a chance to correctly fix the preference.
 
+
 Coding and Plugin structure
 ===========================
+
+Structure of a plugin
+---------------------
+
+Your plugin shall be structured like this:
+
+- yourplugin
+    - src/
+    - data/
+    - doc/
+
+Where you put all your source code inside the src-folder, all
+additional data like scripts should be put into a seperate
+data-folder and content for plugin documentation fit into the folder
+doc.
+
+Adding a new plugin to autotools build system
+---------------------------------------------
+
+configure.ac
+^^^^^^^^^^^^
+
+Add an entry into configure.ac for your plugin. The entry should look like
+``GP_CHECK_YOURFANCYPLUGINNAME``
+
+Makefile.am
+^^^^^^^^^^^
+
+Add an entry into Makefile.am where to find the sources of your plugin.
+This entry shall look like this::
+
+ if ENABLE_YOURFANCYPLUGINNAME
+ SUBDIRS += yourfancyplugin
+ endif
+
+
+build-subfolder
+^^^^^^^^^^^^^^^
+
+To build your plugin you will also need to add an m4-script inside
+the ``build`` subfolder of the geany-plugin sources. The file should
+be called ``yourfancypluginname.m4`` and contain the definition of the M4
+macro that checks for your plugin's dependencies and generates its
+build files, which macro is called from configure.ac::
+
+ AC_DEFUN([GP_CHECK_YOURFANCYPLUGINNAME],
+ [
+     GP_ARG_DISABLE([yourfancypluginname], [auto])
+     GP_COMMIT_PLUGIN_STATUS([yourfancypluginname])
+     AC_CONFIG_FILES([
+         yourplugin/Makefile
+         yourplugin/src/Makefile
+     ])
+ ])
+
+You may add checks for dependencies of your plugin between the
+``GP_ARG_DISABLE`` and ``GP_COMMIT_PLUGIN_STATUS`` calls.  Note that you
+must respect the ``$enable_yourfancypluginname`` (lowercase) variable
+and try to avoid performing checks if it is set to ``no``, and never
+abort unless it is set to ``yes``.  If a required dependency is not met
+and ``$enable_yourfancypluginname`` is not set to ``yes``, you should
+update ``enable_yourfancypluginname`` and set it to ``no`` to disable
+building of your plugin.
+
+To ease checking for modules using *pkg-config*, the
+``GP_CHECK_PLUGIN_DEPS`` macro is provided, which wraps
+``PKG_CHECK_MODULES`` and follows the above rules about plugin
+enabling/disabling.
+
+While we recommend plugins to work with both GTK 2 and 3, you can use
+the ``GP_CHECK_PLUGIN_GTK2_ONLY`` or ``GP_CHECK_PLUGIN_GTK3_ONLY``
+macros if your plugin only works with one version.
+
+You may also check which GTK version is used for the build using either
+the ``$GP_GTK_VERSION`` or ``$GP_GTK_PACKAGE`` variables, or the
+``GP_CHECK_GTK3`` macro.  For example, if your plugin works with both
+GTK 2 and 3 but you want to check for a minimal GTK2 version, you may
+use ``$GP_GTK_PACKAGE >= 2.XX`` in a ``GP_CHECK_PLUGIN_DEPS`` call.
+
+
+Makefile inside your plugin folder
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Makefile inside your plugin folder can be seperated at least
+into two parts: The first part is located inside the root folder of
+your plugin, whereas the second one is located inside src/ of your
+plugin.
+
+
+Plugin-root
+###########
+
+The file should be called ``Makefile.am`` and contains the entry
+point for really building your plugin. The easiest version could look
+similar to this::
+
+    include $(top_srcdir)/build/vars.auxfiles.mk
+    SUBDIRS = src
+    plugin = yourfancypluginname
+
+
+src-folder
+###########
+
+The ``Makefile.am`` inside the src-Folder is containing the
+informationen how to build the sources. An example could look like::
+
+    include $(top_srcdir)/build/vars.build.mk
+
+    yourfancypluginname_LTLIBRARIES = yourfancypluginname.la
+
+    yourfancypluginname_la_SOURCES = yourfancypluginname.c
+    yourfancypluginname_la_LIBADD = $(COMMONLIBS)
+
+    include $(top_srcdir)/build/cppcheck.mk
+
+Additional things to do for a new plugin
+----------------------------------------
+
+Adding yourself to MAINTAINERS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+As you might want to keep on maintaining your newly added plugin, we 
+recommend to put your contact data to file MAINTAINERS which is 
+located inside geany-plugins root folder. The entry should contain 
+your plugin name as well as some of the important data. An example 
+could look like::
+
+	myfancyplugin
+	P: Jon Doe <jon@example.org>
+	M: Jon Doe <jon@example.org>
+	W: http://example.org/myfancyplugin 
+	S: Maintained
+
+The flags can be compiled like this: 
+
+* P: Person
+* M: Mail patches to: FullName <address@domain>
+* W: Web-page with status/info
+* S: Status of plugin
+
+Once you have a look onto MAINTAINERS you will see a lot of examples 
+as well as some more detailed information.
+
+
+Adding your plugin-files to po/POTFILES.in
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you want to have your plugin translated into different languages 
+you will have to add your plugin to file po/POTFILES.in. This 
+contains a list of all translateable files for each plugin. An 
+example could look like::
+	
+	#myfancyplugin
+	yourfancypluginname/src/yourfancypluginname.c
+	
 
 I18n/l10n
 ---------
 
-Geany-Plugins is supporting localisation of your plugin. To make 
+Geany-Plugins is supporting localisation of your plugin. To make
 usage of it, there needs to be done:
 
-* Mark each string which should be translatable with the gettext macro 
-  ``_()`` or ``N_()`` for static strings. As an example the string 
+* Mark each string which should be translatable with the gettext macro
+  ``_()`` or ``N_()`` for static strings. As an example the string
   ``"Hello World"`` might become ``_("Hello World")``.
-* Add files with translateable strings into ``po/POTFILES.in``. You 
-  should group them for your plugin as done for the other. Each files 
-  needs to be put into one line with complete relative	 path from 
+* Add files with translateable strings into ``po/POTFILES.in``. You
+  should group them for your plugin as done for the other. Each files
+  needs to be put into one line with complete relative	 path from
   plugin root directory. E.g. ``myplugin/src/myplugin.c``

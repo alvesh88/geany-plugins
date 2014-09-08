@@ -31,6 +31,8 @@ scope_la_SOURCES = \
 	prefs.h \
 	program.c \
 	program.h \
+	register.c \
+	register.h \
 	scope.c \
 	scope.h \
 	stack.c \
@@ -44,7 +46,12 @@ scope_la_SOURCES = \
 	views.c \
 	views.h \
 	watch.c \
-	watch.h
+	watch.h \
+	store.h \
+	store/scptreedata.h \
+	store/scptreedata.c \
+	store/scptreestore.h \
+	store/scptreestore.c
 
 scope_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) $(PTY_LIBS)
 

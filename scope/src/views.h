@@ -30,24 +30,28 @@ typedef enum _ViewIndex
 	VIEW_MEMORY,
 	VIEW_CONSOLE,
 	VIEW_INSPECT,
+	VIEW_REGISTERS,
 	VIEW_TOOLTIP,
 	VIEW_POPMENU,
 	VIEW_COUNT
 } ViewIndex;
 
 void view_dirty(ViewIndex index);
-void views_data_dirty(void);
+void views_context_dirty(DebugState state, gboolean frame_only);
+#define views_data_dirty(state) views_context_dirty((state), FALSE)
 void views_clear(void);
 void views_update(DebugState state);
 gboolean view_stack_update(void);
-void view_inspect_update(void);
+#define view_frame_update() (g_strcmp0(frame_id, "0") && view_stack_update())
+void view_local_update(void);
 
 void on_view_changed(GtkNotebook *notebook, gpointer page, gint page_num, gpointer gdata);
 typedef void (*ViewSeeker)(gboolean focus);
 gboolean on_view_key_press(GtkWidget *widget, GdkEventKey *event, ViewSeeker seeker);
 gboolean on_view_button_1_press(GtkWidget *widget, GdkEventButton *event, ViewSeeker seeker);
-gboolean on_view_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip,
+gboolean on_view_query_base_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip,
 	GtkTooltip *tooltip, GtkTreeViewColumn *base_name_column);
+gboolean on_view_editable_map(GtkWidget *widget, gchar *replace);
 
 enum
 {
@@ -62,15 +66,15 @@ typedef struct _TreeCell
 	GCallback callback;
 } TreeCell;
 
-GtkTreeView *view_create(const char *name, GtkTreeModel **model, GtkTreeSelection **selection);
-GtkTreeView *view_connect(const char *name, GtkTreeModel **model, GtkTreeSelection **selection,
-	const TreeCell *cell_info, const char *window, GObject **display);
+GtkTreeView *view_create(const char *name, ScpTreeStore **store, GtkTreeSelection **selection);
+GtkTreeView *view_connect(const char *name, ScpTreeStore **store, GtkTreeSelection **selection,
+	const TreeCell *cell_info, const char *window, GObject **display_cell);
 /* note: 2 references to column */
-#define view_set_sort_func(sortable, column, compare) \
-	gtk_tree_sortable_set_sort_func((sortable), (column), (compare), \
-		GINT_TO_POINTER(column), NULL)
+#define view_set_sort_func(store, column, compare) \
+	scp_tree_store_set_sort_func((store), (column), (GtkTreeIterCompareFunc) (compare), \
+	GINT_TO_POINTER(column), NULL)
 void view_set_line_data_func(const char *column, const char *cell, gint column_id);
-void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *path_str,
+void view_display_edited(ScpTreeStore *store, gboolean condition, const gchar *path_str,
 	const char *format, gchar *new_text);
 
 void view_column_set_visible(const char *name, gboolean visible);

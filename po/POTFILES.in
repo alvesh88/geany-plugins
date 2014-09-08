@@ -12,6 +12,12 @@ addons/src/ao_wrapwords.c
 addons/src/ao_doclist.c
 addons/src/addons.c
 
+# Autoclose
+autoclose/src/autoclose.c
+
+# Automark
+automark/src/automark.c
+
 # codenav
 codenav/src/codenavigation.c
 codenav/src/goto_file.c
@@ -48,6 +54,9 @@ debugger/src/pixbuf.c
 debugger/src/pixbuf.h
 debugger/src/atree.h
 debugger/src/atree.c
+
+# defineformat
+defineformat/src/defineformat.c
 
 # devhelp
 devhelp/src/dhp.h
@@ -184,6 +193,9 @@ geanyprj/src/sidebar.c
 geanyprj/src/utils.c
 geanyprj/src/xproject.c
 
+# Geanypy
+geanypy/src/geanypy-plugin.c
+
 # geanysendmail
 geanysendmail/src/geanysendmail.c
 
@@ -207,10 +219,16 @@ gproject/src/gproject-menu.c
 gproject/src/gproject-project.c
 gproject/src/gproject-sidebar.c
 
-# Markdown 
+# Markdown
 markdown/src/conf.c
 markdown/src/plugin.c
 
+
+# Pairtaghighlighter
+pairtaghighlighter/src/pair_tag_highlighter.c
+# PoHelper
+[type: gettext/glade]pohelper/data/menus.ui
+pohelper/src/gph-plugin.c
 
 # Pretty-printer
 pretty-printer/src/PrettyPrinter.c
@@ -233,6 +251,7 @@ scope/src/scope.c
 scope/src/thread.c
 scope/src/utils.c
 scope/src/views.c
+scope/src/store/scptreestore.c
 
 # Spell Check
 spellcheck/src/speller.c

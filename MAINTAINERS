@@ -5,7 +5,7 @@
 #    Maintained:  Someone actually looks after it.
 #    Odd Fixes:   It has a maintainer but they don't have time to do
 #                 much other than throw the odd patch in. See below..
-#    Orphan:      No current maintainer [but maybe you could take the
+#    Orphaned:    No current maintainer [but maybe you could take the
 #                 role as you write your new code].
 #    Obsolete:    Old code. Something tagged obsolete generally means
 #                 it has been replaced by a better system and you
@@ -17,11 +17,23 @@ M: Enrico Tröger <enrico.troeger@uvena.de>
 W: http://plugins.geany.org/addons.html
 S: Maintained
 
-codenav
-P:
-M:
+autoclose
+P: Pavel Roschin <rpg89(at)post(dot)ru>
+M: Pavel Roschin <rpg89(at)post(dot)ru>
 W:
-S:
+S: Maintained
+
+automark
+P: Pavel Roschin <rpg89(at)post(dot)ru>
+M: Pavel Roschin <rpg89(at)post(dot)ru>
+W:
+S: Maintained
+
+codenav
+P: Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
+M: Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
+W: http://plugins.geany.org/codenav.html
+S: Maintained
 
 commander
 P: Colomban Wendling <ban@herbesfolles.org>
@@ -34,6 +46,12 @@ debugger
 P: Alexander Petukhov <devel@apetukhov.ru>
 M: Alexander Petukhov <devel@apetukhov.ru>
 W: http://plugins.geany.org/debugger.html
+S: Maintained
+
+defineformat
+P: Pavel Roschin <rpg89(at)post(dot)ru>
+M: Pavel Roschin <rpg89(at)post(dot)ru>
+W: http://plugins.geany.org/defineformat.html
 S: Maintained
 
 devhelp
@@ -82,7 +100,7 @@ geanylua
 P:
 M:
 W:
-S:
+S: Orphaned
 
 geanymacro
 P: William Fraser <william.fraser@virgin.net>
@@ -114,6 +132,12 @@ M: Yura Siamashka <yurand2@gmail.com>
 W: http://plugins.geany.org/geanyprj.html
 S: Odd Fixes
 
+geanypy
+P: Lex Trotman <elextr@gmail.com>
+M: Lex Trotman <elextr@gmail.com>
+W: http://plugins.geany.org/geanypy.html
+S: Maintained
+
 geanysendmail
 P: Frank Lanitz <frank@frank.uvena.de>
 M: Frank Lanitz <frank@frank.uvena.de>
@@ -138,10 +162,10 @@ M: Jiří Techet <techet@gmail.com>
 W: http://plugins.geany.org/gproject.html
 S: Maintained
 
-markdown 
+markdown
 P: Matthew Brush <matt@geany.org>
 M: Matthew Brush <matt@geany.org>
-W: 
+W:
 S: Maintained
 
 multiterm
@@ -150,11 +174,23 @@ M: Matthew Brush <matt@geany.org>
 W: http://plugins.geany.org/multiterm.html
 S: Maintained
 
+pairtaghighlighter
+P: Volodymyr Kononenko <vm@kononenko.ws>
+M: Volodymyr Kononenko <vm@kononenko.ws>
+W:
+S: Maintained
+
 pretty-printer
 P:
 M:
 W:
-S:
+S: Orphaned
+
+pohelper
+P: Colomban Wendling <ban@herbesfolles.org>
+M: Colomban Wendling <ban@herbesfolles.org>
+W: http://plugins.geany.org/pohelper.html
+S: Maintained
 
 scope
 P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
@@ -166,7 +202,7 @@ shiftcolumn
 P:
 M:
 W:
-S:
+S: Orphaned
 
 spellcheck
 P: Enrico Tröger <enrico.troeger@uvena.de>
@@ -181,10 +217,10 @@ W: http://plugins.geany.org/tableconvert.html
 S: Maintained
 
 treebrowser
-P:
-M:
-W:
-S:
+P: 
+M: 
+W: 
+S: Orphaned
 
 updatechecker
 P: Frank Lanitz <frank@frank.uvena.de>

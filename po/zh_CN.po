@@ -5,9 +5,9 @@
 # Xhacker Liu <liu.dongyuan@gmail.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-plugins 1.22\n"
+"Project-Id-Version: Geany-plugins 1.24\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-27 20:48+0200\n"
+"POT-Creation-Date: 2014-03-30 19:33+0200\n"
 "PO-Revision-Date: 2009-10-30 08:44+0800\n"
 "Last-Translator: Xhacker Liu <liu.dongyuan@gmail.com>\n"
 "Language-Team: zh_CN <>\n"
@@ -31,17 +31,17 @@ msgstr "书签"
 msgid "No."
 msgstr "No."
 
-#: ../addons/src/ao_bookmarklist.c:341 ../devhelp/src/dhp-object.c:493
+#: ../addons/src/ao_bookmarklist.c:341 ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
 msgid "Contents"
 msgstr "内容"
 
-#: ../addons/src/ao_bookmarklist.c:374 ../treebrowser/src/treebrowser.c:610
+#: ../addons/src/ao_bookmarklist.c:374 ../treebrowser/src/treebrowser.c:625
 msgid "Bookmarks"
 msgstr "书签"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2295
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2351
 msgid "_Update"
 msgstr "更新(_U)"
 
@@ -81,15 +81,15 @@ msgstr "任务"
 msgid "Context:"
 msgstr "内容"
 
-#: ../addons/src/ao_xmltagging.c:56
+#: ../addons/src/ao_xmltagging.c:54
 msgid "XML tagging"
 msgstr ""
 
-#: ../addons/src/ao_xmltagging.c:67
+#: ../addons/src/ao_xmltagging.c:65
 msgid "Tag name to be inserted:"
 msgstr ""
 
-#: ../addons/src/ao_xmltagging.c:71
+#: ../addons/src/ao_xmltagging.c:69
 #, c-format
 msgid ""
 "%s will be replaced with your current selection. Please keep care on your "
@@ -104,21 +104,22 @@ msgstr "打开URI"
 msgid "Copy URI"
 msgstr "复制URI"
 
-#: ../addons/src/ao_wrapwords.c:244
-msgid "Plugins"
-msgstr ""
+#: ../addons/src/ao_wrapwords.c:249
+#, fuzzy
+msgid "Enclose Characters"
+msgstr "箭头字符"
 
-#: ../addons/src/ao_wrapwords.c:255
+#: ../addons/src/ao_wrapwords.c:260
 #, c-format
 msgid "Enclose combo %d"
 msgstr ""
 
-#: ../addons/src/ao_wrapwords.c:271
+#: ../addons/src/ao_wrapwords.c:276
 #, fuzzy
 msgid "Opening Character"
 msgstr "插入特殊字符(_S)"
 
-#: ../addons/src/ao_wrapwords.c:278
+#: ../addons/src/ao_wrapwords.c:283
 #, fuzzy
 msgid "Closing Character"
 msgstr "箭头字符"
@@ -160,11 +161,12 @@ msgstr ""
 msgid "Run XML tagging"
 msgstr ""
 
-#: ../addons/src/addons.c:417 ../geanylatex/src/geanylatex.c:241
-#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:121
-#: ../geanysendmail/src/geanysendmail.c:287 ../geanyvc/src/geanyvc.c:1798
-#: ../geniuspaste/src/geniuspaste.c:131 ../spellcheck/src/scplugin.c:146
-#: ../treebrowser/src/treebrowser.c:1845
+#: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:871
+#: ../geanylatex/src/geanylatex.c:241 ../geanyprj/src/geanyprj.c:174
+#: ../geanysendmail/src/geanysendmail.c:123
+#: ../geanysendmail/src/geanysendmail.c:291 ../geanyvc/src/geanyvc.c:1854
+#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:146
+#: ../treebrowser/src/treebrowser.c:1933
 #: ../updatechecker/src/updatechecker.c:253
 msgid "Plugin configuration directory could not be created."
 msgstr "无法创建插件配置文件目录。"
@@ -198,61 +200,69 @@ msgstr ""
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr ""
 
-#. TODO fix the string
-#: ../addons/src/addons.c:489
-msgid "Show a 'Open URI' menu item in the editor menu"
+#: ../addons/src/addons.c:488
+#, fuzzy
+msgid "Show an 'Open URI' item in the editor menu"
 msgstr "在编辑器菜单中显示“打开URI”"
 
-#: ../addons/src/addons.c:495
+#: ../addons/src/addons.c:494
 #, fuzzy
 msgid "Show available Tasks in the Messages Window"
 msgstr "在消息窗口中显示可用的任务"
 
-#: ../addons/src/addons.c:501
+#: ../addons/src/addons.c:500
 msgid "Show tasks of all documents"
 msgstr ""
 
-#: ../addons/src/addons.c:505
+#: ../addons/src/addons.c:504
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
 msgstr ""
 
-#: ../addons/src/addons.c:512
+#: ../addons/src/addons.c:511
 msgid "Specify a semicolon separated list of search tokens."
 msgstr ""
 
-#: ../addons/src/addons.c:514
+#: ../addons/src/addons.c:513
 msgid "Search tokens:"
 msgstr ""
 
-#: ../addons/src/addons.c:531
+#: ../addons/src/addons.c:530
 msgid "Show status icon in the Notification Area"
 msgstr "在通知区域显示状态图标"
 
-#: ../addons/src/addons.c:537
+#: ../addons/src/addons.c:536
 #, fuzzy
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "显示定义的书签（标记的行）在侧栏"
 
-#: ../addons/src/addons.c:543
+#: ../addons/src/addons.c:542
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr ""
 
-#: ../addons/src/addons.c:549
+#: ../addons/src/addons.c:548
 msgid "Strip trailing blank lines"
 msgstr ""
 
-#: ../addons/src/addons.c:555
+#: ../addons/src/addons.c:554
 msgid "XML tagging for selection"
 msgstr ""
 
-#: ../addons/src/addons.c:561
+#: ../addons/src/addons.c:560
 msgid "Enclose selection on configurable keybindings"
 msgstr ""
 
-#: ../addons/src/addons.c:573
+#: ../addons/src/addons.c:572
 msgid "Enclose selection automatically (without having to press a keybinding)"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:50
+msgid "Auto-close"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:51
+msgid "Auto-close braces and brackets with lot of features"
 msgstr ""
 
 #: ../codenav/src/codenavigation.c:52
@@ -301,6 +311,20 @@ msgstr ""
 msgid "Implementations extensions"
 msgstr ""
 
+#: ../commander/src/commander-plugin.c:39
+#, fuzzy
+msgid "Commander"
+msgstr "命令0："
+
+#: ../commander/src/commander-plugin.c:40
+msgid "Provides a command panel for quick access to actions, files and more"
+msgstr ""
+
+#: ../commander/src/commander-plugin.c:686
+#, fuzzy
+msgid "Show Command Panel"
+msgstr "命令0："
+
 #: ../debugger/src/plugin.c:56
 #, fuzzy
 msgid "Debugger"
@@ -310,8 +334,8 @@ msgstr "调试器"
 msgid "Various debuggers integration."
 msgstr ""
 
-#: ../debugger/src/plugin.c:131 ../debugger/src/keys.c:76
-#: ../geanygdb/src/geanygdb.c:393
+#: ../debugger/src/plugin.c:133 ../debugger/src/keys.c:76
+#: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:226
 #, fuzzy
 msgid "Debug"
 msgstr "调试器"
@@ -384,37 +408,37 @@ msgstr ""
 msgid "line %i"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:542
+#: ../debugger/src/dbm_gdb.c:547
 #, fuzzy
 msgid "Program received a signal"
 msgstr "程序收到信号："
 
-#: ../debugger/src/dbm_gdb.c:558
+#: ../debugger/src/dbm_gdb.c:563
 #, fuzzy, c-format
 msgid "Program exited with code \"%i\""
 msgstr "程序退出，代码 %d [%s]\n"
 
-#: ../debugger/src/dbm_gdb.c:730
+#: ../debugger/src/dbm_gdb.c:735
 msgid "Failed to spawn gdb process"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:778
+#: ../debugger/src/dbm_gdb.c:782
 msgid "~\"Loading target file.\\n\""
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:778
+#: ../debugger/src/dbm_gdb.c:782
 msgid "Error loading file"
 msgstr ""
 
 #. setting asyncronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:782 ../debugger/src/dbm_gdb.c:785
-#: ../debugger/src/dbm_gdb.c:788
+#: ../debugger/src/dbm_gdb.c:786 ../debugger/src/dbm_gdb.c:789
+#: ../debugger/src/dbm_gdb.c:792
 msgid "Error configuring GDB"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:831
+#: ../debugger/src/dbm_gdb.c:835
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -456,7 +480,7 @@ msgstr ""
 msgid "Target"
 msgstr "Pages"
 
-#: ../debugger/src/tabs.c:135 ../geanygdb/src/gdb-ui-break.c:504
+#: ../debugger/src/tabs.c:135 ../scope/src/scope.c:524
 msgid "Breakpoints"
 msgstr "断点"
 
@@ -499,20 +523,24 @@ msgid "Restart"
 msgstr "正在启动"
 
 #: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:113
+#: ../scope/src/scope.c:66
 #, fuzzy
 msgid "Step into"
 msgstr "单步进入(_I)"
 
 #: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:110
+#: ../scope/src/scope.c:67
 msgid "Step over"
 msgstr ""
 
 #: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:122
+#: ../scope/src/scope.c:68
 #, fuzzy
 msgid "Step out"
 msgstr "单步进入(_I)"
 
 #: ../debugger/src/keys.c:55 ../debugger/src/btnpanel.c:125
+#: ../scope/src/scope.c:64
 #, fuzzy
 msgid "Run to cursor"
 msgstr "运行到位置"
@@ -524,7 +552,7 @@ msgstr "添加/删除断点。"
 
 #: ../debugger/src/keys.c:57
 #, fuzzy
-msgid "Jump to the currect instruction"
+msgid "Jump to the current instruction"
 msgstr "完成当前执行的函数。"
 
 #: ../debugger/src/watch_model.c:220
@@ -558,6 +586,14 @@ msgstr "继续(_C)"
 msgid "Save debug session data to a project"
 msgstr ""
 
+#: ../defineformat/src/defineformat.c:56
+msgid "Define formatter"
+msgstr ""
+
+#: ../defineformat/src/defineformat.c:57
+msgid "Automatically align backslash in multi-line defines"
+msgstr ""
+
 #. never search for more than this many chars
 #: ../devhelp/src/dhp.h:38
 #, fuzzy
@@ -574,7 +610,7 @@ msgstr ""
 
 #. i18n: Please don't translate "Devhelp" (it's marked as translatable
 #. * for transliteration only)
-#: ../devhelp/src/dhp-object.c:390 ../devhelp/src/dhp-object.c:502
+#: ../devhelp/src/dhp-object.c:390 ../devhelp/src/dhp-object.c:503
 #: ../devhelp/devhelp/dh-window.c:727 ../devhelp/devhelp/dh-window.c:1034
 #: ../devhelp/devhelp/dh-window.c:1863
 msgid "Devhelp"
@@ -585,27 +621,27 @@ msgstr ""
 msgid "Manual Pages"
 msgstr "Manual"
 
-#: ../devhelp/src/dhp-object.c:442
+#: ../devhelp/src/dhp-object.c:443
 msgid "Go back one page"
 msgstr ""
 
-#: ../devhelp/src/dhp-object.c:443
+#: ../devhelp/src/dhp-object.c:444
 msgid "Go forward one page"
 msgstr ""
 
-#: ../devhelp/src/dhp-object.c:444
+#: ../devhelp/src/dhp-object.c:445
 msgid "Zoom in"
 msgstr ""
 
-#: ../devhelp/src/dhp-object.c:445
+#: ../devhelp/src/dhp-object.c:446
 msgid "Zoom out"
 msgstr ""
 
-#: ../devhelp/src/dhp-object.c:496 ../devhelp/devhelp/dh-window.c:1152
+#: ../devhelp/src/dhp-object.c:497 ../devhelp/devhelp/dh-window.c:1152
 msgid "Search"
 msgstr ""
 
-#: ../devhelp/src/dhp-object.c:1293
+#: ../devhelp/src/dhp-object.c:1305
 #, fuzzy, c-format
 msgid "Search for '%s' Documentation in"
 msgstr "插入环境"
@@ -671,7 +707,7 @@ msgid "Book:"
 msgstr "书籍"
 
 #. i18n: a documentation book
-#: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1760
+#: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1759
 msgid "Book"
 msgstr "书籍"
 
@@ -801,12 +837,12 @@ msgstr ""
 msgid "A developers' help browser for GNOME"
 msgstr ""
 
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2010
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2066
 msgid "_File"
 msgstr "文件(_F)"
 
-#: ../devhelp/devhelp/dh-window.c:760 ../geanymacro/src/geanymacro.c:1815
-#: ../geanymacro/src/geanymacro.c:2112
+#: ../devhelp/devhelp/dh-window.c:760 ../geanymacro/src/geanymacro.c:1822
+#: ../geanymacro/src/geanymacro.c:2118
 #, fuzzy
 msgid "_Edit"
 msgstr "Editor"
@@ -987,542 +1023,6 @@ msgstr "文件当前词"
 msgid "Document interactive"
 msgstr "文件交互"
 
-#: ../geanygdb/src/gdb-io-break.c:163
-#, c-format
-msgid "Added breakpoint #%s in %s() at %s:%s\n"
-msgstr "已于 %3$s:%4$s 在 %2$s() 中增加断点 #%1$s\n"
-
-#: ../geanygdb/src/gdb-io-break.c:168
-#, c-format
-msgid "Added breakpoint #%s at %s:%s\n"
-msgstr "已于 %2$s:%3$s 增加断点 #%1$s\n"
-
-#: ../geanygdb/src/gdb-io-break.c:180
-#, c-format
-msgid "Added write watchpoint #%s for %s\n"
-msgstr "已为 %2$s 增加写观察点 #%1$s\n"
-
-#: ../geanygdb/src/gdb-io-break.c:189
-#, c-format
-msgid "Added read/write watchpoint #%s for %s\n"
-msgstr "已为 %2$s 增加读/写观察点 #%1$s\n"
-
-#: ../geanygdb/src/gdb-io-break.c:200
-#, c-format
-msgid "Added read watchpoint #%s for %s\n"
-msgstr "已为 %2$s 增加读观察点 #%1$s\n"
-
-#: ../geanygdb/src/gdb-io-break.c:247
-msgid "Watch/breakpoint deleted.\n"
-msgstr "观察点/断点已删除。\n"
-
-#: ../geanygdb/src/gdb-io-break.c:271
-msgid "Failed to toggle breakpoint -\n"
-msgstr "开关断点失败 -\n"
-
-#: ../geanygdb/src/gdb-io-break.c:289
-msgid "Watch/breakpoint toggled.\n"
-msgstr "观察点/断点已切换。\n"
-
-#: ../geanygdb/src/gdb-io-break.c:303
-msgid "Watch/breakpoint modified.\n"
-msgstr "观察点/断点已更改。\n"
-
-#: ../geanygdb/src/gdb-io-envir.c:136
-msgid "Failed to retrieve source search path setting from GDB."
-msgstr "取回 GDB 源文件搜索路径设置失败。"
-
-#: ../geanygdb/src/gdb-io-envir.c:157
-msgid "Failed to retrieve executable search path setting from GDB."
-msgstr "取回 GDB 可执行文件搜索路径设置失败。"
-
-#: ../geanygdb/src/gdb-io-envir.c:179
-msgid "Failed to retrieve working directory setting from GDB."
-msgstr "取回 GDB 工作路径设置失败"
-
-#: ../geanygdb/src/gdb-io-frame.c:504
-msgid "Field list too long, not all items can be displayed.\n"
-msgstr "字段列表太长，无法显示所有项。\n"
-
-#: ../geanygdb/src/gdb-io-read.c:240
-msgid "Error starting target process!\n"
-msgstr "启动目标进程错误！\n"
-
-#: ../geanygdb/src/gdb-io-read.c:285
-msgid ""
-"This executable does not appear to contain the required debugging "
-"information."
-msgstr "这个可执行文件看起来没有包含必需的调试信息。"
-
-#: ../geanygdb/src/gdb-io-read.c:549
-#, c-format
-msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
-msgstr "程序于 %5$s:%6$s 在 %4$s() 函数 中的 %3$s 接收到一个信号 %1$s（%2$s）"
-
-#: ../geanygdb/src/gdb-io-read.c:600
-#, c-format
-msgid "Watchpoint #%s out of scope"
-msgstr "观察点 #%s 越界"
-
-#: ../geanygdb/src/gdb-io-read.c:609
-#, c-format
-msgid "Program exited on signal %s (%s).\n"
-msgstr "程序已退出，信号 %s（%s）。\n"
-
-#: ../geanygdb/src/gdb-io-read.c:611
-msgid "Unknown signal"
-msgstr "未知信号"
-
-#: ../geanygdb/src/gdb-io-read.c:628
-#, c-format
-msgid "Program exited with code %d [%s]\n"
-msgstr "程序退出，代码 %d [%s]\n"
-
-#: ../geanygdb/src/gdb-io-read.c:629
-msgid "(unknown)"
-msgstr "（未知）"
-
-#: ../geanygdb/src/gdb-io-read.c:635
-msgid "Program exited normally.\n"
-msgstr "程序正常退出。\n"
-
-#: ../geanygdb/src/gdb-io-run.c:290
-msgid "tty temporary directory not specified!\n"
-msgstr "未指定 tty 临时目录！\n"
-
-#: ../geanygdb/src/gdb-io-run.c:295
-msgid "tty temporary directory not found!\n"
-msgstr "未找到 tty 临时目录！\n"
-
-#: ../geanygdb/src/gdb-io-run.c:314
-msgid "tty helper program not specified!\n"
-msgstr "未指定 tty helper program！\n"
-
-#: ../geanygdb/src/gdb-io-run.c:321
-msgid "tty helper program not found!\n"
-msgstr "未找到 tty helper program！\n"
-
-#: ../geanygdb/src/gdb-io-run.c:374
-#, c-format
-msgid "Attaching to terminal %s\n"
-msgstr "附加到终端 %s\n"
-
-#: ../geanygdb/src/gdb-io-run.c:389
-msgid "Timeout waiting for TTY name.\n"
-msgstr "等待 TTY 名称超时。\n"
-
-#: ../geanygdb/src/gdb-io-run.c:438
-#, c-format
-msgid "GDB exited (pid=%d)\n"
-msgstr "GDB已退出（pid=%d）\n"
-
-#: ../geanygdb/src/gdb-io-run.c:540
-#, c-format
-msgid "Target process exited. (pid=%d; %s%s)\n"
-msgstr "目标进程已退出。（pid=%d; %s%s）\n"
-
-#: ../geanygdb/src/gdb-io-run.c:542
-msgid "code="
-msgstr "代码="
-
-#: ../geanygdb/src/gdb-io-run.c:542
-msgid "reason:"
-msgstr "原因："
-
-#: ../geanygdb/src/gdb-io-run.c:608 ../geanygdb/src/gdb-io-run.c:673
-#, c-format
-msgid "Directory %s not found!\n"
-msgstr "未找到字典 %s！\n"
-
-#: ../geanygdb/src/gdb-io-run.c:613
-msgid "Shutting down target program.\n"
-msgstr "正在结束目标程序。\n"
-
-#: ../geanygdb/src/gdb-io-run.c:620
-msgid "Killing target program.\n"
-msgstr "正在杀死目标程序。\n"
-
-#: ../geanygdb/src/gdb-io-run.c:628
-msgid "Timeout waiting for target process.\n"
-msgstr "等待目标进程超时。\n"
-
-#: ../geanygdb/src/gdb-io-run.c:631
-#, fuzzy
-msgid "Using a bigger hammer!\n"
-msgstr "使用大铁锤！\n"
-
-#: ../geanygdb/src/gdb-io-run.c:645
-msgid "Waiting for target process to exit.\n"
-msgstr "等待目标进程退出。\n"
-
-#: ../geanygdb/src/gdb-io-run.c:681
-#, c-format
-msgid "Killing GDB (pid=%d)\n"
-msgstr "正在杀死GDB（pid = %d）\n"
-
-#: ../geanygdb/src/gdb-io-run.c:695
-msgid "Timeout trying to kill GDB.\n"
-msgstr "尝试杀死GDB超时。\n"
-
-#: ../geanygdb/src/gdb-io-run.c:705
-msgid "Shutting down GDB\n"
-msgstr "正在结束GDB\n"
-
-#: ../geanygdb/src/gdb-io-run.c:718
-msgid "Waiting for GDB to exit.\n"
-msgstr "等待GDB退出。\n"
-
-#: ../geanygdb/src/gdb-io-run.c:726
-msgid "Timeout waiting for GDB to exit.\n"
-msgstr "等待GDB退出超时。\n"
-
-#: ../geanygdb/src/gdb-io-run.c:794
-#, c-format
-msgid "Starting gdb (pid=%d)\n"
-msgstr "正在启动GDB（pid = %d）\n"
-
-#: ../geanygdb/src/gdb-io-run.c:856
-#, c-format
-msgid "Started target process. (pid=%d)\n"
-msgstr "目标进程已启动。（pid = %d）\n"
-
-#: ../geanygdb/src/gdb-ui-break.c:119
-#, c-format
-msgid "No %s selected"
-msgstr "未选择任何 %s"
-
-#: ../geanygdb/src/gdb-ui-break.c:119
-msgid "watchpoint"
-msgstr "观察点"
-
-#: ../geanygdb/src/gdb-ui-break.c:119
-msgid "breakpoint"
-msgstr "断点"
-
-#: ../geanygdb/src/gdb-ui-break.c:125
-msgid "Delete selected watchpoint?"
-msgstr "删除选定的观察点？"
-
-#: ../geanygdb/src/gdb-ui-break.c:125
-msgid "Delete selected breakpoint?"
-msgstr "删除选定的断点？"
-
-#: ../geanygdb/src/gdb-ui-break.c:153
-msgid "Edit watchpoint"
-msgstr "编辑观察点"
-
-#: ../geanygdb/src/gdb-ui-break.c:153
-msgid "Edit breakpoint"
-msgstr "编辑断点"
-
-#: ../geanygdb/src/gdb-ui-break.c:163
-msgid "Enabled"
-msgstr "已启用"
-
-#: ../geanygdb/src/gdb-ui-break.c:169
-#, fuzzy
-msgid "Break after "
-msgstr " 之后停止 "
-
-#: ../geanygdb/src/gdb-ui-break.c:176
-#, fuzzy
-msgid " times."
-msgstr " 次。"
-
-#: ../geanygdb/src/gdb-ui-break.c:181
-#, fuzzy
-msgid "Break when "
-msgstr " 时停止 "
-
-#: ../geanygdb/src/gdb-ui-break.c:188
-#, fuzzy
-msgid " is true."
-msgstr " 为真。"
-
-#: ../geanygdb/src/gdb-ui-break.c:253
-msgid "Add watchpoint"
-msgstr "增加观察点"
-
-#: ../geanygdb/src/gdb-ui-break.c:253
-msgid "Add breakpoint"
-msgstr "增加断点"
-
-#: ../geanygdb/src/gdb-ui-break.c:504
-msgid "Watchpoints"
-msgstr "观察点"
-
-#: ../geanygdb/src/gdb-ui-envir.c:94
-msgid "Environment settings"
-msgstr "环境设置"
-
-#: ../geanygdb/src/gdb-ui-envir.c:116
-msgid ""
-"\n"
-" Command-line arguments passed to target program:"
-msgstr ""
-"\n"
-" 命令行参数已传给目标程序："
-
-#: ../geanygdb/src/gdb-ui-envir.c:117
-msgid ""
-"\n"
-" Search path for source files:"
-msgstr ""
-"\n"
-" 源文件搜索路径："
-
-#: ../geanygdb/src/gdb-ui-envir.c:118
-msgid ""
-"\n"
-" Working directory for target program:"
-msgstr ""
-"\n"
-" 目标程序工作目录："
-
-#: ../geanygdb/src/gdb-ui-envir.c:119
-msgid ""
-"\n"
-" Search path for executables:"
-msgstr ""
-"\n"
-" 可执行文件搜索路径："
-
-#: ../geanygdb/src/gdb-ui-envir.c:162 ../geanylua/gsdlg.c:226
-msgid "Select Font"
-msgstr "选择字体"
-
-#: ../geanygdb/src/gdb-ui-envir.c:184 ../geanyprj/src/menu.c:414
-#: ../geanyprj/src/sidebar.c:218
-msgid "Preferences"
-msgstr "首选项"
-
-#: ../geanygdb/src/gdb-ui-envir.c:200
-msgid "Keep debug window on top."
-msgstr "保持 debug 窗口置顶。"
-
-#: ../geanygdb/src/gdb-ui-envir.c:202
-msgid "Show tooltips."
-msgstr "显示工具提示。"
-
-#: ../geanygdb/src/gdb-ui-envir.c:203
-msgid "Show icons."
-msgstr "显示图标。"
-
-#: ../geanygdb/src/gdb-ui-envir.c:208
-msgid "Font for source code listings:"
-msgstr "源码列表字体："
-
-#: ../geanygdb/src/gdb-ui-envir.c:220
-msgid "Terminal program:"
-msgstr "终端程序："
-
-#: ../geanygdb/src/gdb-ui-frame.c:141
-msgid "_Examine"
-msgstr "检查(_E)"
-
-#: ../geanygdb/src/gdb-ui-frame.c:291
-msgid "Object info"
-msgstr "目标信息"
-
-#: ../geanygdb/src/gdb-ui-frame.c:298
-msgid "Elements"
-msgstr "元素"
-
-#: ../geanygdb/src/gdb-ui-frame.c:298
-msgid "Fields"
-msgstr "字段"
-
-#: ../geanygdb/src/gdb-ui-frame.c:306
-msgid "Return to previous dialog."
-msgstr "返回上一个对话框。"
-
-#: ../geanygdb/src/gdb-ui-frame.c:311 ../geanygdb/src/gdb-ui-frame.c:385
-msgid "Display additional information about the selected item."
-msgstr "显示选定项的更多信息。"
-
-#: ../geanygdb/src/gdb-ui-frame.c:358
-msgid "Frame info"
-msgstr "帧信息"
-
-#: ../geanygdb/src/gdb-ui-frame.c:361
-#, fuzzy, c-format
-msgid ""
-"\n"
-"Frame #%s in %s() at %s:%s\n"
-msgstr ""
-"\n"
-"帧 #%s 在 %s() 中 于 %s: %s\n"
-
-#: ../geanygdb/src/gdb-ui-frame.c:371
-msgid "Function arguments"
-msgstr "函数参数"
-
-#: ../geanygdb/src/gdb-ui-frame.c:375
-msgid "Local variables"
-msgstr "本地变量"
-
-#: ../geanygdb/src/gdb-ui-frame.c:380
-msgid "Return to stack list dialog."
-msgstr "返回堆栈列表对话框。"
-
-#: ../geanygdb/src/gdb-ui-frame.c:592
-msgid "Stack trace"
-msgstr "堆栈跟踪"
-
-#: ../geanygdb/src/gdb-ui-frame.c:609
-msgid "Display additional information about the selected frame."
-msgstr "显示选定帧的附加信息。"
-
-#: ../geanygdb/src/gdb-ui-locn.c:67
-msgid "Clea_r"
-msgstr "清除(_R)"
-
-#: ../geanygdb/src/gdb-ui-locn.c:82
-msgid "Filename: "
-msgstr "文件名："
-
-#: ../geanygdb/src/gdb-ui-locn.c:95
-msgid "Variable to watch:"
-msgstr "观察的变量："
-
-#: ../geanygdb/src/gdb-ui-locn.c:96
-msgid "Line number or function name: "
-msgstr "行号或函数名："
-
-#: ../geanygdb/src/gdb-ui-locn.c:137
-msgid "Access trigger:"
-msgstr "访问触发器"
-
-#: ../geanygdb/src/gdb-ui-main.c:176
-msgid "(no program)"
-msgstr "（无程序）"
-
-#: ../geanygdb/src/gdb-ui-main.c:190
-msgid "loaded"
-msgstr "已加载"
-
-#: ../geanygdb/src/gdb-ui-main.c:195
-msgid "starting"
-msgstr "正在启动"
-
-#: ../geanygdb/src/gdb-ui-main.c:202
-msgid "running"
-msgstr "运行中"
-
-#: ../geanygdb/src/gdb-ui-main.c:223
-msgid "stopped"
-msgstr "已停止"
-
-#: ../geanygdb/src/gdb-ui-main.c:237
-msgid "terminated"
-msgstr "已终止"
-
-#: ../geanygdb/src/gdb-ui-main.c:274
-msgid "paused"
-msgstr "暂停"
-
-#: ../geanygdb/src/gdb-ui-main.c:283
-msgid "Program received signal:"
-msgstr "程序收到信号："
-
-#: ../geanygdb/src/gdb-ui-main.c:352
-msgid "Error:"
-msgstr "错误："
-
-#: ../geanygdb/src/gdb-ui-main.c:528
-msgid "Select executable to debug"
-msgstr "选择要调试的可执行文件"
-
-#: ../geanygdb/src/gdb-ui-main.c:560
-msgid "Debugging of object files is not supported."
-msgstr "不支持调试目标文件。"
-
-#: ../geanygdb/src/gdb-ui-main.c:602
-msgid "You don't have permission to execute this file."
-msgstr "您没有执行这个文件的权限。"
-
-#: ../geanygdb/src/gdb-ui-main.c:608
-msgid "Debugging of shared libraries is not supported."
-msgstr "不支持调试共享库。"
-
-#: ../geanygdb/src/gdb-ui-main.c:613
-msgid "Debugging of core files id not supported."
-msgstr "不支持调试核心文件（core file）。"
-
-#: ../geanygdb/src/gdb-ui-main.c:618
-msgid "Target file must be ELF 32-bit x86 executable."
-msgstr "目标文件必须是 ELF 32位 x86 可执行文件。"
-
-#: ../geanygdb/src/gdb-ui-main.c:624
-msgid "You don't have permission to read this file."
-msgstr "您没有读这个文件的权限"
-
-#: ../geanygdb/src/gdb-ui-main.c:741
-msgid "Run to location"
-msgstr "运行到位置"
-
-#: ../geanygdb/src/gdb-ui-main.c:920
-msgid "no program"
-msgstr "无程序"
-
-#: ../geanygdb/src/gdb-ui-main.c:975
-msgid "Run in terminal"
-msgstr "在终端中运行"
-
-#: ../geanygdb/src/gdb-ui-main.c:977
-msgid "Execute target program inside a terminal window."
-msgstr "在一个终端窗口中运行目标程序。"
-
-#: ../geanygdb/src/gdb-ui-main.c:980
-msgid "Ignore SIGPIPE"
-msgstr "忽略 SIGPIPE"
-
-#: ../geanygdb/src/gdb-ui-main.c:982
-msgid ""
-"Don't pause execution when target gets a SIGPIPE signal.\n"
-"(Useful for certain networking applications.)"
-msgstr ""
-"当目标程序接收到 SIGPIPE 信号时不要暂停执行。\n"
-"（对一些网络应用程序有用）"
-
-#: ../geanygdb/src/gdb-ui-main.c:989
-msgid "Console:"
-msgstr "控制台："
-
-#: ../geanygdb/src/gdb-ui-main.c:990
-msgid "Send a GDB command directly to the debugger."
-msgstr "向调试器直接发送一条 GDB 命令。"
-
-#: ../geanygdb/src/gdb-ui-main.c:1046
-msgid "_Quit"
-msgstr "退出(_Q)"
-
-#: ../geanygdb/src/gdb-ui-main.c:1046
-msgid "Exit everything"
-msgstr "退出所有"
-
-#: ../geanygdb/src/geanygdb.c:41
-msgid "GeanyGDB"
-msgstr ""
-
-#: ../geanygdb/src/geanygdb.c:41
-msgid "Integrated debugging with GDB."
-msgstr "集成 GDB 调试。"
-
-#: ../geanygdb/src/geanygdb.c:334
-#, c-format
-msgid "Plugin configuration directory (%s) could not be created."
-msgstr "无法创建插件配置文件目录（%s）。"
-
-#: ../geanygdb/src/geanygdb.c:351
-msgid "geanygdb: ttyhelper program not found."
-msgstr "geanygdb：未找到 ttyhelper program。"
-
-#: ../geanygdb/src/geanygdb.c:382
-#, fuzzy
-msgid "Debu_g"
-msgstr "调试器"
-
 #: ../geanyextrasel/src/extrasel.c:34
 #, fuzzy
 msgid "Extra Selection"
@@ -1532,59 +1032,68 @@ msgstr "选择字体"
 msgid "Column mode, select to line / brace / anchor."
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:482
+#: ../geanyextrasel/src/extrasel.c:502
 msgid "E_xtra Selection"
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:489
+#: ../geanyextrasel/src/extrasel.c:509
 msgid "_Column Mode"
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:494
-msgid "Column mode"
-msgstr ""
-
-#: ../geanyextrasel/src/extrasel.c:496
-#, fuzzy
-msgid "Select to _Line"
-msgstr "选择字体"
-
-#: ../geanyextrasel/src/extrasel.c:500
-#, fuzzy
-msgid "Select to line"
-msgstr "选择字体"
-
-#: ../geanyextrasel/src/extrasel.c:502
-msgid "Select to Matching _Brace"
-msgstr ""
-
-#: ../geanyextrasel/src/extrasel.c:506
-msgid "Select to matching brace"
-msgstr ""
-
-#: ../geanyextrasel/src/extrasel.c:510
-msgid "_Set Anchor"
-msgstr ""
-
 #: ../geanyextrasel/src/extrasel.c:514
-msgid "Set anchor"
+msgid "Column mode"
 msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:516
 #, fuzzy
-msgid "Select to _Anchor"
+msgid "Select to _Line"
 msgstr "选择字体"
 
 #: ../geanyextrasel/src/extrasel.c:520
 #, fuzzy
-msgid "Select to anchor"
+msgid "Select to line"
 msgstr "选择字体"
 
 #: ../geanyextrasel/src/extrasel.c:522
+msgid "Select to Matching _Brace"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:526
+msgid "Select to matching brace"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:528
+msgid "_Toggle Stream/Rectangular"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:532
+#, fuzzy
+msgid "Convert selection"
+msgstr "将选中部分左对齐"
+
+#: ../geanyextrasel/src/extrasel.c:537
+msgid "_Set Anchor"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:541
+msgid "Set anchor"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:543
+#, fuzzy
+msgid "Select to _Anchor"
+msgstr "选择字体"
+
+#: ../geanyextrasel/src/extrasel.c:547
+#, fuzzy
+msgid "Select to anchor"
+msgstr "选择字体"
+
+#: ../geanyextrasel/src/extrasel.c:549
 msgid "_Rectangle Select to Anchor"
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:527
+#: ../geanyextrasel/src/extrasel.c:554
 msgid "Rectangle select to anchor"
 msgstr ""
 
@@ -1988,84 +1497,84 @@ msgstr ""
 msgid "Default documentation type for languages that does not have one set"
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:37 ../geanyinsertnum/src/insertnum.c:329
-#: ../geanyinsertnum/src/insertnum.c:461
+#: ../geanyinsertnum/src/insertnum.c:44 ../geanyinsertnum/src/insertnum.c:337
+#: ../geanyinsertnum/src/insertnum.c:484
 #, fuzzy
 msgid "Insert Numbers"
 msgstr "插入标签"
 
-#: ../geanyinsertnum/src/insertnum.c:37
+#: ../geanyinsertnum/src/insertnum.c:44
 msgid "Insert/Fill columns with numbers."
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:140
+#: ../geanyinsertnum/src/insertnum.c:146
 #, fuzzy
 msgid "Counting..."
 msgstr "继续(_C)"
 
-#: ../geanyinsertnum/src/insertnum.c:188
+#: ../geanyinsertnum/src/insertnum.c:194
 msgid "Preparing..."
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:194
+#: ../geanyinsertnum/src/insertnum.c:200
 #, fuzzy
 msgid "Inserting..."
 msgstr "正在启动"
 
-#: ../geanyinsertnum/src/insertnum.c:318
+#: ../geanyinsertnum/src/insertnum.c:333
 msgid "For base 11 and above"
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:341
+#: ../geanyinsertnum/src/insertnum.c:353
 #, fuzzy
 msgid "_Start:"
 msgstr "状态(_S)"
 
-#: ../geanyinsertnum/src/insertnum.c:346
+#: ../geanyinsertnum/src/insertnum.c:358
 #, fuzzy
 msgid "S_tep:"
 msgstr "单步(_S)"
 
-#: ../geanyinsertnum/src/insertnum.c:352
+#: ../geanyinsertnum/src/insertnum.c:364
 #, fuzzy
 msgid "_Base:"
 msgstr "暂停(_P)"
 
-#: ../geanyinsertnum/src/insertnum.c:363
+#: ../geanyinsertnum/src/insertnum.c:380
 #, fuzzy
 msgid "Letters:"
 msgstr "书信"
 
-#: ../geanyinsertnum/src/insertnum.c:366
+#: ../geanyinsertnum/src/insertnum.c:383
 #, fuzzy
 msgid "_Upper"
 msgstr "更新(_U)"
 
-#: ../geanyinsertnum/src/insertnum.c:371
+#: ../geanyinsertnum/src/insertnum.c:388
 msgid "_Lower"
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:376
+#: ../geanyinsertnum/src/insertnum.c:393
 msgid "Base _prefix"
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:378
+#: ../geanyinsertnum/src/insertnum.c:395
 msgid "0 for octal, 0x for hex, + for positive decimal"
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:380
+#: ../geanyinsertnum/src/insertnum.c:397
 msgid "Padding:"
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:382
+#: ../geanyinsertnum/src/insertnum.c:399
 msgid "Sp_ace"
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:385
+#: ../geanyinsertnum/src/insertnum.c:402
 msgid "_Zero"
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:454
+#: ../geanyinsertnum/src/insertnum.c:477
 #, fuzzy
 msgid "Insert _Numbers"
 msgstr "插入标签(_L)"
@@ -2098,14 +1607,14 @@ msgstr "插入环境"
 msgid "Environment:"
 msgstr "环境："
 
-#: ../geanylatex/src/latexutils.c:88
+#: ../geanylatex/src/latexutils.c:87
 #, c-format
 msgid ""
 "Could not determine where to insert package: %s\n"
 "Please try insert package manually"
 msgstr ""
 
-#: ../geanylatex/src/latexutils.c:90
+#: ../geanylatex/src/latexutils.c:89
 #, c-format
 msgid "Could not determine where to insert package: %s"
 msgstr ""
@@ -2507,100 +2016,101 @@ msgstr "插入引用"
 msgid "BibTeX reference name:"
 msgstr "引用名称"
 
-#: ../geanylatex/src/geanylatex.c:1680
+#: ../geanylatex/src/geanylatex.c:1679
 msgid "Dear Sir or Madame"
 msgstr "亲爱的先生或女士"
 
-#: ../geanylatex/src/geanylatex.c:1681
+#: ../geanylatex/src/geanylatex.c:1680
 msgid "With kind regards"
 msgstr "亲切的问候"
 
-#: ../geanylatex/src/geanylatex.c:1689
+#: ../geanylatex/src/geanylatex.c:1688
 msgid "No template assigned. Aborting"
 msgstr ""
 
 #. Building the wizard-dialog and showing it
-#: ../geanylatex/src/geanylatex.c:1716
+#: ../geanylatex/src/geanylatex.c:1715
 msgid "LaTeX-Wizard"
 msgstr "LaTeX 向导"
 
 #. Templates
 #. *  Adds custom templates if there are any. If there are none just
 #. *  adds default one
-#: ../geanylatex/src/geanylatex.c:1731
+#. TEMPLATE FILE
+#: ../geanylatex/src/geanylatex.c:1730 ../markdown/src/conf.c:659
 msgid "Template:"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:1735
+#: ../geanylatex/src/geanylatex.c:1734
 msgid "Set the template which should be used for creating the new document"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:1744
+#: ../geanylatex/src/geanylatex.c:1743
 #, fuzzy
 msgid "Default"
 msgstr "默认（%s）"
 
 #. Documentclass
-#: ../geanylatex/src/geanylatex.c:1755
+#: ../geanylatex/src/geanylatex.c:1754
 msgid "Documentclass:"
 msgstr "文档类型："
 
-#: ../geanylatex/src/geanylatex.c:1758
+#: ../geanylatex/src/geanylatex.c:1757
 msgid "Choose the kind of document you want to write"
 msgstr "选择您想要写哪种文档"
 
-#: ../geanylatex/src/geanylatex.c:1762
+#: ../geanylatex/src/geanylatex.c:1761
 msgid "Article"
 msgstr "文章"
 
-#: ../geanylatex/src/geanylatex.c:1764
+#: ../geanylatex/src/geanylatex.c:1763
 msgid "Report"
 msgstr "报告"
 
-#: ../geanylatex/src/geanylatex.c:1766
+#: ../geanylatex/src/geanylatex.c:1765
 msgid "Letter"
 msgstr "书信"
 
-#: ../geanylatex/src/geanylatex.c:1768
+#: ../geanylatex/src/geanylatex.c:1767
 msgid "Presentation"
 msgstr "简报"
 
 #. Encoding
-#: ../geanylatex/src/geanylatex.c:1778
+#: ../geanylatex/src/geanylatex.c:1777
 msgid "Encoding:"
 msgstr "编码："
 
-#: ../geanylatex/src/geanylatex.c:1782
+#: ../geanylatex/src/geanylatex.c:1781
 msgid "Set the encoding for your new document"
 msgstr "为您的新文档设置编码"
 
 #. fontsize
-#: ../geanylatex/src/geanylatex.c:1798
+#: ../geanylatex/src/geanylatex.c:1797
 #, fuzzy
 msgid "Font size"
 msgstr "文字大小："
 
-#: ../geanylatex/src/geanylatex.c:1804
+#: ../geanylatex/src/geanylatex.c:1803
 msgid "Set the default font size of your new document"
 msgstr "为您的新文档设置默认的文字大小"
 
 #. Author
-#: ../geanylatex/src/geanylatex.c:1816
+#: ../geanylatex/src/geanylatex.c:1815
 msgid "Author:"
 msgstr "作者："
 
-#: ../geanylatex/src/geanylatex.c:1819
+#: ../geanylatex/src/geanylatex.c:1818
 msgid ""
 "Sets the value of the \\author command. In most cases this should be your "
 "name"
 msgstr "设置 \\author 命令的值。大多数情况下这应该是您的姓名。"
 
 #. Date
-#: ../geanylatex/src/geanylatex.c:1833
+#: ../geanylatex/src/geanylatex.c:1832
 msgid "Date:"
 msgstr "日期："
 
-#: ../geanylatex/src/geanylatex.c:1836
+#: ../geanylatex/src/geanylatex.c:1835
 #, fuzzy
 msgid ""
 "Sets the value of the \\date command inside header of your new created LaTeX-"
@@ -2611,39 +2121,39 @@ msgstr ""
 "名。如果您不需要固定的日期，设置为 \\today 是一个很好的决定。"
 
 #. Title of the new document
-#: ../geanylatex/src/geanylatex.c:1848
+#: ../geanylatex/src/geanylatex.c:1847
 msgid "Title:"
 msgstr "标题："
 
-#: ../geanylatex/src/geanylatex.c:1851
+#: ../geanylatex/src/geanylatex.c:1850
 msgid "Sets the title of your new document."
 msgstr "设置您的新文档的标题。"
 
 #. Papersize
-#: ../geanylatex/src/geanylatex.c:1860
+#: ../geanylatex/src/geanylatex.c:1859
 msgid "Paper size:"
 msgstr "纸张尺寸："
 
-#: ../geanylatex/src/geanylatex.c:1863
+#: ../geanylatex/src/geanylatex.c:1862
 msgid "Choose the paper format for the newly created document"
 msgstr "为新建文档选择纸张格式"
 
 #. Paper direction
-#: ../geanylatex/src/geanylatex.c:1876
+#: ../geanylatex/src/geanylatex.c:1875
 #, fuzzy
 msgid "Paper Orientation:"
 msgstr "简报"
 
-#: ../geanylatex/src/geanylatex.c:1879
+#: ../geanylatex/src/geanylatex.c:1878
 #, fuzzy
 msgid "Choose the paper orientation for the newly created document"
 msgstr "为新建文档选择纸张格式"
 
-#: ../geanylatex/src/geanylatex.c:1900
+#: ../geanylatex/src/geanylatex.c:1899
 msgid "Use KOMA-script classes if possible"
 msgstr "如果可能，使用 KOMA 脚本类"
 
-#: ../geanylatex/src/geanylatex.c:1902
+#: ../geanylatex/src/geanylatex.c:1901
 #, fuzzy
 msgid ""
 "Uses the KOMA-script classes by Markus Kohm.\n"
@@ -2653,112 +2163,112 @@ msgstr ""
 "使用 Markus Kohm 的 KOMA 脚本类。\n"
 "注意：编译您的文档前需要安装这些类。"
 
-#: ../geanylatex/src/geanylatex.c:1909
+#: ../geanylatex/src/geanylatex.c:1908
 msgid "Use draft mode"
 msgstr "使用草稿模式"
 
-#: ../geanylatex/src/geanylatex.c:1911
+#: ../geanylatex/src/geanylatex.c:1910
 msgid ""
 "Set the draft flag inside new created documents to get documents with a "
 "number of debugging helpers"
 msgstr "在新建的文档中设置草稿标志使他人可以帮助调试。"
 
-#: ../geanylatex/src/geanylatex.c:1928
+#: ../geanylatex/src/geanylatex.c:1927
 msgid "Run LaTeX-Wizard"
 msgstr "运行 LaTeX 向导"
 
-#: ../geanylatex/src/geanylatex.c:1930
+#: ../geanylatex/src/geanylatex.c:1929
 msgid "Insert \\label"
 msgstr "插入 \\label"
 
-#: ../geanylatex/src/geanylatex.c:1932
+#: ../geanylatex/src/geanylatex.c:1931
 msgid "Insert \\ref"
 msgstr "插入 \\ref"
 
-#: ../geanylatex/src/geanylatex.c:1934
+#: ../geanylatex/src/geanylatex.c:1933
 msgid "Insert linebreak \\\\ "
 msgstr "插入断行 \\\\ "
 
-#: ../geanylatex/src/geanylatex.c:1937
+#: ../geanylatex/src/geanylatex.c:1936
 #, fuzzy
 msgid "Insert command"
 msgstr "插入环境"
 
-#: ../geanylatex/src/geanylatex.c:1939
+#: ../geanylatex/src/geanylatex.c:1938
 msgid "Turn input replacement on/off"
 msgstr "开/关输入替换"
 
-#: ../geanylatex/src/geanylatex.c:1943
+#: ../geanylatex/src/geanylatex.c:1942
 msgid "Replace special characters"
 msgstr "替换特殊字符"
 
-#: ../geanylatex/src/geanylatex.c:1946
+#: ../geanylatex/src/geanylatex.c:1945
 msgid "Run insert environment dialog"
 msgstr "运行插入环境对话框"
 
-#: ../geanylatex/src/geanylatex.c:1948
+#: ../geanylatex/src/geanylatex.c:1947
 msgid "Insert \\item"
 msgstr "插入 \\item"
 
-#: ../geanylatex/src/geanylatex.c:1950
+#: ../geanylatex/src/geanylatex.c:1949
 msgid "Format selection in bold font face"
 msgstr "将选中部分变为粗体"
 
-#: ../geanylatex/src/geanylatex.c:1952
+#: ../geanylatex/src/geanylatex.c:1951
 msgid "Format selection in italic font face"
 msgstr "将选中部分变为斜体"
 
-#: ../geanylatex/src/geanylatex.c:1954
+#: ../geanylatex/src/geanylatex.c:1953
 msgid "Format selection in typewriter font face"
 msgstr "将选中部分变为打字机字体"
 
-#: ../geanylatex/src/geanylatex.c:1956
+#: ../geanylatex/src/geanylatex.c:1955
 msgid "Format selection centered"
 msgstr "将选中部分居中"
 
-#: ../geanylatex/src/geanylatex.c:1958
+#: ../geanylatex/src/geanylatex.c:1957
 msgid "Format selection left-aligned"
 msgstr "将选中部分左对齐"
 
-#: ../geanylatex/src/geanylatex.c:1960
+#: ../geanylatex/src/geanylatex.c:1959
 #, fuzzy
 msgid "Format selection right-aligned"
 msgstr "将选中部分右对齐"
 
-#: ../geanylatex/src/geanylatex.c:1963
+#: ../geanylatex/src/geanylatex.c:1962
 msgid "Insert description list"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:1966
+#: ../geanylatex/src/geanylatex.c:1965
 #, fuzzy
 msgid "Insert itemize list"
 msgstr "插入 \\item"
 
-#: ../geanylatex/src/geanylatex.c:1969
+#: ../geanylatex/src/geanylatex.c:1968
 #, fuzzy
 msgid "Insert enumerate list"
 msgstr "插入 Lipsum 文本"
 
-#: ../geanylatex/src/geanylatex.c:1972
+#: ../geanylatex/src/geanylatex.c:1971
 msgid "Set selection one level up"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:1975
+#: ../geanylatex/src/geanylatex.c:1974
 #, fuzzy
 msgid "Set selection one level down"
 msgstr "将选中部分居中"
 
-#: ../geanylatex/src/geanylatex.c:1978
+#: ../geanylatex/src/geanylatex.c:1977
 #, fuzzy
 msgid "Insert \\usepackage{}"
 msgstr "插入 \\label"
 
-#: ../geanylatex/src/geanylatex.c:1981
+#: ../geanylatex/src/geanylatex.c:1980
 #, fuzzy
 msgid "Insert BibTeX reference dialog"
 msgstr "插入引用"
 
-#: ../geanylatex/src/geanylatex.c:1988
+#: ../geanylatex/src/geanylatex.c:1987
 msgid ""
 "GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
 "\n"
@@ -2768,129 +2278,129 @@ msgstr ""
 "\n"
 "请将所有 bug 或 功能请求 报告给作者。"
 
-#: ../geanylatex/src/geanylatex.c:2026
+#: ../geanylatex/src/geanylatex.c:2025
 msgid ""
 "glatex_set_autocompletion_contextsize has been initialized with an invalid "
 "value. Default value taken. Please check your configuration file"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:2048 ../geanylatex/src/geanylatex.c:2055
+#: ../geanylatex/src/geanylatex.c:2047 ../geanylatex/src/geanylatex.c:2054
 msgid "page \\pageref{{{reference}}}"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:2052 ../geanylatex/src/geanylatex.c:2059
+#: ../geanylatex/src/geanylatex.c:2051 ../geanylatex/src/geanylatex.c:2058
 msgid "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
 msgstr ""
 
 #. Build up menu for menubar
-#: ../geanylatex/src/geanylatex.c:2107
+#: ../geanylatex/src/geanylatex.c:2106
 msgid "_LaTeX"
 msgstr "_LaTeX"
 
 #. Filling up menubar menus
 #. LaTeX menu
-#: ../geanylatex/src/geanylatex.c:2116 ../geanylatex/src/geanylatex.c:2328
+#: ../geanylatex/src/geanylatex.c:2115 ../geanylatex/src/geanylatex.c:2327
 msgid "LaTeX-_Wizard"
 msgstr "LaTeX 向导(_W)"
 
-#: ../geanylatex/src/geanylatex.c:2119 ../geanylatex/src/geanylatex.c:2331
+#: ../geanylatex/src/geanylatex.c:2118 ../geanylatex/src/geanylatex.c:2330
 msgid "Starts a Wizard to easily create LaTeX-documents"
 msgstr "启动一个向导轻松创建 LaTeX 文档"
 
-#: ../geanylatex/src/geanylatex.c:2124
+#: ../geanylatex/src/geanylatex.c:2123
 #, fuzzy
 msgid "I_nsert Special Character"
 msgstr "插入特殊字符(_S)"
 
-#: ../geanylatex/src/geanylatex.c:2126
+#: ../geanylatex/src/geanylatex.c:2125
 msgid "Helps to use some not very common letters and signs"
 msgstr "帮助您使用一些不常用的字符"
 
-#: ../geanylatex/src/geanylatex.c:2136
+#: ../geanylatex/src/geanylatex.c:2135
 msgid "Insert _Reference"
 msgstr "插入引用(_R)"
 
-#: ../geanylatex/src/geanylatex.c:2138
+#: ../geanylatex/src/geanylatex.c:2137
 msgid "Inserting references to the document"
 msgstr "向文档中插入引用"
 
-#: ../geanylatex/src/geanylatex.c:2143
+#: ../geanylatex/src/geanylatex.c:2142
 msgid "Insert _Label"
 msgstr "插入标签(_L)"
 
-#: ../geanylatex/src/geanylatex.c:2145
+#: ../geanylatex/src/geanylatex.c:2144
 msgid "Helps at inserting labels to a document"
 msgstr "帮助您向文档中插入标签"
 
-#: ../geanylatex/src/geanylatex.c:2151
+#: ../geanylatex/src/geanylatex.c:2150
 msgid "Insert _Environment"
 msgstr "插入环境(_E)"
 
-#: ../geanylatex/src/geanylatex.c:2153
+#: ../geanylatex/src/geanylatex.c:2152
 msgid "Helps at inserting an environment a document"
 msgstr "帮助您向文档中插入环境"
 
-#: ../geanylatex/src/geanylatex.c:2159
+#: ../geanylatex/src/geanylatex.c:2158
 #, fuzzy
 msgid "Insert P_ackage"
 msgstr "插入标签(_L)"
 
-#: ../geanylatex/src/geanylatex.c:2161
+#: ../geanylatex/src/geanylatex.c:2160
 msgid "A small dialog to insert \\usepackage{} into header of current file"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:2166
+#: ../geanylatex/src/geanylatex.c:2165 ../scope/data/scope.glade.h:58
 msgid "_Format"
 msgstr "格式(_F)"
 
 #. Add font size menu
-#: ../geanylatex/src/geanylatex.c:2183
+#: ../geanylatex/src/geanylatex.c:2182
 #, fuzzy
 msgid "F_ont size"
 msgstr "文字大小："
 
-#: ../geanylatex/src/geanylatex.c:2201
+#: ../geanylatex/src/geanylatex.c:2200
 msgid "_Special Character Replacement"
 msgstr "特殊字符替换(_S)"
 
-#: ../geanylatex/src/geanylatex.c:2209
+#: ../geanylatex/src/geanylatex.c:2208
 msgid "Bulk _Replace Special Characters"
 msgstr "批量替换特殊字符(_R)"
 
-#: ../geanylatex/src/geanylatex.c:2211
+#: ../geanylatex/src/geanylatex.c:2210
 #, fuzzy
 msgid "_Replace selected special characters with TeX substitutes"
 msgstr "用 TeX 格式替换选中的特殊字符(_R)"
 
-#: ../geanylatex/src/geanylatex.c:2219
+#: ../geanylatex/src/geanylatex.c:2218
 msgid "Toggle _Special Character Replacement"
 msgstr "开关特殊字符替换(_S)"
 
-#: ../geanylatex/src/geanylatex.c:2230
+#: ../geanylatex/src/geanylatex.c:2229
 #, fuzzy
 msgid "Insert _Command"
 msgstr "插入环境(_E)"
 
-#: ../geanylatex/src/geanylatex.c:2232
+#: ../geanylatex/src/geanylatex.c:2231
 #, fuzzy
 msgid "Inserting costumized command to document"
 msgstr "向文档中插入引用"
 
-#: ../geanylatex/src/geanylatex.c:2257
+#: ../geanylatex/src/geanylatex.c:2256
 #, fuzzy
 msgid "_BibTeX"
 msgstr "_BibTeX"
 
-#: ../geanylatex/src/geanylatex.c:2265
+#: ../geanylatex/src/geanylatex.c:2264
 #, fuzzy
 msgid "Insert B_ibTeX reference"
 msgstr "插入引用(_R)"
 
-#: ../geanylatex/src/geanylatex.c:2267
+#: ../geanylatex/src/geanylatex.c:2266
 msgid "Helps to insert a reference out of BibTeX files"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:2272
+#: ../geanylatex/src/geanylatex.c:2271
 #, fuzzy
 msgid "_BibTeX entries"
 msgstr "_BibTeX"
@@ -3054,16 +2564,16 @@ msgstr "Lipsum"
 msgid "Creating dummy text with Geany"
 msgstr "用 Geany 创建空虚的文字"
 
-#: ../geanylipsum/src/geanylipsum.c:86
+#: ../geanylipsum/src/geanylipsum.c:89
 msgid "Lipsum-Generator"
 msgstr "Lipsum 生成器"
 
-#: ../geanylipsum/src/geanylipsum.c:87
+#: ../geanylipsum/src/geanylipsum.c:90
 msgid "Enter the length of Lipsum text here"
 msgstr "输入 Lipsum 文本的长度"
 
 #. Building menu entry
-#: ../geanylipsum/src/geanylipsum.c:163
+#: ../geanylipsum/src/geanylipsum.c:164
 msgid "_Lipsum"
 msgstr "_Lipsum"
 
@@ -3121,15 +2631,15 @@ msgstr "为自定义命令编写、运行 Lua 脚本"
 msgid "Lua Script Plugin"
 msgstr "Lua 脚本插件"
 
-#: ../geanylua/glspi_run.c:112 ../geanylua/glspi_run.c:119
+#: ../geanylua/glspi_run.c:90 ../geanylua/glspi_run.c:97
 msgid "Lua script error:"
 msgstr "Lua 脚本错误："
 
-#: ../geanylua/glspi_run.c:219
+#: ../geanylua/glspi_run.c:197
 msgid "Script timeout"
 msgstr "脚本超时"
 
-#: ../geanylua/glspi_run.c:220
+#: ../geanylua/glspi_run.c:198
 msgid ""
 "A Lua script seems to be taking excessive time to complete.\n"
 "Do you want to continue waiting?"
@@ -3137,44 +2647,44 @@ msgstr ""
 "Lua 脚本似乎还要用很长时间完成。\n"
 "您还要继续等待吗？"
 
-#: ../geanylua/glspi_run.c:228
+#: ../geanylua/glspi_run.c:206
 msgid "Script timeout exceeded."
 msgstr "脚本超越了时间限制。"
 
-#: ../geanylua/glspi_run.c:404
+#: ../geanylua/glspi_run.c:382
 msgid "(error object is not a string)"
 msgstr "（错误的对象不是一个字符串）"
 
-#: ../geanylua/glspi_run.c:409
+#: ../geanylua/glspi_run.c:387
 msgid "Unknown Error inside script."
 msgstr "脚本中有未知错误。"
 
-#: ../geanylua/glspi_run.c:481
+#: ../geanylua/glspi_run.c:459
 msgid "Out of memory."
 msgstr "超出内存限制。"
 
-#: ../geanylua/glspi_run.c:484
+#: ../geanylua/glspi_run.c:462
 msgid "Failed to open script file."
 msgstr "打开脚本文件失败。"
 
-#: ../geanylua/glspi_run.c:487
+#: ../geanylua/glspi_run.c:465
 msgid "Unknown error while loading script file."
 msgstr "加载脚本文件时遇到未知错误。"
 
-#: ../geanylua/glspi_init.c:390
+#: ../geanylua/glspi_init.c:381
 msgid "_Lua Scripts"
 msgstr "_Lua 脚本"
 
-#: ../geanylua/glspi_init.c:437
+#: ../geanylua/glspi_init.c:428
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
 msgstr "     ==>> %s：从“%s”生成菜单\n"
 
-#: ../geanylua/glspi_init.c:536
+#: ../geanylua/glspi_init.c:527
 msgid "Nothing to configure!"
 msgstr "没有可以设置的！"
 
-#: ../geanylua/glspi_init.c:538
+#: ../geanylua/glspi_init.c:529
 #, c-format
 msgid ""
 "You can create the script:\n"
@@ -3189,7 +2699,7 @@ msgstr ""
 "\n"
 "来添加您自己的设置对话框。"
 
-#: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:422
+#: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:420
 msgid "Open file"
 msgstr "打开文件"
 
@@ -3201,15 +2711,19 @@ msgstr "选择文件"
 msgid "Browse..."
 msgstr "浏览..."
 
-#: ../geanylua/gsdlg.c:175
+#: ../geanylua/gsdlg.c:176
 msgid "Select Color"
 msgstr "选择颜色"
 
-#: ../geanylua/gsdlg.c:205
+#: ../geanylua/gsdlg.c:207
 msgid "Choose..."
 msgstr "选择..."
 
-#: ../geanylua/gsdlg.c:253
+#: ../geanylua/gsdlg.c:228
+msgid "Select Font"
+msgstr "选择字体"
+
+#: ../geanylua/gsdlg.c:255
 msgid "Select..."
 msgstr "选取..."
 
@@ -3240,7 +2754,7 @@ msgstr ""
 "在模块“%s”的函数 %s() 中出现错误：\n"
 "没有给命令“%s”传递足够的参数。\n"
 
-#: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:398
+#: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:396
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3264,19 +2778,19 @@ msgstr ""
 msgid "<too large to display>"
 msgstr "<过大，无法显示>"
 
-#: ../geanylua/glspi_dlg.c:338
+#: ../geanylua/glspi_dlg.c:336
 msgid "File exists"
 msgstr "文件已存在"
 
-#: ../geanylua/glspi_dlg.c:338
+#: ../geanylua/glspi_dlg.c:336
 msgid "Do you want to overwrite it?"
 msgstr "您想要覆盖它吗？"
 
-#: ../geanylua/glspi_dlg.c:339
+#: ../geanylua/glspi_dlg.c:337
 msgid "confirm"
 msgstr "确认"
 
-#: ../geanylua/glspi_dlg.c:412
+#: ../geanylua/glspi_dlg.c:410
 msgid "Save file"
 msgstr "保存文件"
 
@@ -3289,7 +2803,7 @@ msgstr ""
 "在模块“%s”的函数 pickfile() 中出现错误：\n"
 "参数 #3 分析过滤器字符串失败。\n"
 
-#: ../geanylua/glspi_dlg.c:488
+#: ../geanylua/glspi_dlg.c:489
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3332,7 +2846,7 @@ msgstr ""
 "%s 插件未能正确加载。\n"
 "请检查您的安装。"
 
-#: ../geanylua/glspi_app.c:19
+#: ../geanylua/glspi_app.c:21
 #, fuzzy, c-format
 msgid ""
 "%s %s: %s\n"
@@ -3341,7 +2855,7 @@ msgstr ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2008 "
 
-#: ../geanylua/glspi_app.c:149
+#: ../geanylua/glspi_app.c:151
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3350,7 +2864,7 @@ msgstr ""
 "在模块“%s”的函数 %s() 中出现错误：\n"
 " 参数 #1 未找到小工具“%s”。\n"
 
-#: ../geanylua/glspi_app.c:158
+#: ../geanylua/glspi_app.c:160
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s() argument #2:\n"
@@ -3405,7 +2919,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:67
 #, fuzzy
-msgid "Delete to begining of line"
+msgid "Delete to beginning of line"
 msgstr "选择字体"
 
 #: ../geanymacro/src/geanymacro.c:68
@@ -3496,8 +3010,9 @@ msgid "Move Cursor down one Page"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:91
-msgid "Move Cursor to fist visible character"
-msgstr ""
+#, fuzzy
+msgid "Move Cursor to first visible character"
+msgstr "将选中部分左对齐"
 
 #: ../geanymacro/src/geanymacro.c:92
 msgid "Move Cursor to last visible character"
@@ -3510,8 +3025,9 @@ msgid ""
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:95
-msgid "Move Cursor to begining of next paragraph"
-msgstr ""
+#, fuzzy
+msgid "Move Cursor to beginning of next paragraph"
+msgstr "将选中部分左对齐"
 
 #: ../geanymacro/src/geanymacro.c:96
 msgid "Move Cursor up to beginning of current/previous paragraph"
@@ -3613,7 +3129,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:118
 #, fuzzy
-msgid "Extend Selection to begining of next paragraph"
+msgid "Extend Selection to beginning of next paragraph"
 msgstr "将选中部分左对齐"
 
 #: ../geanymacro/src/geanymacro.c:119
@@ -3685,7 +3201,7 @@ msgstr "选择字体"
 msgid "Toggle Insert/Overwrite mode"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:227
+#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:239
 msgid "Tab"
 msgstr ""
 
@@ -3722,6 +3238,21 @@ msgid ""
 "Insert duplicate of selected text after selection. If nothing selected, "
 "duplicate line"
 msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:150
+#, fuzzy
+msgid "Search for next \"\""
+msgstr "插入环境"
+
+#: ../geanymacro/src/geanymacro.c:151
+#, fuzzy
+msgid "Search for previous \"\""
+msgstr "插入环境"
+
+#: ../geanymacro/src/geanymacro.c:152
+#, fuzzy
+msgid "Set start of search to beginning of selection"
+msgstr "选择字体"
 
 #: ../geanymacro/src/geanymacro.c:181
 #, fuzzy
@@ -3927,12 +3458,12 @@ msgstr "选项(_O)"
 
 #. create buttons
 #: ../geanymacro/src/geanymacro.c:1393 ../geanymacro/src/geanymacro.c:1536
-#: ../geanymacro/src/geanymacro.c:1819 ../geanymacro/src/geanymacro.c:2116
+#: ../geanymacro/src/geanymacro.c:1826 ../geanymacro/src/geanymacro.c:2122
 msgid "_Ok"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
-#: ../geanymacro/src/geanymacro.c:1820
+#: ../geanymacro/src/geanymacro.c:1827
 #, fuzzy
 msgid "_Cancel"
 msgstr "编码："
@@ -3947,32 +3478,33 @@ msgstr ""
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1410
-msgid "Seach for contents of clipboard"
+msgid "Search for contents of clipboard"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1424
-msgid "Seach for:"
+#: ../geanymacro/src/geanymacro.c:1424 ../gproject/src/gproject-sidebar.c:101
+msgid "Search for:"
 msgstr ""
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1442
-msgid "Seach is case sensitive"
+msgid "Search is case sensitive"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1447
-msgid "Seach for whole word"
+msgid "Search for whole word"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1452
-msgid "Seach for start of word"
-msgstr ""
+#, fuzzy
+msgid "Search for start of word"
+msgstr "插入环境"
 
 #: ../geanymacro/src/geanymacro.c:1457
-msgid "Seach text is regular expression"
+msgid "Search text is regular expression"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1462
-msgid "Seach text is POSIX compatible"
+msgid "Search text is POSIX compatible"
 msgstr ""
 
 #. create dialog box
@@ -3985,61 +3517,61 @@ msgstr ""
 msgid "Text:"
 msgstr "内容"
 
-#: ../geanymacro/src/geanymacro.c:1571 ../geanymacro/src/geanymacro.c:1755
+#: ../geanymacro/src/geanymacro.c:1570 ../geanymacro/src/geanymacro.c:1758
 #, c-format
 msgid "Insert/replace with \"%s\""
 msgstr ""
 
 #. create dialog box
-#: ../geanymacro/src/geanymacro.c:1731
+#: ../geanymacro/src/geanymacro.c:1735
 #, fuzzy, c-format
 msgid "Edit: %s"
 msgstr "编辑观察点"
 
 #. add column
-#: ../geanymacro/src/geanymacro.c:1794
+#: ../geanymacro/src/geanymacro.c:1801
 msgid "Event"
 msgstr ""
 
 #. add buttons
-#: ../geanymacro/src/geanymacro.c:1809
+#: ../geanymacro/src/geanymacro.c:1816
 msgid "Move _Up"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1811
+#: ../geanymacro/src/geanymacro.c:1818
 msgid "Move Do_wn"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1813
+#: ../geanymacro/src/geanymacro.c:1820
 msgid "New _Above"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1814
+#: ../geanymacro/src/geanymacro.c:1821
 msgid "New _Below"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1817 ../geanymacro/src/geanymacro.c:2114
+#: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
 #, fuzzy
 msgid "_Delete"
 msgstr "删除项目"
 
 #. create dialog box
-#: ../geanymacro/src/geanymacro.c:2059
+#: ../geanymacro/src/geanymacro.c:2065
 #, fuzzy
 msgid "Edit Macros"
 msgstr "编辑观察点"
 
-#: ../geanymacro/src/geanymacro.c:2089
+#: ../geanymacro/src/geanymacro.c:2095
 msgid "Macro Name"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:2095
+#: ../geanymacro/src/geanymacro.c:2101
 #, fuzzy
 msgid "Key Trigger"
 msgstr "访问触发器"
 
 #. add buttons
-#: ../geanymacro/src/geanymacro.c:2110
+#: ../geanymacro/src/geanymacro.c:2116
 msgid "_Re-Record"
 msgstr ""
 
@@ -4058,6 +3590,33 @@ msgstr ""
 msgid "_Edit Macros"
 msgstr ""
 
+#. *< \brief It's the information message about geany mini script
+#: ../geanyminiscript/src/gms_gui.c:129
+msgid ""
+"<b>GMS : Geany Mini-Script filter Plugin</b>\n"
+"This plugin is a tool to apply a script filter on:\n"
+"   o the text selection,\n"
+"   o the current document,\n"
+"   o all documents of the current session.\n"
+"\n"
+"The filter type can be:\n"
+"   o Unix shell script,\n"
+"   o perl script,\n"
+"   o python script,\n"
+"   o sed commands,\n"
+"   o awk script.\n"
+"\n"
+"<b>AUTHOR</b>\n"
+"   Written by Pascal BURLOT (December,2008)\n"
+"\n"
+"<b>LICENSE:</b>\n"
+"This program is free software; you can redistribute\n"
+"it and/or modify it under the terms of the GNU \n"
+"General Public License as published by the Free\n"
+"Software Foundation; either version 2 of the License,\n"
+"or (at your option) any later version."
+msgstr ""
+
 #: ../geanyminiscript/src/gms_gui.c:253
 msgid "Load Mini-Script File"
 msgstr ""
@@ -4066,114 +3625,113 @@ msgstr ""
 msgid "Save Mini-Script File"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:418
+#: ../geanyminiscript/src/gms_gui.c:419
 msgid "Mini-Script Filter"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:446
+#: ../geanyminiscript/src/gms_gui.c:445
 msgid "Clear the mini-script window"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:451
+#: ../geanyminiscript/src/gms_gui.c:450
 msgid "Load a mini-script into this window"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:456
+#: ../geanyminiscript/src/gms_gui.c:455
 msgid "Save the mini-script into a file"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:461
+#: ../geanyminiscript/src/gms_gui.c:460
 #, fuzzy
 msgid "Display a information about the mini-script plugin"
 msgstr "显示选定项的更多信息。"
 
-#: ../geanyminiscript/src/gms_gui.c:469
+#: ../geanyminiscript/src/gms_gui.c:468
 msgid "select the mini-script type"
 msgstr ""
 
 #. Hbox : Radio bouttons for choosing the input:
-#. selection/current document/all documents of the current session
-#: ../geanyminiscript/src/gms_gui.c:500
+#. *                   selection/current document/all documents of the current session
+#: ../geanyminiscript/src/gms_gui.c:499
 msgid "filter input"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:502
+#: ../geanyminiscript/src/gms_gui.c:501
 msgid "select the input of mini-script filter"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:508
+#: ../geanyminiscript/src/gms_gui.c:507
 #, fuzzy
 msgid "selection"
 msgstr "选择字体"
 
-#: ../geanyminiscript/src/gms_gui.c:509
+#: ../geanyminiscript/src/gms_gui.c:508
 #, fuzzy
 msgid "document"
 msgstr "将文档作为邮件发送"
 
-#: ../geanyminiscript/src/gms_gui.c:510
+#: ../geanyminiscript/src/gms_gui.c:509
 msgid "session"
 msgstr ""
 
 #. Hbox : Radio bouttons for choosing the output:
-#. current document/ or new document
-#: ../geanyminiscript/src/gms_gui.c:519
+#. *                   current document/ or new document
+#: ../geanyminiscript/src/gms_gui.c:518
 msgid "filter output"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:521
+#: ../geanyminiscript/src/gms_gui.c:520
 msgid "select the output of mini-script filter"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:527
+#: ../geanyminiscript/src/gms_gui.c:526
 msgid "Current Doc."
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:528
+#: ../geanyminiscript/src/gms_gui.c:527
 #, fuzzy
 msgid "New Doc."
 msgstr "新项目"
 
-#: ../geanyminiscript/src/gms_gui.c:749
+#: ../geanyminiscript/src/gms_gui.c:748
 msgid "script configuration"
 msgstr ""
 
-#. All plugins must set name, description, version and author.
 #: ../geanyminiscript/src/gms.c:58
 #, fuzzy
 msgid "Mini Script"
 msgstr "Lua 脚本"
 
-#: ../geanyminiscript/src/gms.c:58
+#: ../geanyminiscript/src/gms.c:59
 msgid ""
 "A tool to apply a script filter on a text selection or current document(s)"
 msgstr ""
 
-#: ../geanyminiscript/src/gms.c:59
+#: ../geanyminiscript/src/gms.c:60
 msgid "Pascal BURLOT, a Geany user"
 msgstr ""
 
 #. Add an item to the Tools menu
-#: ../geanyminiscript/src/gms.c:278
+#: ../geanyminiscript/src/gms.c:249
 msgid "_Mini-Script"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:58
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:61
 msgid "Numbered Bookmarks for Geany"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:923
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:927
 #, c-format
 msgid "Unable to apply all markers to '%s' as all being used."
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:925
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:969
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1392
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:929
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:973
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1396
 msgid "_Okay"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:967
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:971
 #, c-format
 msgid ""
 "'%s' has been edited since it was last saved by geany. Marker positions may "
@@ -4181,55 +3739,55 @@ msgid ""
 "Press Ignore to try an load markers anyway."
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:970
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:974
 #, fuzzy
 msgid "_Ignore"
 msgstr "忽略全部"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1215
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1219
 msgid "remember fold state"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1221
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1225
 msgid "Center view when goto bookmark"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1228
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1232
 #, fuzzy
 msgid "Move to start of line"
 msgstr "将选中部分左对齐"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1229
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1233
 msgid "Move to remembered position in line"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1230
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1234
 msgid "Move to position in current line"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1231
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1235
 #, fuzzy
 msgid "Move to End of line"
 msgstr "将选中部分左对齐"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1241
 msgid "Save file settings with program settings"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1238
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1242
 msgid "Save file settings to filename with suffix"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1243
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1247
 msgid "remember normal Bookmarks"
 msgstr ""
 
 #. create dialog box
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1263
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1267
 msgid "Numbered Bookmarks help"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1270
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1274
 msgid ""
 "This Plugin implements Numbered Bookmarks in Geany, as well as remembering "
 "the state of folds, and positions of standard non-numbered bookmarks when a "
@@ -4245,17 +3803,17 @@ msgid ""
 "previously set bookmark, press Ctrl+a number from 0 to 9."
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1391
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1395
 msgid "Unable to apply markers as all being used."
 msgstr ""
 
-#: ../geanypg/src/decrypt_cb.c:32 ../geanypg/src/encrypt_cb.c:31
-#: ../geanypg/src/sign_cb.c:32
+#: ../geanypg/src/decrypt_cb.c:33 ../geanypg/src/encrypt_cb.c:32
+#: ../geanypg/src/sign_cb.c:33
 #, fuzzy
 msgid "couldn't create tempfile"
 msgstr "更新文件"
 
-#: ../geanypg/src/encrypt_cb.c:82
+#: ../geanypg/src/encrypt_cb.c:84
 #, c-format
 msgid ""
 "The key with user ID \"%s\" has validity \"%s\".\n"
@@ -4266,185 +3824,185 @@ msgid ""
 "Are you *really* sure you want to use this key anyway?"
 msgstr ""
 
-#: ../geanypg/src/encrypt_cb.c:94
+#: ../geanypg/src/encrypt_cb.c:96
 msgid ""
 "No recipients were selected,\n"
 "use symetric cipher?"
 msgstr ""
 
-#: ../geanypg/src/geanypg.c:36
+#: ../geanypg/src/geanypg.c:37
 msgid "gpg encryption plugin for geany"
 msgstr ""
 
-#: ../geanypg/src/geanypg.c:38
+#: ../geanypg/src/geanypg.c:39
 msgid "Hans Alves <alves.h88@gmail.com>"
 msgstr ""
 
-#: ../geanypg/src/geanypg.c:46
+#: ../geanypg/src/geanypg.c:47
 msgid "Using libgpgme version:"
 msgstr ""
 
-#: ../geanypg/src/geanypg.c:59 ../geanypg/src/geanypg.c:60
+#: ../geanypg/src/geanypg.c:60 ../geanypg/src/geanypg.c:61
 #, fuzzy
 msgid "Error from"
 msgstr "错误："
 
-#: ../geanypg/src/geanypg.c:78
+#: ../geanypg/src/geanypg.c:86
 msgid "Encrypt"
 msgstr ""
 
-#: ../geanypg/src/geanypg.c:79
+#: ../geanypg/src/geanypg.c:87
 msgid "Sign"
 msgstr ""
 
-#: ../geanypg/src/geanypg.c:80
+#: ../geanypg/src/geanypg.c:88
 msgid "Decrypt / Verify"
 msgstr ""
 
-#: ../geanypg/src/geanypg.c:81
+#: ../geanypg/src/geanypg.c:89
 msgid "Verify detached signature"
 msgstr ""
 
-#: ../geanypg/src/key_selection_dialog.c:150
+#: ../geanypg/src/key_selection_dialog.c:152
 #, fuzzy
 msgid "Please select any recipients"
 msgstr "删除选定的观察点？"
 
-#: ../geanypg/src/key_selection_dialog.c:152
+#: ../geanypg/src/key_selection_dialog.c:154
 msgid "Sign the message as:"
 msgstr ""
 
-#: ../geanypg/src/key_selection_dialog.c:160
+#: ../geanypg/src/key_selection_dialog.c:162
 #, fuzzy
 msgid "Select recipients"
 msgstr "选择字典"
 
-#: ../geanypg/src/key_selection_dialog.c:222
+#: ../geanypg/src/key_selection_dialog.c:224
 msgid "Choose a key to sign with:"
 msgstr ""
 
-#: ../geanypg/src/key_selection_dialog.c:230
+#: ../geanypg/src/key_selection_dialog.c:232
 #, fuzzy
 msgid "Select signer"
 msgstr "选择文件"
 
 #. shouldn't get here
-#: ../geanypg/src/pinentry.c:103
+#: ../geanypg/src/pinentry.c:111
 msgid "Could not use pinentry."
 msgstr ""
 
-#: ../geanypg/src/pinentry.c:115
+#: ../geanypg/src/pinentry.c:123
 msgid "Unexpected output from pinentry."
 msgstr ""
 
 #. read the rest of the first line after OK
-#: ../geanypg/src/pinentry.c:123
+#: ../geanypg/src/pinentry.c:131
 msgid "Passphrase entry"
 msgstr ""
 
-#: ../geanypg/src/pinentry.c:127
+#: ../geanypg/src/pinentry.c:135
 msgid "Passphrase"
 msgstr ""
 
-#: ../geanypg/src/pinentry.c:132
+#: ../geanypg/src/pinentry.c:140
 msgid "Enter passphrase for"
 msgstr ""
 
-#: ../geanypg/src/pinentry.c:163
+#: ../geanypg/src/pinentry.c:171
 msgid "pinentry gave error"
 msgstr ""
 
-#: ../geanypg/src/pinentry.c:166
+#: ../geanypg/src/pinentry.c:174
 msgid "Unexpected error from pinentry."
 msgstr ""
 
-#: ../geanypg/src/pinentry.c:191
+#: ../geanypg/src/pinentry.c:199
 msgid ""
 "Error, Passphrase input without using gpg-agent is not supported on Windows "
 "yet."
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:52
+#: ../geanypg/src/verify_aux.c:53
 msgid "a key with fingerprint"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:65 ../spellcheck/src/gui.c:500
-#: ../spellcheck/src/gui.c:511
+#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:527
+#: ../spellcheck/src/gui.c:538
 msgid "unknown"
 msgstr "未知"
 
-#: ../geanypg/src/verify_aux.c:66
+#: ../geanypg/src/verify_aux.c:67
 msgid "undefined"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:67
+#: ../geanypg/src/verify_aux.c:68
 #, fuzzy
 msgid "never"
 msgstr "恢复(_R)"
 
-#: ../geanypg/src/verify_aux.c:68
+#: ../geanypg/src/verify_aux.c:69
 #, fuzzy
 msgid "marginal"
 msgstr "原始(_O)"
 
-#: ../geanypg/src/verify_aux.c:69
+#: ../geanypg/src/verify_aux.c:70
 msgid "full"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:70
+#: ../geanypg/src/verify_aux.c:71
 msgid "ultimate"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:71 ../geanypg/src/verify_aux.c:73
+#: ../geanypg/src/verify_aux.c:72 ../geanypg/src/verify_aux.c:74
 msgid "[bad validity value]"
 msgstr ""
 
 #. buffer should be more than 105 bytes long
-#: ../geanypg/src/verify_aux.c:78
+#: ../geanypg/src/verify_aux.c:79
 msgid " valid"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:79
+#: ../geanypg/src/verify_aux.c:80
 msgid " green"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:80
+#: ../geanypg/src/verify_aux.c:81
 msgid " red"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:81
+#: ../geanypg/src/verify_aux.c:82
 msgid " revoked"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:82
+#: ../geanypg/src/verify_aux.c:83
 msgid " key-expired"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:83
+#: ../geanypg/src/verify_aux.c:84
 msgid " sig-expired"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:84
+#: ../geanypg/src/verify_aux.c:85
 msgid " key-missing"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:85
+#: ../geanypg/src/verify_aux.c:86
 msgid " crl-missing"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:86
+#: ../geanypg/src/verify_aux.c:87
 msgid " crl-too-old"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:87
+#: ../geanypg/src/verify_aux.c:88
 msgid " bad-policy"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:88
+#: ../geanypg/src/verify_aux.c:89
 msgid " sys-error"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:95
+#: ../geanypg/src/verify_aux.c:96
 #, c-format
 msgid ""
 "status ....: %s\n"
@@ -4460,51 +4018,51 @@ msgid ""
 "notations .: %s\n"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:118 ../geanypg/src/verify_aux.c:123
+#: ../geanypg/src/verify_aux.c:119 ../geanypg/src/verify_aux.c:124
 #, fuzzy
 msgid "Unknown\n"
 msgstr "未知"
 
-#: ../geanypg/src/verify_aux.c:128 ../geanypg/src/verify_aux.c:135
-#: ../geanypg/src/verify_aux.c:146 ../geanypg/src/verify_aux.c:153
+#: ../geanypg/src/verify_aux.c:129 ../geanypg/src/verify_aux.c:136
+#: ../geanypg/src/verify_aux.c:147 ../geanypg/src/verify_aux.c:154
 msgid "[None]"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:133 ../geanypg/src/verify_aux.c:134
-#: ../geanypg/src/verify_aux.c:151 ../geanypg/src/verify_aux.c:152
+#: ../geanypg/src/verify_aux.c:134 ../geanypg/src/verify_aux.c:135
+#: ../geanypg/src/verify_aux.c:152 ../geanypg/src/verify_aux.c:153
 #, fuzzy
 msgid "Unknown"
 msgstr "未知"
 
-#: ../geanypg/src/verify_aux.c:136 ../geanypg/src/verify_aux.c:154
+#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
 msgid "n/a"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:136 ../geanypg/src/verify_aux.c:154
+#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
 msgid "bad"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:136 ../geanypg/src/verify_aux.c:154
+#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
 msgid "okay"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:136 ../geanypg/src/verify_aux.c:154
+#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
 msgid "RFU"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:138 ../geanypg/src/verify_aux.c:156
 msgid " wrong-key-usage"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:138 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:139 ../geanypg/src/verify_aux.c:156
 msgid " chain-model"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:139 ../geanypg/src/verify_aux.c:156
+#: ../geanypg/src/verify_aux.c:140 ../geanypg/src/verify_aux.c:157
 msgid "yes"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:139 ../geanypg/src/verify_aux.c:156
+#: ../geanypg/src/verify_aux.c:140 ../geanypg/src/verify_aux.c:157
 msgid "no"
 msgstr ""
 
@@ -4524,13 +4082,13 @@ msgstr ""
 msgid "Error, could not find verification results"
 msgstr ""
 
-#: ../geanypg/src/verify_cb.c:26
+#: ../geanypg/src/verify_cb.c:27
 #, fuzzy
 msgid "Open a signature file"
 msgstr "打开文件"
 
 #: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:456
-#: ../gproject/src/gproject-sidebar.c:822
+#: ../gproject/src/gproject-sidebar.c:870
 msgid "Project"
 msgstr "项目"
 
@@ -4546,36 +4104,36 @@ msgstr ""
 msgid "Display sidebar"
 msgstr ""
 
-#: ../geanyprj/src/menu.c:95
+#: ../geanyprj/src/menu.c:92
 msgid "Project Preferences"
 msgstr "项目首选项"
 
-#: ../geanyprj/src/menu.c:104 ../geanyprj/src/menu.c:383
-#: ../geanyprj/src/sidebar.c:174
+#: ../geanyprj/src/menu.c:101 ../geanyprj/src/menu.c:377
+#: ../geanyprj/src/sidebar.c:172
 msgid "New Project"
 msgstr "新项目"
 
-#: ../geanyprj/src/menu.c:113
+#: ../geanyprj/src/menu.c:110
 msgid "C_reate"
 msgstr "创建(_R)"
 
-#: ../geanyprj/src/menu.c:126
+#: ../geanyprj/src/menu.c:123 ../scope/data/scope.glade.h:114
 msgid "Name:"
 msgstr "名称："
 
-#: ../geanyprj/src/menu.c:135
+#: ../geanyprj/src/menu.c:132
 msgid "Location:"
 msgstr "位置："
 
-#: ../geanyprj/src/menu.c:150
+#: ../geanyprj/src/menu.c:147
 msgid "Choose Project Location"
 msgstr "选择项目位置"
 
-#: ../geanyprj/src/menu.c:158
+#: ../geanyprj/src/menu.c:155
 msgid "Base path:"
 msgstr "根目录："
 
-#: ../geanyprj/src/menu.c:163
+#: ../geanyprj/src/menu.c:160
 msgid ""
 "Base directory of all files that make up the project. This can be a new "
 "path, or an existing directory tree. You can use paths relative to the "
@@ -4584,15 +4142,15 @@ msgstr ""
 "根目录中的文件组成项目。这可以是一个新的路径，也可以是已经存在的目录树。您可"
 "以使用相对于项目文件名的目录。"
 
-#: ../geanyprj/src/menu.c:166
+#: ../geanyprj/src/menu.c:163
 msgid "Choose Project Base Path"
 msgstr "选择项目根目录"
 
-#: ../geanyprj/src/menu.c:173
+#: ../geanyprj/src/menu.c:170
 msgid "Generate file list on load"
 msgstr "载入时生成文件列表"
 
-#: ../geanyprj/src/menu.c:175
+#: ../geanyprj/src/menu.c:172
 #, fuzzy
 msgid ""
 "Automatically add files that match project type on project load "
@@ -4602,43 +4160,90 @@ msgstr ""
 "在载入项目时自动添加符合项目类型的文件。如果您选择此选项，您将不能手动添加/删"
 "除文件，因为您的修改将在下次载入项目时丢失。"
 
-#: ../geanyprj/src/menu.c:183
+#: ../geanyprj/src/menu.c:180
 msgid "Type:"
 msgstr "类型："
 
-#: ../geanyprj/src/menu.c:221
+#: ../geanyprj/src/menu.c:218
 #, c-format
 msgid "Project file \"%s\" already exists"
 msgstr "项目文件“%s”已经存在"
 
-#: ../geanyprj/src/menu.c:374
+#: ../geanyprj/src/menu.c:368
 msgid "_Project"
 msgstr "项目(_P)"
 
-#: ../geanyprj/src/menu.c:392 ../geanyprj/src/sidebar.c:183
+#: ../geanyprj/src/menu.c:386 ../geanyprj/src/sidebar.c:181
 msgid "Delete Project"
 msgstr "删除项目"
 
-#: ../geanyprj/src/menu.c:403 ../geanyprj/src/sidebar.c:196
+#: ../geanyprj/src/menu.c:397 ../geanyprj/src/sidebar.c:194
 msgid "Add File"
 msgstr "添加文件"
 
-#: ../geanyprj/src/menu.c:425 ../geanyprj/src/sidebar.c:231
+#: ../geanyprj/src/menu.c:408 ../geanyprj/src/sidebar.c:216
+msgid "Preferences"
+msgstr "首选项"
+
+#: ../geanyprj/src/menu.c:419 ../geanyprj/src/sidebar.c:229
 msgid "Find in Project"
 msgstr "在项目中查找"
 
-#: ../geanyprj/src/sidebar.c:205
+#: ../geanyprj/src/sidebar.c:203
 msgid "Remove File"
 msgstr "移除文件"
 
-#: ../geanyprj/src/sidebar.c:242 ../gproject/src/gproject-sidebar.c:803
+#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:849
 msgid "H_ide Sidebar"
 msgstr "隐藏侧栏(_I)"
 
-#: ../geanyprj/src/xproject.c:99
+#: ../geanyprj/src/xproject.c:96
 #, c-format
 msgid "Project \"%s\" opened."
 msgstr "项目“%s”已打开。"
+
+#: ../geanypy/src/geanypy-plugin.c:34
+msgid "GeanyPy"
+msgstr ""
+
+#: ../geanypy/src/geanypy-plugin.c:35
+msgid "Python plugins support"
+msgstr ""
+
+#: ../geanypy/src/geanypy-plugin.c:77
+#, c-format
+msgid "Unable to pre-load Python library: %s."
+msgstr ""
+
+#: ../geanypy/src/geanypy-plugin.c:157
+msgid "Failed to import manager module"
+msgstr ""
+
+#: ../geanypy/src/geanypy-plugin.c:166
+msgid "Failed to retrieve PluginManager from manager module"
+msgstr ""
+
+#: ../geanypy/src/geanypy-plugin.c:182
+#, fuzzy
+msgid "System plugin directory not found."
+msgstr "未找到 tty 临时目录！\n"
+
+#: ../geanypy/src/geanypy-plugin.c:211
+msgid "Unable to instantiate new PluginManager"
+msgstr ""
+
+#: ../geanypy/src/geanypy-plugin.c:227
+msgid "Unable to get show_all() method on plugin manager"
+msgstr ""
+
+#: ../geanypy/src/geanypy-plugin.c:255
+#, c-format
+msgid "Unable to create Python plugins directory: %s: %s"
+msgstr ""
+
+#: ../geanypy/src/geanypy-plugin.c:266
+msgid "Python Plugin Manager"
+msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:43
 msgid "GeanySendMail"
@@ -4659,50 +4264,51 @@ msgstr "收件人地址"
 msgid "Enter the recipient's e-mail address:"
 msgstr "输入收件人的电子邮件地址："
 
-#: ../geanysendmail/src/geanysendmail.c:136
+#: ../geanysendmail/src/geanysendmail.c:138
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr "没有找到文件名的占位符。执行的命令可能会失败。"
 
-#: ../geanysendmail/src/geanysendmail.c:142
+#: ../geanysendmail/src/geanysendmail.c:144
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
 msgstr "没有找到收件人地址的占位符。执行的命令可能会失败。"
 
-#: ../geanysendmail/src/geanysendmail.c:157
+#: ../geanysendmail/src/geanysendmail.c:159
 msgid "Could not execute mailer. Please check your configuration."
 msgstr "无法执行邮件程序。请检查您的设置。"
 
-#: ../geanysendmail/src/geanysendmail.c:166
+#: ../geanysendmail/src/geanysendmail.c:168
 msgid "Please define a mail client first."
 msgstr "请先指定一个邮件客户端。"
 
-#: ../geanysendmail/src/geanysendmail.c:171
+#: ../geanysendmail/src/geanysendmail.c:173
 msgid "File has to be saved before sending."
 msgstr "文件在发送前必须保存。"
 
-#: ../geanysendmail/src/geanysendmail.c:187
+#: ../geanysendmail/src/geanysendmail.c:191
 msgid "Mail"
 msgstr "邮件"
 
-#: ../geanysendmail/src/geanysendmail.c:218
+#: ../geanysendmail/src/geanysendmail.c:222
 msgid "Send by mail"
 msgstr "用邮件发送"
 
 #. add a label and a text entry to the dialog
-#: ../geanysendmail/src/geanysendmail.c:308
+#: ../geanysendmail/src/geanysendmail.c:312
 msgid "Path and options for the mail client:"
 msgstr "邮件客户端路径和选项："
 
-#: ../geanysendmail/src/geanysendmail.c:316
+#: ../geanysendmail/src/geanysendmail.c:320
+#, fuzzy
 msgid ""
 "Note: \n"
-"\t\\%f will be replaced by your file.\n"
-"\t\\%r will be replaced by recipient's email address.\n"
-"\t\\%b will be replaced by basename of a file\n"
+"\t%f will be replaced by your file.\n"
+"\t%r will be replaced by recipient's email address.\n"
+"\t%b will be replaced by basename of a file\n"
 "\tExamples:\n"
-"\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
-"\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
+"\tsylpheed --attach \"%f\" --compose \"%r\"\n"
+"\tmutt -s \"Sending '%b'\" -a \"%f\" \"%r\""
 msgstr ""
 "备注：\n"
 "\t\\%f 将被替代为您的文件。\n"
@@ -4712,31 +4318,31 @@ msgstr ""
 "\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
 "\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
 
-#: ../geanysendmail/src/geanysendmail.c:326
+#: ../geanysendmail/src/geanysendmail.c:330
 #, fuzzy
 msgid "Show toolbar icon"
 msgstr "显示工具提示。"
 
-#: ../geanysendmail/src/geanysendmail.c:328
+#: ../geanysendmail/src/geanysendmail.c:332
 msgid "Shows a icon in the toolbar to send file more easy."
 msgstr "在工具栏上显示一个图标，可以更轻松地发送文件。"
 
-#: ../geanysendmail/src/geanysendmail.c:334
+#: ../geanysendmail/src/geanysendmail.c:338
 #, fuzzy
 msgid "Use dialog for entering email address of recipients"
 msgstr "使用对话框输入收件人电子邮件地址"
 
-#: ../geanysendmail/src/geanysendmail.c:356
+#: ../geanysendmail/src/geanysendmail.c:360
 msgid "Send file by mail"
 msgstr "用邮件发送文件"
 
 #. Build up menu entry
-#: ../geanysendmail/src/geanysendmail.c:379
+#: ../geanysendmail/src/geanysendmail.c:383
 #, fuzzy
 msgid "_Mail document"
 msgstr "将文档作为邮件发送"
 
-#: ../geanysendmail/src/geanysendmail.c:382
+#: ../geanysendmail/src/geanysendmail.c:386
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr "将打开的文件作为未压缩的附件通过您 $PATH 中的邮件程序发送"
@@ -4754,89 +4360,108 @@ msgstr "不同的版本控制系统的界面。"
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc：s_spawn_sync 错误：%s"
 
-#: ../geanyvc/src/geanyvc.c:609 ../geanyvc/src/geanyvc.c:620
+#: ../geanyvc/src/geanyvc.c:561
+#, c-format
+msgid "File %s: action %s executed via %s."
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:614 ../geanyvc/src/geanyvc.c:625
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc：vcdiff_file_activated：无法重命名“%s”为“%s”"
 
-#: ../geanyvc/src/geanyvc.c:646 ../geanyvc/src/geanyvc.c:696
+#: ../geanyvc/src/geanyvc.c:651 ../geanyvc/src/geanyvc.c:701
 msgid "No changes were made."
 msgstr "没有作出任何修改。"
 
-#: ../geanyvc/src/geanyvc.c:723
+#: ../geanyvc/src/geanyvc.c:728
 #, fuzzy
 msgid "No history available"
 msgstr "没有可用的历史"
 
-#: ../geanyvc/src/geanyvc.c:916 ../geanyvc/src/geanyvc.c:924
+#: ../geanyvc/src/geanyvc.c:921 ../geanyvc/src/geanyvc.c:929
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "您真的想恢复：%s？"
 
-#: ../geanyvc/src/geanyvc.c:932
+#: ../geanyvc/src/geanyvc.c:937
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "您真的想添加：%s？"
 
-#: ../geanyvc/src/geanyvc.c:939
+#: ../geanyvc/src/geanyvc.c:944
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "您真的想移除：%s？"
 
-#: ../geanyvc/src/geanyvc.c:962
+#: ../geanyvc/src/geanyvc.c:967
 msgid "Do you really want to update?"
 msgstr "您真的想更新吗？"
 
-#: ../geanyvc/src/geanyvc.c:1225
+#: ../geanyvc/src/geanyvc.c:1094
+msgid ""
+"The resulting differences cannot be displayed because the changes are too "
+"big to display here and would slow down the UI significantly.\n"
+"\n"
+"To view the differences, cancel this dialog and open the differences in "
+"Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1243
 msgid "Commit Y/N"
 msgstr "提交 Y/N"
 
-#: ../geanyvc/src/geanyvc.c:1235
+#: ../geanyvc/src/geanyvc.c:1253
 msgid "Status"
 msgstr "状态"
 
-#: ../geanyvc/src/geanyvc.c:1242
+#: ../geanyvc/src/geanyvc.c:1260
 msgid "Path"
 msgstr "路径"
 
-#: ../geanyvc/src/geanyvc.c:1330
+#: ../geanyvc/src/geanyvc.c:1324
+#, c-format
+msgid "Line: %d Column: %d"
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1370
 msgid "Commit"
 msgstr "提交"
 
-#: ../geanyvc/src/geanyvc.c:1372
+#: ../geanyvc/src/geanyvc.c:1412
 msgid "_De-/select all files"
 msgstr "全不选/全选所有文件(_D)"
 
-#: ../geanyvc/src/geanyvc.c:1413
+#: ../geanyvc/src/geanyvc.c:1456
 msgid "<b>Commit message:</b>"
 msgstr "<b>提交信息：</b>"
 
-#: ../geanyvc/src/geanyvc.c:1426
+#: ../geanyvc/src/geanyvc.c:1475
 #, fuzzy
 msgid "C_ommit"
 msgstr "提交"
 
-#: ../geanyvc/src/geanyvc.c:1500
+#: ../geanyvc/src/geanyvc.c:1556
 msgid "Nothing to commit."
 msgstr "没有可以提交的。"
 
-#: ../geanyvc/src/geanyvc.c:1546
+#: ../geanyvc/src/geanyvc.c:1602
 #, c-format
 msgid "Error initializing spell checking: %s"
 msgstr "初始化拼写检查时出现错误：%s"
 
-#: ../geanyvc/src/geanyvc.c:1558
+#: ../geanyvc/src/geanyvc.c:1614
 #, c-format
 msgid ""
 "Error while setting up language for spellchecking. Please check "
 "configuration. Error message was: %s"
 msgstr "为拼写检查设置语言时出现错误。请检查设置。错误信息：%s"
 
-#: ../geanyvc/src/geanyvc.c:1834
+#: ../geanyvc/src/geanyvc.c:1890
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr "为插件创建的文档页设置已更改标记"
 
-#: ../geanyvc/src/geanyvc.c:1837
+#: ../geanyvc/src/geanyvc.c:1893
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4845,312 +4470,312 @@ msgstr ""
 "如果开启这个选项，每个 VC 插件创建的文档页将被标记为已更改。某些情况下这个选"
 "项有用，但它也许也会带来许多烦人的“您要保存吗”对话框。"
 
-#: ../geanyvc/src/geanyvc.c:1845
+#: ../geanyvc/src/geanyvc.c:1901
 msgid "Confirm adding new files to a VCS"
 msgstr "确认添加新文件到VCS"
 
-#: ../geanyvc/src/geanyvc.c:1848
+#: ../geanyvc/src/geanyvc.c:1904
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr "添加新文件到VCS时显示一个确认对话框。"
 
-#: ../geanyvc/src/geanyvc.c:1854
+#: ../geanyvc/src/geanyvc.c:1910
 msgid "Maximize commit dialog"
 msgstr "最大化提交对话框"
 
-#: ../geanyvc/src/geanyvc.c:1855
+#: ../geanyvc/src/geanyvc.c:1911
 msgid "Show commit dialog maximize."
 msgstr "最大化显示提交对话框。"
 
-#: ../geanyvc/src/geanyvc.c:1861
+#: ../geanyvc/src/geanyvc.c:1917
 msgid "Use external diff viewer"
 msgstr "使用外部差异查看器"
 
-#: ../geanyvc/src/geanyvc.c:1863
+#: ../geanyvc/src/geanyvc.c:1919
 msgid "Use external diff viewer for file diff."
 msgstr "使用外部差异查看器查看文件差异。"
 
-#: ../geanyvc/src/geanyvc.c:1869
+#: ../geanyvc/src/geanyvc.c:1925
 msgid "Show VC entries at editor menu"
 msgstr "在编辑器菜单中显示VC条目"
 
-#: ../geanyvc/src/geanyvc.c:1871
+#: ../geanyvc/src/geanyvc.c:1927
 msgid "Show entries for VC functions inside editor menu"
 msgstr "在编辑器菜单中显示VC条目。"
 
-#: ../geanyvc/src/geanyvc.c:1876
+#: ../geanyvc/src/geanyvc.c:1932
 msgid "Attach menu to menubar"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1878
+#: ../geanyvc/src/geanyvc.c:1934
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar.Will take in account after next start of "
 "GeanyVC"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1886
+#: ../geanyvc/src/geanyvc.c:1942
 msgid "Enable CVS"
 msgstr "启用 CVS"
 
-#: ../geanyvc/src/geanyvc.c:1891
+#: ../geanyvc/src/geanyvc.c:1947
 msgid "Enable GIT"
 msgstr "启用 GIT"
 
-#: ../geanyvc/src/geanyvc.c:1896
+#: ../geanyvc/src/geanyvc.c:1952
 msgid "Enable SVN"
 msgstr "启用 SVN"
 
-#: ../geanyvc/src/geanyvc.c:1901
+#: ../geanyvc/src/geanyvc.c:1957
 msgid "Enable SVK"
 msgstr "启用 SVK"
 
-#: ../geanyvc/src/geanyvc.c:1906
+#: ../geanyvc/src/geanyvc.c:1962
 msgid "Enable Bazaar"
 msgstr "启用 Bazaar"
 
-#: ../geanyvc/src/geanyvc.c:1911
+#: ../geanyvc/src/geanyvc.c:1967
 msgid "Enable Mercurial"
 msgstr "启用 Mercurial"
 
-#: ../geanyvc/src/geanyvc.c:1917
+#: ../geanyvc/src/geanyvc.c:1973
 msgid "Spellcheck language"
 msgstr "拼写检查语言"
 
-#: ../geanyvc/src/geanyvc.c:2008
+#: ../geanyvc/src/geanyvc.c:2064
 msgid "_VC file Actions"
 msgstr "_VC 文件操作"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2014 ../geanyvc/src/geanyvc.c:2091
-#: ../geanyvc/src/geanyvc.c:2131
+#: ../geanyvc/src/geanyvc.c:2070 ../geanyvc/src/geanyvc.c:2147
+#: ../geanyvc/src/geanyvc.c:2187
 msgid "_Diff"
 msgstr "差异(_D)"
 
-#: ../geanyvc/src/geanyvc.c:2017
+#: ../geanyvc/src/geanyvc.c:2073
 msgid "Make a diff from the current active file"
 msgstr "从当前活动的文件生成差异"
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2022 ../geanyvc/src/geanyvc.c:2100
-#: ../geanyvc/src/geanyvc.c:2139
+#: ../geanyvc/src/geanyvc.c:2078 ../geanyvc/src/geanyvc.c:2156
+#: ../geanyvc/src/geanyvc.c:2195
 msgid "_Revert"
 msgstr "恢复(_R)"
 
-#: ../geanyvc/src/geanyvc.c:2025
+#: ../geanyvc/src/geanyvc.c:2081
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr "还原原始的工作复制文件（撤销本地编辑）。"
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2034
+#: ../geanyvc/src/geanyvc.c:2090
 msgid "_Blame"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2037
+#: ../geanyvc/src/geanyvc.c:2093
 msgid "Shows the changes made at one file per revision and author."
 msgstr "显示文件每个作者和每次修订的更改。"
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2044 ../geanyvc/src/geanyvc.c:2110
-#: ../geanyvc/src/geanyvc.c:2151
+#: ../geanyvc/src/geanyvc.c:2100 ../geanyvc/src/geanyvc.c:2166
+#: ../geanyvc/src/geanyvc.c:2207
 msgid "_History (log)"
 msgstr "历史（日志）(_H)"
 
-#: ../geanyvc/src/geanyvc.c:2047
+#: ../geanyvc/src/geanyvc.c:2103
 msgid "Shows the log of the current file"
 msgstr "显示当前文件日志"
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2052
+#: ../geanyvc/src/geanyvc.c:2108
 msgid "_Original"
 msgstr "原始(_O)"
 
-#: ../geanyvc/src/geanyvc.c:2055
+#: ../geanyvc/src/geanyvc.c:2111
 #, fuzzy
 msgid "Shows the original of the current file"
 msgstr "显示当前文件的最初版本"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2063
+#: ../geanyvc/src/geanyvc.c:2119
 msgid "_Add to Version Control"
 msgstr "添加到版本控制(_A)"
 
-#: ../geanyvc/src/geanyvc.c:2065
+#: ../geanyvc/src/geanyvc.c:2121
 msgid "Add file to repository."
 msgstr "添加文件到库。"
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2071
+#: ../geanyvc/src/geanyvc.c:2127
 msgid "_Remove from Version Control"
 msgstr "从版本控制中移除(_R)"
 
-#: ../geanyvc/src/geanyvc.c:2073
+#: ../geanyvc/src/geanyvc.c:2129
 msgid "Remove file from repository."
 msgstr "从库中移除文件。"
 
-#: ../geanyvc/src/geanyvc.c:2088
+#: ../geanyvc/src/geanyvc.c:2144
 msgid "_Directory"
 msgstr "目录(_D)"
 
-#: ../geanyvc/src/geanyvc.c:2094
+#: ../geanyvc/src/geanyvc.c:2150
 msgid "Make a diff from the directory of the current active file"
 msgstr "从文件夹生成与当前活动文件之间的差异"
 
-#: ../geanyvc/src/geanyvc.c:2103
+#: ../geanyvc/src/geanyvc.c:2159
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr "还原当前文件夹中的原始文件（撤销本地编辑）。"
 
-#: ../geanyvc/src/geanyvc.c:2113
+#: ../geanyvc/src/geanyvc.c:2169
 msgid "Shows the log of the current directory"
 msgstr "显示当前目录日志"
 
-#: ../geanyvc/src/geanyvc.c:2127
+#: ../geanyvc/src/geanyvc.c:2183
 msgid "_Base Directory"
 msgstr "根目录(_B)"
 
-#: ../geanyvc/src/geanyvc.c:2133
+#: ../geanyvc/src/geanyvc.c:2189
 msgid "Make a diff from the top VC directory"
 msgstr "从顶层VC目录生成差异"
 
-#: ../geanyvc/src/geanyvc.c:2141
+#: ../geanyvc/src/geanyvc.c:2197
 msgid "Revert any local edits."
 msgstr "恢复所有本地编辑。"
 
-#: ../geanyvc/src/geanyvc.c:2154
+#: ../geanyvc/src/geanyvc.c:2210
 msgid "Shows the log of the top VC directory"
 msgstr "显示顶层VC目录差异"
 
-#: ../geanyvc/src/geanyvc.c:2180
+#: ../geanyvc/src/geanyvc.c:2236
 msgid "VC _Commit"
 msgstr "VC 提交(_C)"
 
-#: ../geanyvc/src/geanyvc.c:2215
+#: ../geanyvc/src/geanyvc.c:2271
 msgid "Show diff of file"
 msgstr "显示文件差异"
 
-#: ../geanyvc/src/geanyvc.c:2217
+#: ../geanyvc/src/geanyvc.c:2273
 msgid "Show diff of directory"
 msgstr "显示目录差异"
 
-#: ../geanyvc/src/geanyvc.c:2219
+#: ../geanyvc/src/geanyvc.c:2275
 msgid "Show diff of basedir"
 msgstr "显示根目录差异"
 
-#: ../geanyvc/src/geanyvc.c:2222
+#: ../geanyvc/src/geanyvc.c:2278
 msgid "Commit changes"
 msgstr "提交更改"
 
-#: ../geanyvc/src/geanyvc.c:2224
+#: ../geanyvc/src/geanyvc.c:2280
 msgid "Show status"
 msgstr "显示状态"
 
-#: ../geanyvc/src/geanyvc.c:2226
+#: ../geanyvc/src/geanyvc.c:2282
 msgid "Revert single file"
 msgstr "恢复单个文件"
 
-#: ../geanyvc/src/geanyvc.c:2228
+#: ../geanyvc/src/geanyvc.c:2284
 msgid "Revert directory"
 msgstr "恢复目录"
 
-#: ../geanyvc/src/geanyvc.c:2230
+#: ../geanyvc/src/geanyvc.c:2286
 msgid "Revert base directory"
 msgstr "恢复根目录"
 
-#: ../geanyvc/src/geanyvc.c:2232
+#: ../geanyvc/src/geanyvc.c:2288
 msgid "Update file"
 msgstr "更新文件"
 
-#: ../geanyvc/src/geanyvc.c:2260
+#: ../geanyvc/src/geanyvc.c:2316
 msgid "_VC"
 msgstr "_VC"
 
-#: ../geanyvc/src/geanyvc.c:2266
+#: ../geanyvc/src/geanyvc.c:2322
 #, fuzzy
 msgid "_Version Control"
 msgstr "添加到版本控制(_A)"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2288
+#: ../geanyvc/src/geanyvc.c:2344
 msgid "_Status"
 msgstr "状态(_S)"
 
-#: ../geanyvc/src/geanyvc.c:2290
+#: ../geanyvc/src/geanyvc.c:2346
 msgid "Show status."
 msgstr "显示状态。"
 
-#: ../geanyvc/src/geanyvc.c:2297
+#: ../geanyvc/src/geanyvc.c:2353
 #, fuzzy
 msgid "Update from remote repository."
 msgstr "从远程库更新。"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2302
+#: ../geanyvc/src/geanyvc.c:2358
 msgid "_Commit"
 msgstr "提交(_C)"
 
-#: ../geanyvc/src/geanyvc.c:2304
+#: ../geanyvc/src/geanyvc.c:2360
 msgid "Commit changes."
 msgstr "提交更改。"
 
-#: ../geniuspaste/src/geniuspaste.c:92
+#: ../geniuspaste/src/geniuspaste.c:101
 msgid "Paste your code on your favorite pastebin"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:213
+#: ../geniuspaste/src/geniuspaste.c:222
 msgid "Refusing to create blank paste"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:320
+#: ../geniuspaste/src/geniuspaste.c:341
 msgid ""
 "Unable to paste the code on codepad.org\n"
 "Retry or select another pastebin."
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:358
+#: ../geniuspaste/src/geniuspaste.c:393
 msgid "Paste Successful"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:360
+#: ../geniuspaste/src/geniuspaste.c:395
 #, c-format
 msgid ""
 "Your paste can be found here:\n"
 "<a href=\"%s\" title=\"Click to open the paste in your browser\">%s</a>"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:368
+#: ../geniuspaste/src/geniuspaste.c:403
 #, c-format
 msgid ""
 "Unable to paste the code. Check your connection and retry.\n"
 "Error code: %d\n"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:383
+#: ../geniuspaste/src/geniuspaste.c:416
 msgid "There are no opened documents. Open one and retry.\n"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:396
+#: ../geniuspaste/src/geniuspaste.c:429
 msgid "The author name field is empty!"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:415
+#: ../geniuspaste/src/geniuspaste.c:448
 #, fuzzy
 msgid "Select a pastebin:"
 msgstr "选择文件"
 
-#: ../geniuspaste/src/geniuspaste.c:418
+#: ../geniuspaste/src/geniuspaste.c:451
 msgid "Enter the author name:"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:433
+#: ../geniuspaste/src/geniuspaste.c:466
 msgid "Show your paste in a new browser tab"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:455
+#: ../geniuspaste/src/geniuspaste.c:488
 msgid "_Paste it!"
 msgstr ""
 
@@ -5241,56 +4866,255 @@ msgid ""
 "tab."
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:81
-#: ../gproject/src/gproject-sidebar.c:792
+#: ../gproject/src/gproject-sidebar.c:90
+#: ../gproject/src/gproject-sidebar.c:838
 #, fuzzy
 msgid "Find File"
 msgstr "添加文件"
 
-#: ../gproject/src/gproject-sidebar.c:92
-msgid "Search for:"
-msgstr ""
-
-#: ../gproject/src/gproject-sidebar.c:108
+#: ../gproject/src/gproject-sidebar.c:117
 msgid "Search inside:"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:120
+#: ../gproject/src/gproject-sidebar.c:129
 msgid "C_ase sensitive"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:123
+#: ../gproject/src/gproject-sidebar.c:132
 msgid "Search in full path"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:702
+#: ../gproject/src/gproject-sidebar.c:745
 msgid "Reload all"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:711
-#: ../treebrowser/src/treebrowser.c:1276
+#: ../gproject/src/gproject-sidebar.c:754
+#: ../treebrowser/src/treebrowser.c:1281
 msgid "Expand all"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:717
-#: ../treebrowser/src/treebrowser.c:1280
+#: ../gproject/src/gproject-sidebar.c:761
+#: ../treebrowser/src/treebrowser.c:1285
 #, fuzzy
 msgid "Collapse all"
 msgstr "关闭全部(_L)"
 
-#: ../gproject/src/gproject-sidebar.c:726
+#: ../gproject/src/gproject-sidebar.c:771
 msgid "Follow active editor"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:774
+#: ../gproject/src/gproject-sidebar.c:820
 msgid "Expand All"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:783
-#: ../treebrowser/src/treebrowser.c:1228
+#: ../gproject/src/gproject-sidebar.c:829
 #, fuzzy
 msgid "Find in Files"
 msgstr "在项目中查找"
+
+#. POSITION OF VIEW
+#: ../markdown/src/conf.c:567
+#, fuzzy
+msgid "Position:"
+msgstr "Edition"
+
+#: ../markdown/src/conf.c:573
+#, fuzzy
+msgid "Sidebar"
+msgstr "隐藏侧栏(_I)"
+
+#: ../markdown/src/conf.c:581
+msgid "Message Window"
+msgstr ""
+
+#: ../markdown/src/conf.c:595
+msgid "Font:"
+msgstr ""
+
+#: ../markdown/src/conf.c:612
+msgid "Code Font:"
+msgstr ""
+
+#: ../markdown/src/conf.c:629
+msgid "BG Color:"
+msgstr ""
+
+#: ../markdown/src/conf.c:645
+msgid "FG Color:"
+msgstr ""
+
+#: ../markdown/src/conf.c:663
+#, fuzzy
+msgid "Select Template File"
+msgstr "选择字体"
+
+#: ../markdown/src/plugin.c:35
+msgid "Real-time Markdown preview"
+msgstr ""
+
+#: ../markdown/src/plugin.c:51
+msgid "Markdown Preview"
+msgstr ""
+
+#: ../markdown/src/plugin.c:162
+msgid "The current document does not have a Markdown filetype."
+msgstr ""
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:35
+msgid "Pair Tag Highlighter"
+msgstr ""
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:36
+msgid "Finds and highlights matching opening/closing HTML tag"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:1
+msgid "_Translation Helper"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:2
+msgid "_Previous String"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1031
+#, fuzzy
+msgid "Go to previous string"
+msgstr "返回上一个对话框。"
+
+#: ../pohelper/data/menus.ui.h:4
+msgid "_Next String"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1034
+#, fuzzy
+msgid "Go to next string"
+msgstr "单步进入下一行。"
+
+#: ../pohelper/data/menus.ui.h:6
+msgid "Pre_vious Untranslated"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1037
+msgid "Go to previous untranslated string"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:8
+msgid "Next _Untranslated"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1040
+msgid "Go to next untranslated string"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:10
+msgid "Previous Fu_zzy"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1043
+msgid "Go to previous fuzzily translated string"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:12
+msgid "Next _Fuzzy"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1046
+msgid "Go to next fuzzily translated string"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:14
+msgid "Previous Untranslated or Fuzz_y"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1049
+msgid "Go to previous untranslated or fuzzy string"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:16
+msgid "Next Untranslated _or Fuzzy"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1053
+msgid "Go to next untranslated or fuzzy string"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1064
+#, fuzzy
+msgid "Toggle current translation fuzziness"
+msgstr "文件交互"
+
+#: ../pohelper/data/menus.ui.h:19
+msgid "_Toggle Fuzziness"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:20
+msgid "Paste _Message as Translation"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:21
+msgid "Paste the original untranslated string to the translation"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1061
+msgid "Reflow the current translation string"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:23
+msgid "_Reflow Translation"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:24
+msgid ""
+"Whether to update the translation headers (author, revision date, ...) upon "
+"file save"
+msgstr ""
+
+#: ../pohelper/data/menus.ui.h:25
+msgid "Update _Headers Upon Save"
+msgstr ""
+
+#: ../pohelper/src/gph-plugin.c:41
+msgid "Translation Helper"
+msgstr ""
+
+#: ../pohelper/src/gph-plugin.c:42
+msgid "Improves support for GetText translation files."
+msgstr ""
+
+#: ../pohelper/src/gph-plugin.c:1057
+msgid "Paste original untranslated string to translation"
+msgstr ""
+
+#: ../pohelper/src/gph-plugin.c:1099
+#, fuzzy, c-format
+msgid "Failed to load configuration file: %s"
+msgstr "显示当前文件日志"
+
+#: ../pohelper/src/gph-plugin.c:1124
+#, fuzzy, c-format
+msgid "Failed to create configuration directory \"%s\": %s"
+msgstr "取回 GDB 工作路径设置失败"
+
+#: ../pohelper/src/gph-plugin.c:1127
+#, fuzzy, c-format
+msgid "Failed to save configuration file: %s"
+msgstr "显示当前文件日志"
+
+#: ../pohelper/src/gph-plugin.c:1182
+#, fuzzy, c-format
+msgid ""
+"Failed to load UI definition, please check your installation. The error was: "
+"%s"
+msgstr ""
+"%s 插件未能正确加载。\n"
+"请检查您的安装。"
+
+#: ../pohelper/src/gph-plugin.c:1222
+#, c-format
+msgid ""
+"Cannot find widget \"%s\" in the UI definition, please check your "
+"installation."
+msgstr ""
 
 #: ../pretty-printer/src/PluginEntry.c:37
 msgid "XML PrettyPrinter"
@@ -5309,11 +5133,11 @@ msgstr ""
 msgid "Run the PrettyPrinter XML"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:139
+#: ../pretty-printer/src/PluginEntry.c:148
 msgid "Unable to parse the content as XML."
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:150
+#: ../pretty-printer/src/PluginEntry.c:159
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"
@@ -5321,92 +5145,1011 @@ msgid ""
 "See Help > Debug messages for more details..."
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:62
+#: ../pretty-printer/src/ConfigUI.c:73
 #, fuzzy
 msgid "Comments"
 msgstr "内容"
 
-#: ../pretty-printer/src/ConfigUI.c:62 ../pretty-printer/src/ConfigUI.c:63
-#: ../pretty-printer/src/ConfigUI.c:64
+#: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
+#: ../pretty-printer/src/ConfigUI.c:75
 msgid "Put on one line"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:62 ../pretty-printer/src/ConfigUI.c:63
-#: ../pretty-printer/src/ConfigUI.c:64
+#: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
+#: ../pretty-printer/src/ConfigUI.c:75
 msgid "Inline if possible"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:62 ../pretty-printer/src/ConfigUI.c:63
-#: ../pretty-printer/src/ConfigUI.c:64
+#: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
+#: ../pretty-printer/src/ConfigUI.c:75
 msgid "Alignment"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:63
+#: ../pretty-printer/src/ConfigUI.c:74
 msgid "Text nodes"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:64
+#: ../pretty-printer/src/ConfigUI.c:75
 msgid "CDATA"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:193
+#: ../pretty-printer/src/ConfigUI.c:205
 #, fuzzy
 msgid "Empty nodes"
 msgstr "（空行）"
 
-#: ../pretty-printer/src/ConfigUI.c:194
+#: ../pretty-printer/src/ConfigUI.c:206
 msgid "Concatenation (<x></x> to <x/>)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:195
+#: ../pretty-printer/src/ConfigUI.c:207
 msgid "Spacing (<x/> to <x />)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:196
+#: ../pretty-printer/src/ConfigUI.c:208
 msgid "Expansion (<x/> to <x></x>)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:223
+#: ../pretty-printer/src/ConfigUI.c:235
 #, fuzzy
 msgid "Indentation"
 msgstr "简报"
 
-#: ../pretty-printer/src/ConfigUI.c:228
+#: ../pretty-printer/src/ConfigUI.c:240
 msgid "Space"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:252
+#: ../pretty-printer/src/ConfigUI.c:264
 msgid "Line break"
 msgstr ""
 
-#: ../spellcheck/src/speller.c:94
+#: ../scope/data/scope.glade.h:1
+#, fuzzy
+msgid "Debu_g"
+msgstr "调试器"
+
+#: ../scope/data/scope.glade.h:2
+msgid "_Setup Program"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:3
+#, fuzzy
+msgid "Recent _Programs"
+msgstr "无程序"
+
+#: ../scope/data/scope.glade.h:4
+#, fuzzy
+msgid "_Run/Continue"
+msgstr "继续(_C)"
+
+#: ../scope/data/scope.glade.h:5
+#, fuzzy
+msgid "Run to _Cursor"
+msgstr "运行到位置"
+
+#: ../scope/data/scope.glade.h:6
+#, fuzzy
+msgid "Run to _Source"
+msgstr "运行到位置"
+
+#: ../scope/data/scope.glade.h:7
+#, fuzzy
+msgid "Step _Into"
+msgstr "单步进入(_I)"
+
+#: ../scope/data/scope.glade.h:8
+msgid "Step _Over"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:9
+#, fuzzy
+msgid "Step O_ut"
+msgstr "单步进入(_I)"
+
+#: ../scope/data/scope.glade.h:10
+#, fuzzy
+msgid "_Terminate"
+msgstr "已终止"
+
+#: ../scope/data/scope.glade.h:11
+#, fuzzy
+msgid "Toggle _Breakpoint"
+msgstr "断点"
+
+#: ../scope/data/scope.glade.h:12
+#, fuzzy
+msgid "_GDB Command"
+msgstr "命令0："
+
+#: ../scope/data/scope.glade.h:13
+#, fuzzy
+msgid "_More"
+msgstr "更多"
+
+#: ../scope/data/scope.glade.h:14
+#, fuzzy
+msgid "_Show Terminal"
+msgstr "在终端中运行"
+
+#: ../scope/data/scope.glade.h:15
+msgid "_Reset Markers"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:16
+msgid "_Cleanup Files"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:17
+msgid "_Feed"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:18
+msgid "_Window"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:19
+msgid "_Auto Show"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:20
+msgid "Auto _Hide"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:21
+msgid "Show on _Error"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:22
+msgid "_Unsorted"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:23
+msgid "_View Source"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:24
+msgid "S_ynchronize"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:25
+msgid "_Interrupt"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:26
+msgid "_Send Signal"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:27
+#, fuzzy
+msgid "S_elect on"
+msgstr "选择字体"
+
+#: ../scope/data/scope.glade.h:28
+#, fuzzy
+msgid "_Running"
+msgstr "运行中"
+
+#: ../scope/data/scope.glade.h:29
+#, fuzzy
+msgid "_Stopped"
+msgstr "已停止"
+
+#: ../scope/data/scope.glade.h:30
+msgid "_Exited"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:31
+msgid "_Follow"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:32
+#, fuzzy
+msgid "_Columns"
+msgstr "移列"
+
+#: ../scope/data/scope.glade.h:33
+msgid "Show _Group"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:34
+#, fuzzy
+msgid "Show _Core"
+msgstr "显示状态"
+
+#: ../scope/data/scope.glade.h:35
+#, fuzzy
+msgid "Add _Break"
+msgstr "增加断点"
+
+#: ../scope/data/scope.glade.h:36
+#, fuzzy
+msgid "Add _Watch"
+msgstr "观察点"
+
+#: ../scope/data/scope.glade.h:37
+msgid "Apply on _Run"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:38
+msgid "_Show @entry"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:39
+#, fuzzy
+msgid "Show _Address"
+msgstr "Address"
+
+#: ../scope/data/scope.glade.h:40
+msgid "_Modify"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:41
+#, fuzzy
+msgid "_Watch"
+msgstr "观察点"
+
+#: ../scope/data/scope.glade.h:42
+msgid "_Inspect"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:43
+msgid "_8-bit mode"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:44
+#, fuzzy
+msgid "_Default"
+msgstr "默认（%s）"
+
+#: ../scope/data/scope.glade.h:45
+msgid "_7 bit"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:46
+msgid "_Locale"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:47
+#, fuzzy
+msgid "_UTF-8"
+msgstr "UTF-8"
+
+#: ../scope/data/scope.glade.h:48
+#, fuzzy
+msgid "_Show .names"
+msgstr "显示图标。"
+
+#: ../scope/data/scope.glade.h:49
+msgid "R_ead"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:50
+msgid "_Group by"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:51
+msgid "_1"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:52
+msgid "_2"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:53
+msgid "_4"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:54
+msgid "_8"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:55
+msgid "_Jump To"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:56
+msgid "_Apply"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:57
+msgid "_Expand"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:59
+msgid "_Natural"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:60
+msgid "_Decimal"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:61
+msgid "_Hex"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:62
+msgid "_Octal"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:63
+msgid "_Binary"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:64
+msgid "_Raw"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:65
+msgid "_Evaluate/Modify"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:66
+msgid "_Watch Expression"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:67
+#, fuzzy
+msgid "_Inspect Variable"
+msgstr "环境"
+
+#: ../scope/data/scope.glade.h:68
+msgid "Threads"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:69
+#, fuzzy
+msgid "Stack"
+msgstr "堆栈(_K)"
+
+#: ../scope/data/scope.glade.h:70
+msgid "Locals"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:71
+#, fuzzy
+msgid "Watches"
+msgstr "观察点"
+
+#: ../scope/data/scope.glade.h:72
+msgid "Memory"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:73
+#, fuzzy
+msgid "Enter gdb command:"
+msgstr "插入环境"
+
+#: ../scope/data/scope.glade.h:74
+#, fuzzy
+msgid "Convert _UTF-8 to locale"
+msgstr "将选中部分左对齐"
+
+#: ../scope/data/scope.glade.h:75
+msgid "_Thread"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:76
+msgid "_Group"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:77
+#, fuzzy
+msgid "_Frame"
+msgstr "帧信息"
+
+#: ../scope/data/scope.glade.h:78
+#, fuzzy
+msgid "Setup Program"
+msgstr "无程序"
+
+#: ../scope/data/scope.glade.h:79
+msgid "_Executable:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:80
+msgid "_Arguments:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:81
+#, fuzzy
+msgid "En_vironment:"
+msgstr "环境："
+
+#: ../scope/data/scope.glade.h:82
+msgid "_Working dir:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:83
+#, fuzzy
+msgid "_Load script:"
+msgstr "_Lua 脚本"
+
+#: ../scope/data/scope.glade.h:84
+msgid "Auto _run program/exit gdb"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:85
+msgid "_Non-stop mode"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:86
+msgid "_Temporary breakpoint on load at:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:87
+msgid "_Delete all breakpoints, watches, inspects and registers"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:522
+#, fuzzy
+msgid "Program"
+msgstr "无程序"
+
+#: ../scope/data/scope.glade.h:89
+#, fuzzy
+msgid "Open on"
+msgstr "打开URI"
+
+#: ../scope/data/scope.glade.h:90
+#, fuzzy
+msgid "g_db load"
+msgstr "卸载(_U)"
+
+#: ../scope/data/scope.glade.h:91
+msgid "p_rogram start"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:92
+#, fuzzy
+msgid "Update all _views"
+msgstr "更新文件"
+
+#: ../scope/data/scope.glade.h:93
+msgid "<b>Panel</b>"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:94
+msgid "Default 8-bit text mode:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:95
+msgid "_7-bit \\nnn"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:96
+msgid "Display"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:97
+#, fuzzy
+msgid "_member"
+msgstr "Number"
+
+#: ../scope/data/scope.glade.h:98
+#, fuzzy
+msgid "and"
+msgstr "直斜体"
+
+#: ../scope/data/scope.glade.h:99
+#, fuzzy
+msgid "_argument"
+msgstr "将文档作为邮件发送"
+
+#: ../scope/data/scope.glade.h:100
+#, fuzzy
+msgid "names"
+msgstr "文件名："
+
+#: ../scope/data/scope.glade.h:101
+msgid "<b>Values</b>"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:102
+msgid "E_xpand on apply"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:103
+msgid "S_how"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:104
+msgid "children"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:105
+msgid "<b>Inspect</b>"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:106
+msgid "Show =li_brary messages"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:107
+#, fuzzy
+msgid "Show _tooltips"
+msgstr "显示工具提示。"
+
+#: ../scope/data/scope.glade.h:108
+msgid "<b>Others</b>"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:109
+#, fuzzy
+msgid "Options"
+msgstr "选项(_O)"
+
+#: ../scope/data/scope.glade.h:110
+#, fuzzy
+msgid "_Import"
+msgstr "报告"
+
+#: ../scope/data/scope.glade.h:111
+msgid "Enter assignment expression:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:112
+msgid "Inspect"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:113
+#, fuzzy
+msgid "Object:"
+msgstr "目标信息"
+
+#: ../scope/data/scope.glade.h:115
+msgid "-"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:116
+#, fuzzy
+msgid "Frame:"
+msgstr "名称："
+
+#: ../scope/data/scope.glade.h:117
+msgid "@"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:118
+msgid "_Apply on run"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:119
+msgid "Expand"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:120
+#, fuzzy
+msgid "Start:"
+msgstr "状态(_S)"
+
+#: ../scope/data/scope.glade.h:121
+msgid "Count:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:122
+msgid "_Expand on apply"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:522
+#, fuzzy
+msgid "Program Terminal"
+msgstr "在终端中运行"
+
+#: ../scope/data/scope.glade.h:125
+msgid "Registers"
+msgstr ""
+
+#: ../scope/src/break.c:97
+#, fuzzy
+msgid "breakpoint"
+msgstr "断点"
+
+#: ../scope/src/break.c:98
+#, fuzzy
+msgid "hardware breakpoint"
+msgstr "编辑断点"
+
+#: ../scope/src/break.c:99
+#, fuzzy
+msgid "tracepoint"
+msgstr "观察点"
+
+#: ../scope/src/break.c:100
+#, fuzzy
+msgid "fast tracepoint"
+msgstr "观察点"
+
+#: ../scope/src/break.c:101
+#, fuzzy
+msgid "write watchpoint"
+msgstr "编辑观察点"
+
+#: ../scope/src/break.c:104
+#, fuzzy
+msgid "access watchpoint"
+msgstr "观察点"
+
+#: ../scope/src/break.c:106
+#, fuzzy
+msgid "read watchpoint"
+msgstr "编辑观察点"
+
+#: ../scope/src/break.c:108
+#, fuzzy
+msgid "catchpoint"
+msgstr "观察点"
+
+#: ../scope/src/break.c:135 ../scope/src/break.c:139
+msgid "CLI"
+msgstr ""
+
+#: ../scope/src/break.c:136
+msgid "unsupported MI"
+msgstr ""
+
+#: ../scope/src/break.c:141
+#, fuzzy
+msgid "on load"
+msgstr "卸载(_U)"
+
+#: ../scope/src/break.c:142
+#, fuzzy
+msgid "Run to Cursor"
+msgstr "运行到位置"
+
+#: ../scope/src/break.c:1013
+#, c-format
+msgid ""
+"There are two or more breakpoints at %s:%d.\n"
+"\n"
+"Use the breakpoint list to remove the exact one."
+msgstr ""
+
+#: ../scope/src/break.c:1252
+#, c-format
+msgid ", %s"
+msgstr ""
+
+#: ../scope/src/break.c:1278
+#, c-format
+msgid "func %s"
+msgstr ""
+
+#: ../scope/src/break.c:1309
+#, fuzzy
+msgid "Add Breakpoint"
+msgstr "增加断点"
+
+#: ../scope/src/break.c:1324
+#, fuzzy
+msgid "Add Watchpoint"
+msgstr "增加观察点"
+
+#: ../scope/src/conterm.c:106
+#, fuzzy
+msgid "Feed Terminal"
+msgstr "在终端中运行"
+
+#: ../scope/src/conterm.c:106
+msgid "Enter char # (0..255):"
+msgstr ""
+
+#: ../scope/src/conterm.c:509 ../scope/src/scope.c:550
+#: ../scope/src/scope.c:551
+#, fuzzy, c-format
+msgid "Scope: %s."
+msgstr "关闭全部(_L)"
+
+#: ../scope/src/debug.c:115 ../scope/src/debug.c:120 ../scope/src/utils.c:37
+#, fuzzy, c-format
+msgid "%s: %s."
+msgstr "关闭全部(_L)"
+
+#: ../scope/src/debug.c:363
+#, c-format
+msgid "GDB died unexpectedly with status %d."
+msgstr ""
+
+#: ../scope/src/debug.c:365
+#, fuzzy
+msgid "Program terminated."
+msgstr "已终止"
+
+#: ../scope/src/debug.c:469
+msgid "No breakpoints. Hanging."
+msgstr ""
+
+#: ../scope/src/debug.c:598 ../scope/src/thread.c:92
+#, c-format
+msgid "%s."
+msgstr ""
+
+#: ../scope/src/inspect.c:66
+#, fuzzy
+msgid "..."
+msgstr "更多..."
+
+#: ../scope/src/inspect.c:339
+msgid "invalid data"
+msgstr ""
+
+#: ../scope/src/inspect.c:371
+msgid "no children in range"
+msgstr ""
+
+#: ../scope/src/inspect.c:454
+#, fuzzy
+msgid "out of scope"
+msgstr "观察点 #%s 越界"
+
+#: ../scope/src/inspect.c:627
+msgid "Duplicate inspect variable name."
+msgstr ""
+
+#: ../scope/src/memory.c:292
+msgid "Read Memory"
+msgstr ""
+
+#: ../scope/src/memory.c:396
+#, c-format
+msgid "Scope: pointer size > %d, Data disabled."
+msgstr ""
+
+#: ../scope/src/menu.c:375
+msgid "Modify"
+msgstr ""
+
+#: ../scope/src/menu.c:481
+msgid "Evaluate/modify"
+msgstr ""
+
+#: ../scope/src/menu.c:482
+msgid "Watch expression"
+msgstr ""
+
+#: ../scope/src/menu.c:483
+#, fuzzy
+msgid "Inspect variable"
+msgstr "本地变量"
+
+#: ../scope/src/parse.c:437
+msgid "Undefined GDB error."
+msgstr ""
+
+#: ../scope/src/plugme.c:81
+#, fuzzy
+msgid "Select Folder"
+msgstr "选择颜色"
+
+#: ../scope/src/plugme.c:81
+#, fuzzy
+msgid "Select File"
+msgstr "选择文件"
+
+#: ../scope/src/prefs.c:294 ../scope/src/utils.c:438
+#, c-format
+msgid "Scope: %s: %s."
+msgstr ""
+
+#: ../scope/src/prefs.c:299
+#, fuzzy
+msgid "Scope: created configuration file."
+msgstr "显示当前文件日志"
+
+#: ../scope/src/program.c:251
+#, c-format
+msgid "Loaded debug settings for %s."
+msgstr ""
+
+#: ../scope/src/program.c:259
+#, c-format
+msgid "Could not load debug settings file %s: %s."
+msgstr ""
+
+#: ../scope/src/program.c:379
+#, fuzzy, c-format
+msgid ""
+"%s: %s.\n"
+"\n"
+"Continue?"
+msgstr "继续(_C)"
+
+#: ../scope/src/program.c:415
+msgid "Delete all breakpoints, watches et cetera?"
+msgstr ""
+
+#: ../scope/src/program.c:523
+msgid "as _Name=value"
+msgstr ""
+
+#: ../scope/src/program.c:524
+msgid "as _Name = value"
+msgstr ""
+
+#: ../scope/src/scope.c:34
+#, fuzzy
+msgid "Scope Debugger"
+msgstr "调试器"
+
+#: ../scope/src/scope.c:35
+msgid "Relatively simple GDB front-end."
+msgstr ""
+
+#: ../scope/src/scope.c:62
+#, fuzzy
+msgid "Setup program"
+msgstr "无程序"
+
+#: ../scope/src/scope.c:63
+#, fuzzy
+msgid "Run/continue"
+msgstr "继续(_C)"
+
+#: ../scope/src/scope.c:65
+#, fuzzy
+msgid "Run to source"
+msgstr "运行到位置"
+
+#: ../scope/src/scope.c:69
+#, fuzzy
+msgid "Terminate"
+msgstr "已终止"
+
+#: ../scope/src/scope.c:70
+#, fuzzy
+msgid "Toggle breakpoint"
+msgstr "断点"
+
+#: ../scope/src/scope.c:72 ../scope/src/scope.c:75
+#, fuzzy
+msgid "GDB command"
+msgstr "插入环境"
+
+#: ../scope/src/scope.c:73
+#, fuzzy
+msgid "Show terminal"
+msgstr "在终端中运行"
+
+#: ../scope/src/scope.c:226
+msgid "Busy"
+msgstr ""
+
+#: ../scope/src/scope.c:226
+msgid "Ready"
+msgstr ""
+
+#: ../scope/src/scope.c:227
+msgid "Hang"
+msgstr ""
+
+#: ../scope/src/scope.c:227
+msgid "Assem"
+msgstr ""
+
+#: ../scope/src/scope.c:227
+#, fuzzy
+msgid "Load"
+msgstr "加载(_L)"
+
+#: ../scope/src/scope.c:421
+msgid "Build action activated. Terminate debugging?"
+msgstr ""
+
+#: ../scope/src/scope.c:524
+#, fuzzy
+msgid "Breaks"
+msgstr "断点"
+
+#: ../scope/src/scope.c:526
+#, fuzzy
+msgid "Console"
+msgstr "控制台："
+
+#: ../scope/src/scope.c:526
+#, fuzzy
+msgid "Debug Console"
+msgstr "控制台："
+
+#: ../scope/src/thread.c:48
+#, c-format
+msgid "Thread group %s started."
+msgstr ""
+
+#: ../scope/src/thread.c:63
+msgid "Thread group "
+msgstr ""
+
+#: ../scope/src/thread.c:83
+msgid " exited"
+msgstr ""
+
+#: ../scope/src/thread.c:86
+#, c-format
+msgid " with exit code %s"
+msgstr ""
+
+#: ../scope/src/thread.c:748
+#, fuzzy
+msgid "Send Signal"
+msgstr "用邮件发送"
+
+#: ../scope/src/thread.c:748
+msgid "Enter signal #:"
+msgstr ""
+
+#: ../scope/src/thread.c:788
+msgid "Terminate Process"
+msgstr ""
+
+#: ../scope/src/thread.c:788
+msgid "Enter exit code:"
+msgstr ""
+
+#: ../scope/src/thread.c:891
+#, fuzzy
+msgid "Running"
+msgstr "运行中"
+
+#: ../scope/src/thread.c:892
+#, fuzzy
+msgid "Stopped"
+msgstr "已停止"
+
+#: ../scope/src/utils.c:45
+#, fuzzy, c-format
+msgid "%s: %s"
+msgstr "关闭全部(_L)"
+
+#: ../scope/src/utils.c:225
+#, c-format
+msgid "Scope: error reading [%s]."
+msgstr ""
+
+#: ../scope/src/views.c:526
+msgid "…"
+msgstr ""
+
+#: ../scope/src/views.c:549
+msgid "_Send"
+msgstr ""
+
+#: ../scope/src/views.c:549
+msgid "_Busy"
+msgstr ""
+
+#: ../scope/src/views.c:558
+#, fuzzy
+msgid "GDB Command"
+msgstr "命令0："
+
+#: ../spellcheck/src/speller.c:180
 msgid "Try: "
 msgstr "尝试："
 
-#: ../spellcheck/src/speller.c:173
+#: ../spellcheck/src/speller.c:252
 msgid "Checking"
 msgstr "检查中"
 
-#: ../spellcheck/src/speller.c:186
+#: ../spellcheck/src/speller.c:265
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
 msgstr "正在检查文件“%s”（第 %d 行至第 %d 行，使用 %s）"
 
-#: ../spellcheck/src/speller.c:196
+#: ../spellcheck/src/speller.c:275
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
 msgstr "正在检查文件“%s”（使用 %s）"
 
-#: ../spellcheck/src/speller.c:223
+#: ../spellcheck/src/speller.c:302
 msgid "The checked text is spelled correctly."
 msgstr "已检查的文字拼写正确。"
 
-#: ../spellcheck/src/speller.c:233
+#: ../spellcheck/src/speller.c:312
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr "无法初始化 Enchant 库（%s）。"
 
-#: ../spellcheck/src/speller.c:234
+#: ../spellcheck/src/speller.c:313
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr "未知错误（可能不支持选取的语言）"
 
@@ -5462,53 +6205,53 @@ msgid ""
 "works with myspell dictionaries."
 msgstr "在这个目录中读取附加的字典文件，目前，只有 myspell 字典可以使用。"
 
-#: ../spellcheck/src/gui.c:68
+#: ../spellcheck/src/gui.c:76
 msgid "Spell checking while typing is now enabled"
 msgstr "输入时的拼写检查已启用"
 
-#: ../spellcheck/src/gui.c:70
+#: ../spellcheck/src/gui.c:78
 msgid "Spell checking while typing is now disabled"
 msgstr "输入时的拼写检查已禁用"
 
-#: ../spellcheck/src/gui.c:291
+#: ../spellcheck/src/gui.c:313
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
 msgstr ""
 
-#: ../spellcheck/src/gui.c:296
+#: ../spellcheck/src/gui.c:318
 #, fuzzy
 msgid "Perform Spell Check"
 msgstr "拼写检查"
 
-#: ../spellcheck/src/gui.c:328
+#: ../spellcheck/src/gui.c:350
 msgid "More..."
 msgstr "更多..."
 
-#: ../spellcheck/src/gui.c:343
+#: ../spellcheck/src/gui.c:365
 msgid "(No Suggestions)"
 msgstr "（无建议）"
 
-#: ../spellcheck/src/gui.c:352
+#: ../spellcheck/src/gui.c:374
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "添加“%s”到字典"
 
-#: ../spellcheck/src/gui.c:359
+#: ../spellcheck/src/gui.c:381
 msgid "Ignore All"
 msgstr "忽略全部"
 
-#: ../spellcheck/src/gui.c:499
+#: ../spellcheck/src/gui.c:526
 #, c-format
 msgid "Default (%s)"
 msgstr "默认（%s）"
 
-#: ../spellcheck/src/gui.c:510
+#: ../spellcheck/src/gui.c:537
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr "开关输入时的拼写检查（当前语言：%s）"
 
-#: ../spellcheck/src/gui.c:565
+#: ../spellcheck/src/gui.c:592
 msgid "Spelling Suggestions"
 msgstr "拼写建议"
 
@@ -5539,189 +6282,195 @@ msgstr ""
 #. OK. Something went not as expected.
 #. * We did have a selection but cannot parse it into rows.
 #. * Aborting
-#: ../tableconvert/src/tableconvert.c:247
+#: ../tableconvert/src/tableconvert.c:237
 msgid "Something went wrong on parsing selection. Aborting"
 msgstr ""
 
-#: ../tableconvert/src/tableconvert.c:278
+#: ../tableconvert/src/tableconvert.c:269
 #, fuzzy
 msgid "Convert selection to table"
 msgstr "将选中部分左对齐"
 
 #. Build up menu entry
-#: ../tableconvert/src/tableconvert.c:291
+#: ../tableconvert/src/tableconvert.c:282
 msgid "_Convert to table"
 msgstr ""
 
-#: ../tableconvert/src/tableconvert.c:294
+#: ../tableconvert/src/tableconvert.c:285
 msgid "Converts current marked list to a table."
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:119
+#: ../treebrowser/src/treebrowser.c:124
 #, fuzzy
 msgid "TreeBrowser"
 msgstr "浏览..."
 
-#: ../treebrowser/src/treebrowser.c:120
+#: ../treebrowser/src/treebrowser.c:125
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:426
+#: ../treebrowser/src/treebrowser.c:434
 #, c-format
 msgid "%s: no such directory."
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:521 ../treebrowser/src/treebrowser.c:556
-#: ../treebrowser/src/treebrowser.c:658
+#: ../treebrowser/src/treebrowser.c:537 ../treebrowser/src/treebrowser.c:572
+#: ../treebrowser/src/treebrowser.c:670
 #, fuzzy
 msgid "(Empty)"
 msgstr "（空行）"
 
-#: ../treebrowser/src/treebrowser.c:960
+#: ../treebrowser/src/treebrowser.c:971
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1031
+#: ../treebrowser/src/treebrowser.c:1042
 #, fuzzy
 msgid "NewDirectory"
 msgstr "目录(_D)"
 
-#: ../treebrowser/src/treebrowser.c:1033
+#: ../treebrowser/src/treebrowser.c:1044
 #, fuzzy
 msgid "NewFile"
 msgstr "文件(_F)"
 
-#: ../treebrowser/src/treebrowser.c:1038
+#: ../treebrowser/src/treebrowser.c:1049
 #, c-format
 msgid ""
 "Target file '%s' exists\n"
 ", do you really want to replace it with empty file?"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1083
+#: ../treebrowser/src/treebrowser.c:1095
 #, fuzzy, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "您真的想恢复：%s？"
 
-#: ../treebrowser/src/treebrowser.c:1202 ../treebrowser/src/treebrowser.c:1658
+#: ../treebrowser/src/treebrowser.c:1207 ../treebrowser/src/treebrowser.c:1738
 msgid "Go up"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1206 ../treebrowser/src/treebrowser.c:1673
+#: ../treebrowser/src/treebrowser.c:1211 ../treebrowser/src/treebrowser.c:1753
 #, fuzzy
 msgid "Set path from document"
 msgstr "为您的新文档设置编码"
 
-#: ../treebrowser/src/treebrowser.c:1210
-msgid "Open externally"
-msgstr ""
-
 #: ../treebrowser/src/treebrowser.c:1215
+#, fuzzy
+msgid "_Open externally"
+msgstr "在终端中运行"
+
+#: ../treebrowser/src/treebrowser.c:1220
 #, fuzzy
 msgid "Open Terminal"
 msgstr "在终端中运行"
 
-#: ../treebrowser/src/treebrowser.c:1219
+#: ../treebrowser/src/treebrowser.c:1224
 msgid "Set as root"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1224 ../treebrowser/src/treebrowser.c:1663
-#: ../treebrowser/src/treebrowser.c:2025
+#: ../treebrowser/src/treebrowser.c:1229 ../treebrowser/src/treebrowser.c:1743
+#: ../treebrowser/src/treebrowser.c:2123
 #, fuzzy
 msgid "Refresh"
 msgstr "Series"
 
-#: ../treebrowser/src/treebrowser.c:1236
+#: ../treebrowser/src/treebrowser.c:1233
+#, fuzzy
+msgid "_Find in Files"
+msgstr "在项目中查找"
+
+#: ../treebrowser/src/treebrowser.c:1241
 #, fuzzy
 msgid "Create new directory"
 msgstr "恢复根目录"
 
-#: ../treebrowser/src/treebrowser.c:1240
+#: ../treebrowser/src/treebrowser.c:1245
 #, fuzzy
 msgid "Create new file"
 msgstr "更新文件"
 
-#: ../treebrowser/src/treebrowser.c:1244
+#: ../treebrowser/src/treebrowser.c:1249
 #, fuzzy
 msgid "Rename"
 msgstr "文件名："
 
-#: ../treebrowser/src/treebrowser.c:1249
+#: ../treebrowser/src/treebrowser.c:1254
 #, fuzzy
 msgid "Delete"
 msgstr "删除项目"
 
-#: ../treebrowser/src/treebrowser.c:1257
+#: ../treebrowser/src/treebrowser.c:1262
 #, fuzzy, c-format
 msgid "Close: %s"
 msgstr "关闭全部(_L)"
 
-#: ../treebrowser/src/treebrowser.c:1262
+#: ../treebrowser/src/treebrowser.c:1267
 #, fuzzy, c-format
 msgid "Close Child Documents "
 msgstr "关闭其他文件(_H)"
 
-#: ../treebrowser/src/treebrowser.c:1267
-msgid "Copy full path to clipboard"
+#: ../treebrowser/src/treebrowser.c:1272
+msgid "_Copy full path to clipboard"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1287 ../treebrowser/src/treebrowser.c:1939
+#: ../treebrowser/src/treebrowser.c:1292 ../treebrowser/src/treebrowser.c:2032
 #, fuzzy
 msgid "Show bookmarks"
 msgstr "书签"
 
-#: ../treebrowser/src/treebrowser.c:1292 ../treebrowser/src/treebrowser.c:1893
+#: ../treebrowser/src/treebrowser.c:1297 ../treebrowser/src/treebrowser.c:1981
 #, fuzzy
 msgid "Show hidden files"
 msgstr "显示文件差异"
 
-#: ../treebrowser/src/treebrowser.c:1297
+#: ../treebrowser/src/treebrowser.c:1302
 #, fuzzy
 msgid "Show toolbars"
 msgstr "显示状态"
 
-#: ../treebrowser/src/treebrowser.c:1540
+#: ../treebrowser/src/treebrowser.c:1621
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1668
+#: ../treebrowser/src/treebrowser.c:1748
 #, fuzzy
 msgid "Home"
 msgstr "Volume"
 
-#: ../treebrowser/src/treebrowser.c:1678
+#: ../treebrowser/src/treebrowser.c:1758
 #, fuzzy
 msgid "Track path"
 msgstr "根目录："
 
-#: ../treebrowser/src/treebrowser.c:1683
+#: ../treebrowser/src/treebrowser.c:1763
 #, fuzzy
 msgid "Hide bars"
 msgstr "隐藏侧栏(_I)"
 
-#: ../treebrowser/src/treebrowser.c:1693
+#: ../treebrowser/src/treebrowser.c:1773
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1701
+#: ../treebrowser/src/treebrowser.c:1781
 msgid "Addressbar for example '/projects/my-project'"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1725
+#: ../treebrowser/src/treebrowser.c:1806
 msgid "Tree Browser"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1857
+#: ../treebrowser/src/treebrowser.c:1945
 msgid "External open command"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1862
+#: ../treebrowser/src/treebrowser.c:1950
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -5731,107 +6480,116 @@ msgid ""
 "filename"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1870
+#: ../treebrowser/src/treebrowser.c:1958
 msgid "Toolbar"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1872
+#: ../treebrowser/src/treebrowser.c:1960
 msgid "Hidden"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1873
+#: ../treebrowser/src/treebrowser.c:1961
 msgid "Top"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1874
+#: ../treebrowser/src/treebrowser.c:1962
 msgid "Bottom"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1879
+#: ../treebrowser/src/treebrowser.c:1967
 msgid "If position is changed, the option require plugin restart."
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1883
+#: ../treebrowser/src/treebrowser.c:1971
 #, fuzzy
 msgid "Show icons"
 msgstr "显示图标。"
 
-#: ../treebrowser/src/treebrowser.c:1885
+#: ../treebrowser/src/treebrowser.c:1973
 msgid "None"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1886
+#: ../treebrowser/src/treebrowser.c:1974
 #, fuzzy
 msgid "Base"
 msgstr "暂停(_P)"
 
-#: ../treebrowser/src/treebrowser.c:1887
+#: ../treebrowser/src/treebrowser.c:1975
 #, fuzzy
 msgid "Content-type"
 msgstr "内容"
 
-#: ../treebrowser/src/treebrowser.c:1898
+#: ../treebrowser/src/treebrowser.c:1986
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1900
+#: ../treebrowser/src/treebrowser.c:1988
 #, fuzzy
 msgid "Hide object files"
 msgstr "选择文件"
 
-#: ../treebrowser/src/treebrowser.c:1905
+#: ../treebrowser/src/treebrowser.c:1993
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1907
+#: ../treebrowser/src/treebrowser.c:1995
 #, fuzzy
 msgid "Reverse filter"
 msgstr "恢复单个文件"
 
-#: ../treebrowser/src/treebrowser.c:1912
+#: ../treebrowser/src/treebrowser.c:2000
 msgid "Follow current document"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1917
+#: ../treebrowser/src/treebrowser.c:2005
 msgid "Single click, open document and focus it"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1922
+#: ../treebrowser/src/treebrowser.c:2010
 #, fuzzy
 msgid "Double click open directory"
 msgstr "显示目录差异"
 
-#: ../treebrowser/src/treebrowser.c:1927
+#: ../treebrowser/src/treebrowser.c:2015
 msgid "On delete file, close it if is opened"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1932
+#: ../treebrowser/src/treebrowser.c:2020
+msgid "Focus editor on file open"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:2025
 #, fuzzy
 msgid "Show tree lines"
 msgstr "显示工具提示。"
 
-#: ../treebrowser/src/treebrowser.c:2015
+#: ../treebrowser/src/treebrowser.c:2037
+#, fuzzy
+msgid "Open new files"
+msgstr "打开文件"
+
+#: ../treebrowser/src/treebrowser.c:2113
 #, fuzzy
 msgid "Focus File List"
 msgstr "焦点书签列表"
 
-#: ../treebrowser/src/treebrowser.c:2017
+#: ../treebrowser/src/treebrowser.c:2115
 msgid "Focus Path Entry"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2019
+#: ../treebrowser/src/treebrowser.c:2117
 #, fuzzy
 msgid "Rename Object"
 msgstr "文件名："
 
-#: ../treebrowser/src/treebrowser.c:2021
+#: ../treebrowser/src/treebrowser.c:2119
 #, fuzzy
 msgid "Create New File"
 msgstr "更新文件"
 
-#: ../treebrowser/src/treebrowser.c:2023
+#: ../treebrowser/src/treebrowser.c:2121
 #, fuzzy
 msgid "Create New Directory"
 msgstr "恢复根目录"
@@ -5901,46 +6659,46 @@ msgstr "格式(_F)"
 msgid "utility"
 msgstr ""
 
-#: ../webhelper/src/gwh-settings.c:775
+#: ../webhelper/src/gwh-settings.c:782
 #, c-format
 msgid "%s:"
 msgstr ""
 
-#: ../webhelper/src/gwh-browser.c:485
+#: ../webhelper/src/gwh-browser.c:534
 msgid "_Zoom"
 msgstr ""
 
-#: ../webhelper/src/gwh-browser.c:507
+#: ../webhelper/src/gwh-browser.c:556
 msgid "Full-_content zoom"
 msgstr ""
 
-#: ../webhelper/src/gwh-browser.c:518
+#: ../webhelper/src/gwh-browser.c:567
 #, fuzzy
 msgid "Flip panes orientation"
 msgstr "简报"
 
-#: ../webhelper/src/gwh-browser.c:763
+#: ../webhelper/src/gwh-browser.c:814
 msgid "Back"
 msgstr ""
 
-#: ../webhelper/src/gwh-browser.c:767
+#: ../webhelper/src/gwh-browser.c:818
 msgid "Forward"
 msgstr ""
 
-#: ../webhelper/src/gwh-browser.c:771
+#: ../webhelper/src/gwh-browser.c:822
 #, fuzzy
 msgid "Cancel loading"
 msgstr "编码："
 
-#: ../webhelper/src/gwh-browser.c:775
+#: ../webhelper/src/gwh-browser.c:826
 msgid "Reload current page"
 msgstr ""
 
-#: ../webhelper/src/gwh-browser.c:788 ../webhelper/src/gwh-browser.c:834
+#: ../webhelper/src/gwh-browser.c:839 ../webhelper/src/gwh-browser.c:885
 msgid "Web inspector"
 msgstr ""
 
-#: ../webhelper/src/gwh-browser.c:789
+#: ../webhelper/src/gwh-browser.c:840
 msgid "Toggle web inspector"
 msgstr ""
 
@@ -6018,47 +6776,55 @@ msgid "Last geometry of the inspector window"
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:343
-msgid "Secondary windows skip task bar"
+msgid "Inspector detached"
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:344
+msgid "Whether the inspector is in a separate window or docked in the browser"
+msgstr ""
+
+#: ../webhelper/src/gwh-plugin.c:349
+msgid "Secondary windows skip task bar"
+msgstr ""
+
+#: ../webhelper/src/gwh-plugin.c:350
 msgid ""
 "Whether to tell the window manager not to show the secondary windows in the "
 "task bar"
 msgstr ""
 
-#: ../webhelper/src/gwh-plugin.c:349
+#: ../webhelper/src/gwh-plugin.c:355
 msgid "Secondary windows are transient"
 msgstr ""
 
-#: ../webhelper/src/gwh-plugin.c:350
+#: ../webhelper/src/gwh-plugin.c:356
 msgid "Whether secondary windows are transient children of their parent"
 msgstr ""
 
-#: ../webhelper/src/gwh-plugin.c:355
+#: ../webhelper/src/gwh-plugin.c:361
 msgid "Secondary windows type"
 msgstr ""
 
-#: ../webhelper/src/gwh-plugin.c:356
+#: ../webhelper/src/gwh-plugin.c:362
 msgid "The type of the secondary windows"
 msgstr ""
 
-#: ../webhelper/src/gwh-plugin.c:432
+#: ../webhelper/src/gwh-plugin.c:438
 msgid "Toggle Web Inspector"
 msgstr ""
 
-#: ../webhelper/src/gwh-plugin.c:437
+#: ../webhelper/src/gwh-plugin.c:443
 msgid "Show/Hide Web View's Window"
 msgstr ""
 
 #. Browser
-#: ../webhelper/src/gwh-plugin.c:503
+#: ../webhelper/src/gwh-plugin.c:509
 #, fuzzy
 msgid "Browser"
 msgstr "浏览..."
 
 #. Windows
-#: ../webhelper/src/gwh-plugin.c:515
+#: ../webhelper/src/gwh-plugin.c:521
 msgid "Windows"
 msgstr ""
 
@@ -6069,6 +6835,336 @@ msgstr ""
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr ""
+
+#~ msgid "Added breakpoint #%s in %s() at %s:%s\n"
+#~ msgstr "已于 %3$s:%4$s 在 %2$s() 中增加断点 #%1$s\n"
+
+#~ msgid "Added breakpoint #%s at %s:%s\n"
+#~ msgstr "已于 %2$s:%3$s 增加断点 #%1$s\n"
+
+#~ msgid "Added write watchpoint #%s for %s\n"
+#~ msgstr "已为 %2$s 增加写观察点 #%1$s\n"
+
+#~ msgid "Added read/write watchpoint #%s for %s\n"
+#~ msgstr "已为 %2$s 增加读/写观察点 #%1$s\n"
+
+#~ msgid "Added read watchpoint #%s for %s\n"
+#~ msgstr "已为 %2$s 增加读观察点 #%1$s\n"
+
+#~ msgid "Watch/breakpoint deleted.\n"
+#~ msgstr "观察点/断点已删除。\n"
+
+#~ msgid "Failed to toggle breakpoint -\n"
+#~ msgstr "开关断点失败 -\n"
+
+#~ msgid "Watch/breakpoint toggled.\n"
+#~ msgstr "观察点/断点已切换。\n"
+
+#~ msgid "Watch/breakpoint modified.\n"
+#~ msgstr "观察点/断点已更改。\n"
+
+#~ msgid "Failed to retrieve source search path setting from GDB."
+#~ msgstr "取回 GDB 源文件搜索路径设置失败。"
+
+#~ msgid "Failed to retrieve executable search path setting from GDB."
+#~ msgstr "取回 GDB 可执行文件搜索路径设置失败。"
+
+#~ msgid "Field list too long, not all items can be displayed.\n"
+#~ msgstr "字段列表太长，无法显示所有项。\n"
+
+#~ msgid "Error starting target process!\n"
+#~ msgstr "启动目标进程错误！\n"
+
+#~ msgid ""
+#~ "This executable does not appear to contain the required debugging "
+#~ "information."
+#~ msgstr "这个可执行文件看起来没有包含必需的调试信息。"
+
+#~ msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
+#~ msgstr ""
+#~ "程序于 %5$s:%6$s 在 %4$s() 函数 中的 %3$s 接收到一个信号 %1$s（%2$s）"
+
+#~ msgid "Program exited on signal %s (%s).\n"
+#~ msgstr "程序已退出，信号 %s（%s）。\n"
+
+#~ msgid "Unknown signal"
+#~ msgstr "未知信号"
+
+#~ msgid "Program exited with code %d [%s]\n"
+#~ msgstr "程序退出，代码 %d [%s]\n"
+
+#~ msgid "(unknown)"
+#~ msgstr "（未知）"
+
+#~ msgid "Program exited normally.\n"
+#~ msgstr "程序正常退出。\n"
+
+#~ msgid "tty temporary directory not specified!\n"
+#~ msgstr "未指定 tty 临时目录！\n"
+
+#~ msgid "tty helper program not specified!\n"
+#~ msgstr "未指定 tty helper program！\n"
+
+#~ msgid "tty helper program not found!\n"
+#~ msgstr "未找到 tty helper program！\n"
+
+#~ msgid "Attaching to terminal %s\n"
+#~ msgstr "附加到终端 %s\n"
+
+#~ msgid "Timeout waiting for TTY name.\n"
+#~ msgstr "等待 TTY 名称超时。\n"
+
+#~ msgid "GDB exited (pid=%d)\n"
+#~ msgstr "GDB已退出（pid=%d）\n"
+
+#~ msgid "Target process exited. (pid=%d; %s%s)\n"
+#~ msgstr "目标进程已退出。（pid=%d; %s%s）\n"
+
+#~ msgid "code="
+#~ msgstr "代码="
+
+#~ msgid "reason:"
+#~ msgstr "原因："
+
+#~ msgid "Directory %s not found!\n"
+#~ msgstr "未找到字典 %s！\n"
+
+#~ msgid "Shutting down target program.\n"
+#~ msgstr "正在结束目标程序。\n"
+
+#~ msgid "Killing target program.\n"
+#~ msgstr "正在杀死目标程序。\n"
+
+#~ msgid "Timeout waiting for target process.\n"
+#~ msgstr "等待目标进程超时。\n"
+
+#, fuzzy
+#~ msgid "Using a bigger hammer!\n"
+#~ msgstr "使用大铁锤！\n"
+
+#~ msgid "Waiting for target process to exit.\n"
+#~ msgstr "等待目标进程退出。\n"
+
+#~ msgid "Killing GDB (pid=%d)\n"
+#~ msgstr "正在杀死GDB（pid = %d）\n"
+
+#~ msgid "Timeout trying to kill GDB.\n"
+#~ msgstr "尝试杀死GDB超时。\n"
+
+#~ msgid "Shutting down GDB\n"
+#~ msgstr "正在结束GDB\n"
+
+#~ msgid "Waiting for GDB to exit.\n"
+#~ msgstr "等待GDB退出。\n"
+
+#~ msgid "Timeout waiting for GDB to exit.\n"
+#~ msgstr "等待GDB退出超时。\n"
+
+#~ msgid "Starting gdb (pid=%d)\n"
+#~ msgstr "正在启动GDB（pid = %d）\n"
+
+#~ msgid "Started target process. (pid=%d)\n"
+#~ msgstr "目标进程已启动。（pid = %d）\n"
+
+#~ msgid "No %s selected"
+#~ msgstr "未选择任何 %s"
+
+#~ msgid "Delete selected watchpoint?"
+#~ msgstr "删除选定的观察点？"
+
+#~ msgid "Delete selected breakpoint?"
+#~ msgstr "删除选定的断点？"
+
+#~ msgid "Enabled"
+#~ msgstr "已启用"
+
+#, fuzzy
+#~ msgid "Break after "
+#~ msgstr " 之后停止 "
+
+#, fuzzy
+#~ msgid " times."
+#~ msgstr " 次。"
+
+#, fuzzy
+#~ msgid "Break when "
+#~ msgstr " 时停止 "
+
+#, fuzzy
+#~ msgid " is true."
+#~ msgstr " 为真。"
+
+#~ msgid "Watchpoints"
+#~ msgstr "观察点"
+
+#~ msgid "Environment settings"
+#~ msgstr "环境设置"
+
+#~ msgid ""
+#~ "\n"
+#~ " Command-line arguments passed to target program:"
+#~ msgstr ""
+#~ "\n"
+#~ " 命令行参数已传给目标程序："
+
+#~ msgid ""
+#~ "\n"
+#~ " Search path for source files:"
+#~ msgstr ""
+#~ "\n"
+#~ " 源文件搜索路径："
+
+#~ msgid ""
+#~ "\n"
+#~ " Working directory for target program:"
+#~ msgstr ""
+#~ "\n"
+#~ " 目标程序工作目录："
+
+#~ msgid ""
+#~ "\n"
+#~ " Search path for executables:"
+#~ msgstr ""
+#~ "\n"
+#~ " 可执行文件搜索路径："
+
+#~ msgid "Keep debug window on top."
+#~ msgstr "保持 debug 窗口置顶。"
+
+#~ msgid "Show icons."
+#~ msgstr "显示图标。"
+
+#~ msgid "Font for source code listings:"
+#~ msgstr "源码列表字体："
+
+#~ msgid "Terminal program:"
+#~ msgstr "终端程序："
+
+#~ msgid "_Examine"
+#~ msgstr "检查(_E)"
+
+#~ msgid "Elements"
+#~ msgstr "元素"
+
+#~ msgid "Fields"
+#~ msgstr "字段"
+
+#~ msgid "Return to previous dialog."
+#~ msgstr "返回上一个对话框。"
+
+#~ msgid "Display additional information about the selected item."
+#~ msgstr "显示选定项的更多信息。"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "Frame #%s in %s() at %s:%s\n"
+#~ msgstr ""
+#~ "\n"
+#~ "帧 #%s 在 %s() 中 于 %s: %s\n"
+
+#~ msgid "Function arguments"
+#~ msgstr "函数参数"
+
+#~ msgid "Local variables"
+#~ msgstr "本地变量"
+
+#~ msgid "Return to stack list dialog."
+#~ msgstr "返回堆栈列表对话框。"
+
+#~ msgid "Stack trace"
+#~ msgstr "堆栈跟踪"
+
+#~ msgid "Display additional information about the selected frame."
+#~ msgstr "显示选定帧的附加信息。"
+
+#~ msgid "Clea_r"
+#~ msgstr "清除(_R)"
+
+#~ msgid "Filename: "
+#~ msgstr "文件名："
+
+#~ msgid "Variable to watch:"
+#~ msgstr "观察的变量："
+
+#~ msgid "Line number or function name: "
+#~ msgstr "行号或函数名："
+
+#~ msgid "Access trigger:"
+#~ msgstr "访问触发器"
+
+#~ msgid "(no program)"
+#~ msgstr "（无程序）"
+
+#~ msgid "loaded"
+#~ msgstr "已加载"
+
+#~ msgid "starting"
+#~ msgstr "正在启动"
+
+#~ msgid "paused"
+#~ msgstr "暂停"
+
+#~ msgid "Program received signal:"
+#~ msgstr "程序收到信号："
+
+#~ msgid "Error:"
+#~ msgstr "错误："
+
+#~ msgid "Select executable to debug"
+#~ msgstr "选择要调试的可执行文件"
+
+#~ msgid "Debugging of object files is not supported."
+#~ msgstr "不支持调试目标文件。"
+
+#~ msgid "You don't have permission to execute this file."
+#~ msgstr "您没有执行这个文件的权限。"
+
+#~ msgid "Debugging of shared libraries is not supported."
+#~ msgstr "不支持调试共享库。"
+
+#~ msgid "Debugging of core files id not supported."
+#~ msgstr "不支持调试核心文件（core file）。"
+
+#~ msgid "Target file must be ELF 32-bit x86 executable."
+#~ msgstr "目标文件必须是 ELF 32位 x86 可执行文件。"
+
+#~ msgid "You don't have permission to read this file."
+#~ msgstr "您没有读这个文件的权限"
+
+#~ msgid "Run to location"
+#~ msgstr "运行到位置"
+
+#~ msgid "Execute target program inside a terminal window."
+#~ msgstr "在一个终端窗口中运行目标程序。"
+
+#~ msgid "Ignore SIGPIPE"
+#~ msgstr "忽略 SIGPIPE"
+
+#~ msgid ""
+#~ "Don't pause execution when target gets a SIGPIPE signal.\n"
+#~ "(Useful for certain networking applications.)"
+#~ msgstr ""
+#~ "当目标程序接收到 SIGPIPE 信号时不要暂停执行。\n"
+#~ "（对一些网络应用程序有用）"
+
+#~ msgid "Send a GDB command directly to the debugger."
+#~ msgstr "向调试器直接发送一条 GDB 命令。"
+
+#~ msgid "_Quit"
+#~ msgstr "退出(_Q)"
+
+#~ msgid "Exit everything"
+#~ msgstr "退出所有"
+
+#~ msgid "Integrated debugging with GDB."
+#~ msgstr "集成 GDB 调试。"
+
+#~ msgid "Plugin configuration directory (%s) could not be created."
+#~ msgstr "无法创建插件配置文件目录（%s）。"
+
+#~ msgid "geanygdb: ttyhelper program not found."
+#~ msgstr "geanygdb：未找到 ttyhelper program。"
 
 #, fuzzy
 #~ msgid "Error reading config file"
@@ -6135,14 +7231,8 @@ msgstr ""
 #~ msgid "Directory '%s' not exists."
 #~ msgstr "未找到字典 %s！\n"
 
-#~ msgid "_Load"
-#~ msgstr "加载(_L)"
-
 #~ msgid "Load target program into debugger."
 #~ msgstr "加载目标程序到调试器。"
-
-#~ msgid "_Unload"
-#~ msgstr "卸载(_U)"
 
 #~ msgid "Kill the target program AND the debugger."
 #~ msgstr "杀死目标程序和调试器。"

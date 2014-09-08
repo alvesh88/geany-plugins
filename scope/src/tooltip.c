@@ -25,7 +25,13 @@
 static void tooltip_trigger(void)
 {
 	GdkDisplay *display = gdk_display_get_default();
+#if GTK_CHECK_VERSION(3, 0, 0)
+	GdkDeviceManager *manager = gdk_display_get_device_manager(display);
+	GdkDevice *device = gdk_device_manager_get_client_pointer(manager);
+	GdkWindow *window = gdk_device_get_window_at_position(device, NULL, NULL);
+#else
 	GdkWindow *window = gdk_display_get_window_at_pointer(display, NULL, NULL);
+#endif
 	GeanyDocument *doc = document_get_current();
 
 	if (doc && window)
@@ -70,7 +76,7 @@ void on_tooltip_error(GArray *nodes)
 	if (atoi(parse_grab_token(nodes)) == scid_gen)
 	{
 		if (pref_tooltips_fail_action == 1)
-			tooltip_set(parse_find_error(nodes));
+			tooltip_set(parse_get_error(nodes));
 		else
 		{
 			tooltip_set(NULL);
@@ -86,9 +92,8 @@ void on_tooltip_value(GArray *nodes)
 {
 	if (atoi(parse_grab_token(nodes)) == scid_gen)
 	{
-		const ParseMode *pm = parse_mode_find(input);
-		tooltip_set(parse_get_display_from_7bit(parse_lead_value(nodes), pm->hb_mode,
-			pm->mr_mode));
+		tooltip_set(parse_get_display_from_7bit(parse_lead_value(nodes),
+			parse_mode_get(input, MODE_HBIT), parse_mode_get(input, MODE_MEMBER)));
 	}
 }
 
@@ -168,11 +173,11 @@ void tooltip_remove(GeanyEditor *editor)
 
 	if (gtk_widget_get_has_tooltip(widget))
 	{
-		gulong tooltip_id = g_signal_handler_find(widget, G_SIGNAL_MATCH_ID,
+		gulong query_tooltip_id = g_signal_handler_find(widget, G_SIGNAL_MATCH_ID,
 			g_signal_lookup("query-tooltip", GTK_TYPE_WIDGET), 0, NULL, NULL, NULL);
 
-		if (tooltip_id)
-			g_signal_handler_disconnect(widget, tooltip_id);
+		if (query_tooltip_id)
+			g_signal_handler_disconnect(widget, query_tooltip_id);
 		gtk_widget_set_has_tooltip(widget, FALSE);
 	}
 }

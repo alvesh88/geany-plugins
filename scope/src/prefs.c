@@ -34,6 +34,7 @@ gint pref_gdb_wait_death;
 gint pref_gdb_send_interval;
 gboolean pref_async_break_bugs;
 #endif
+gboolean pref_var_update_bug;
 
 gboolean pref_auto_view_source;
 gboolean pref_keep_exec_point;
@@ -118,12 +119,6 @@ static StashGroup *scope_group;
 static StashGroup *terminal_group;
 static StashGroup *marker_group[MARKER_COUNT];
 
-typedef struct _VerticalLabel
-{
-	const char *name;
-	const gchar *label;
-} VerticalLabel;
-
 static void load_scope_prefs(GKeyFile *config)
 {
 	guint i;
@@ -191,6 +186,8 @@ static void prefs_configure(void)
 
 	foreach_document(i)
 		prefs_apply(documents[i]);
+
+	configure_panel();
 }
 
 char *prefs_file_name(void)
@@ -198,56 +195,19 @@ char *prefs_file_name(void)
 	return g_build_filename(geany->app->configdir, "plugins", "scope", "scope.conf", NULL);
 }
 
-#ifdef stash_tree_setup
-static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
-	gpointer gdata)
-{
-	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
-	{
-		char *configfile = prefs_file_name();
-
-		stash_tree_update(GTK_TREE_VIEW(gdata));
-		prefs_configure();
-		scope_configure();
-		stash_group_save_to_file(scope_group, configfile, G_KEY_FILE_KEEP_COMMENTS);
-		g_free(configfile);
-	}
-}
-
-static GPtrArray *pref_groups;
-
-GtkWidget *plugin_configure(GtkDialog *dialog)
-{
-	GtkWidget *vbox = gtk_vbox_new(FALSE, 6);
-	GtkWidget *window = gtk_scrolled_window_new(NULL, NULL);
-	GtkTreeView *tree = GTK_TREE_VIEW(gtk_tree_view_new());
-
-	gtk_box_pack_start(GTK_BOX(vbox), window, TRUE, TRUE, 0);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(window), GTK_POLICY_AUTOMATIC,
-		GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(tree));
-	stash_tree_setup(pref_groups, tree);
-	stash_tree_display(tree);
-	g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), tree);
-	gtk_widget_show_all(vbox);
-
-	return vbox;
-}
-#endif  /* stash_tree_setup */
-
 static void on_document_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer gdata)
 {
 	char *configfile = prefs_file_name();
 
-	if (doc->real_path && utils_filenamecmp(doc->real_path, configfile))
+	if (doc->real_path && !utils_filenamecmp(doc->real_path, configfile))
 	{
 		GKeyFile *config = g_key_file_new();
 
 		g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
 		load_scope_prefs(config);
 		prefs_configure();
-		scope_configure();
+		configure_toolbar();
 		g_key_file_free(config);
 	}
 	g_free(configfile);
@@ -263,17 +223,17 @@ void prefs_init(void)
 	char *configdir = g_build_filename(geany->app->configdir, "plugins", "scope", NULL);
 	char *configfile = prefs_file_name();
 	GKeyFile *config = g_key_file_new();
-	gchar *tmp_string;
 
 	group = stash_group_new("scope");
 	stash_group_add_string(group, &pref_gdb_executable, "gdb_executable", "gdb");
 	stash_group_add_boolean(group, &pref_gdb_async_mode, "gdb_async_mode", FALSE);
-	stash_group_add_integer(group, &pref_gdb_buffer_length, "gdb_buffer_length", 16383);
+	stash_group_add_integer(group, &pref_gdb_buffer_length, "gdb_buffer_length", 32767);
 	stash_group_add_integer(group, &pref_gdb_wait_death, "gdb_wait_death", 20);
 #ifndef G_OS_UNIX
 	stash_group_add_integer(group, &pref_gdb_send_interval, "gdb_send_interval", 5);
 	stash_group_add_boolean(group, &pref_async_break_bugs, "async_break_bugs", TRUE);
 #endif
+	stash_group_add_boolean(group, &pref_var_update_bug, "var_update_bug", TRUE);
 	stash_group_add_boolean(group, &pref_auto_view_source, "auto_view_source", FALSE);
 	stash_group_add_boolean(group, &pref_keep_exec_point, "keep_exec_point", FALSE);
 	stash_group_add_integer(group, &pref_visual_beep_length, "visual_beep_length", 25);
@@ -290,18 +250,12 @@ void prefs_init(void)
 	stash_group_add_integer(group, &pref_panel_tab_pos, "panel_tab_pos", GTK_POS_TOP);
 	stash_group_add_integer(group, &pref_show_recent_items, "show_recent_items", 10);
 	stash_group_add_integer(group, &pref_show_toolbar_items, "show_toolbar_items", 0xFF);
-	stash_group_add_integer(group, &pref_tooltips_fail_action, "tooltips_fail_action", 25);
+	stash_group_add_integer(group, &pref_tooltips_fail_action, "tooltips_fail_action", 0);
 	stash_group_add_integer(group, &pref_tooltips_send_delay, "tooltips_send_delay", 25);
 	stash_group_add_integer(group, &pref_tooltips_length, "tooltips_length", 2048);
 	stash_group_add_integer(group, &pref_memory_bytes_per_line, "memory_line_bytes", 16);
 	stash_group_add_string(group, &pref_memory_font, "memory_font", "");
 	scope_group = group;
-
-#ifdef stash_tree_setup
-	pref_groups = g_ptr_array_new();
-	stash_group_set_various(group, TRUE);
-	g_ptr_array_add(pref_groups, group);
-#endif
 
 	config_item = ui_add_config_file_menu_item(configfile, NULL, NULL);
 	plugin_signal_connect(geany_plugin, NULL, "document-save", FALSE,
@@ -332,13 +286,6 @@ void prefs_init(void)
 	prefs_configure();
 	program_load_config(config);
 
-	if (pref_panel_tab_pos == GTK_POS_LEFT || pref_panel_tab_pos == GTK_POS_RIGHT)
-	{
-		gtk_label_set_label(GTK_LABEL(get_widget("program_terminal_label")), _("Program"));
-		gtk_label_set_label(GTK_LABEL(get_widget("break_view_label")), _("Breaks"));
-		gtk_label_set_label(GTK_LABEL(get_widget("debug_console_label")), _("Console"));
-	}
-
 	if (!g_file_test(configfile, G_FILE_TEST_IS_REGULAR))
 	{
 		gint error = utils_mkdir(configdir, TRUE);
@@ -356,22 +303,6 @@ void prefs_init(void)
 	g_key_file_free(config);
 	g_free(configfile);
 	g_free(configdir);
-
-	configfile = g_build_filename(geany_data->app->configdir, "geany.conf", NULL);
-	config = g_key_file_new();
-	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
-	pref_vte_blinken = utils_get_setting_boolean(config, "VTE", "cursor_blinks", FALSE);
-	pref_vte_emulation = utils_get_setting_string(config, "VTE", "emulation", "xterm");
-	pref_vte_font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
-	pref_vte_scrollback = utils_get_setting_integer(config, "VTE", "scrollback_lines", 500);
-	tmp_string = utils_get_setting_string(config, "VTE", "colour_fore", "#ffffff");
-	gdk_color_parse(tmp_string, &pref_vte_colour_fore);
-	g_free(tmp_string);
-	tmp_string = utils_get_setting_string(config, "VTE", "colour_back", "#000000");
-	gdk_color_parse(tmp_string, &pref_vte_colour_back);
-	g_free(tmp_string);
-	g_key_file_free(config);
-	g_free(configfile);
 }
 
 void prefs_finalize(void)
@@ -395,8 +326,4 @@ void prefs_finalize(void)
 	utils_stash_group_free(terminal_group);
 	for (i = 0; i < MARKER_COUNT; i++)
 		utils_stash_group_free(marker_group[i]);
-
-#ifdef stash_tree_setup
-	g_ptr_array_free(pref_groups, TRUE);
-#endif
 }

@@ -21,22 +21,31 @@
 # $Id$
 
 from build.wafutils import build_plugin, target_is_win32
+from waflib.Utils import subst_vars
 
 
 name = 'Scope'
-includes = ['scope/src']
+includes = ['scope/src', 'scope/src/store']
 
 if target_is_win32(bld):
-	datadir = '${G_PREFIX}/${GEANYPLUGINS_DATADIR}'
-	docdir = '${G_PREFIX}/doc/plugins/scope'
+	datadir_define = '${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
+	datadir = '${G_PREFIX}/%s' % datadir_define
+	docdir = 'doc/plugins/scope'
+	htmldocdir_define = '%s/html' % docdir
+	htmldocdir = '${G_PREFIX}/%s' % htmldocdir_define
 	libraries = []
 else:
-	datadir = '${GEANYPLUGINS_DATADIR}'
+	datadir = '${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
+	datadir_define = datadir
 	docdir = '${DOCDIR}/scope'
+	htmldocdir = '%s/html' % docdir
+	htmldocdir_define = htmldocdir
 	libraries = ['VTE', 'UTIL']
 
-htmldocdir = '%s/html' % docdir
-defines = [ 'PLUGINDATADIR="' + datadir + '"', 'PLUGINHTMLDOCDIR="' + htmldocdir + '"']
+defines = [
+	subst_vars('PLUGINDATADIR="' + datadir_define + '"', bld.env).replace("\\", "/"),
+	subst_vars('PLUGINHTMLDOCDIR="' + htmldocdir_define + '"', bld.env).replace("\\", "/")
+]
 
 build_plugin(bld, name, includes=includes, libraries=libraries, defines=defines)
 

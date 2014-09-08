@@ -32,7 +32,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(189)
 
 PLUGIN_SET_INFO(_("Extra Selection"), _("Column mode, select to line / brace / anchor."),
-	"0.5", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	"0.52", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
@@ -40,13 +40,12 @@ enum
 	COLUMN_MODE_KB,
 	GOTO_LINE_EXTEND_KB,
 	BRACE_MATCH_EXTEND_KB,
+	CONVERT_SELECTION_KB,
 	SET_ANCHOR_KB,
 	ANCHOR_EXTEND_KB,
 	ANCHOR_RECTEXTEND_KB,
 	COUNT_KB
 };
-
-PLUGIN_KEY_GROUP(extra_select, COUNT_KB)
 
 static GtkWidget *main_menu_item = NULL;
 static GtkCheckMenuItem *column_mode_item;
@@ -193,7 +192,7 @@ static gboolean on_key_press_event(GtkWidget *widget, GdkEventKey *event,
 				if (sci && sci_has_selection(sci) && sci_rectangle_selection(sci) &&
 					gtk_window_get_focus(GTK_WINDOW(widget)) == GTK_WIDGET(sci))
 				{
-					/* not exactly a bug, yet... */
+					/* not exactly a bug, but... */
 					convert_selection(sci, FALSE);
 				}
 				break;
@@ -372,6 +371,20 @@ static void on_brace_match_key(G_GNUC_UNUSED guint key_id)
 	on_brace_match_activate(NULL, NULL);
 }
 
+static void on_convert_selection_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
+	G_GNUC_UNUSED gpointer gdata)
+{
+	ScintillaObject *sci = scintilla_get_current();
+
+	if (sci)
+		convert_selection(sci, !sci_rectangle_selection(sci));
+}
+
+static void on_convert_selection_key(G_GNUC_UNUSED guint key_id)
+{
+	on_convert_selection_activate(NULL, NULL);
+}
+
 /* Set anchor / select to anchor */
 
 static void save_selection(ScintillaObject *sci)
@@ -472,12 +485,19 @@ PluginCallback plugin_callbacks[] =
 	{ NULL, NULL, FALSE, NULL }
 };
 
+static void on_extra_select_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, gpointer gdata)
+{
+	gtk_widget_set_sensitive(GTK_WIDGET(gdata), sci_has_selection(scintilla_get_current()));
+}
+
 void plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
 	GtkContainer *menu;
 	GtkWidget *item;
+	GeanyKeyGroup *plugin_key_group;
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+	plugin_key_group = plugin_set_key_group(geany_plugin, "extra_select", COUNT_KB, NULL);
 
 	item = gtk_menu_item_new_with_mnemonic(_("E_xtra Selection"));
 	main_menu_item = item;
@@ -504,6 +524,13 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 	g_signal_connect(item, "activate", G_CALLBACK(on_brace_match_activate), NULL);
 	keybindings_set_item(plugin_key_group, BRACE_MATCH_EXTEND_KB, on_brace_match_key, 0, 0,
 		"brace_match_extend", _("Select to matching brace"), item);
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Toggle Stream/Rectangular"));
+	gtk_container_add(menu, item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_convert_selection_activate), NULL);
+	keybindings_set_item(plugin_key_group, CONVERT_SELECTION_KB, on_convert_selection_key,
+		0, 0, "convert_selection", _("Convert selection"), item);
+	g_signal_connect(main_menu_item, "activate", G_CALLBACK(on_extra_select_activate), item);
 
 	gtk_container_add(menu, gtk_separator_menu_item_new());
 

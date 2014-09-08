@@ -8,7 +8,6 @@
     <style type="text/css">
 	.tab { padding-left:1em; }
 	.tab1 { padding-left:1.5em; }
-	.tab2 { padding-left:2em; }
     </style>
 </head>
 
@@ -16,7 +15,7 @@
 
 <center><h2>Scope</h2></center>
 
-<center><h3>A simple GDB front-end</h3></center>
+<center><h3>A relatively simple GDB front-end</h3></center>
 
 <p align="right">&quot;We are like dwarfs sitting on the shoulders of giants.&quot;<br>
 -- Bernard of Chartres</p>
@@ -51,12 +50,16 @@
 		<li><a href="#local_watch">Locals/Watches</a></li>
 		<li><a href="#console">Debug Console</a></li>
 	</ul></li>
-	<li><a href="#inspect">Inspect page</a></li>
+	<li>Side pages<ul>
+		<li><a href="#inspect">Inspect</a></li>
+		<li><a href="#register">Registers</a></li>
+	</ul></li>
 </ul></li>
 <li><a href="#preferences">Preferences</a></li>
 <li><a href="#notes">Notes</a><ul>
 	<li><a href="#editing_values">Editing values</a></li>
 	<li><a href="#keeping_modes">Keeping modes</a></li>
+	<li><a href="#shared_memory">Shared memory</a></li>
 	<li><a href="#xos4_colors">Sample dark colors</a></li>
 </ul></li>
 <li><a href="#pre_faq">Pre-FAQ</a>
@@ -76,7 +79,7 @@
 <p>Scope is a graphical <a href="http://www.gnu.org/software/gdb">GDB</a> front-end with the
 normal functions you would expect (stepping, breakpoints...), and a few notable features:</p>
 <ul>
-<li>The comminication between Scope and gdb is asynchronous.</li>
+<li>The entire comminication between Scope and gdb is asynchronous.</li>
 <li>You can enter any gdb command, at any time (of course, for the command to be executed,
 gdb must be[come] available).</li>
 <li>All gdb I/O (along with some other messages) is displayed in a terminal-like "Debug
@@ -98,11 +101,13 @@ document.</p>
 
 <h3><a name="requirements">Requirements</a></h3>
 
-<p>Geany 1.22 or later and the respective libraries, including VTE under *nix.</p>
+<p>Geany 1.22 or later and the respective libraries.</p>
 
 <p>GDB 7.3 or later.</p>
 
-<p>win~1: XP or later.</p>
+<p>*nix only: VTE library.</p>
+
+<p>Windows only: XP or later.</p>
 
 <p>GDB manual (recommended).</p>
 
@@ -113,7 +118,7 @@ document.</p>
 <p>From the main Geany menu, invoke <em>Debug --&gt; Setup Program</em> (or <em>Tools --&gt;
 Debug --&gt; Setup Program</em>, if there's no <em>Debug</em> in the main menu).<br>
 Choose some small executable file compiled with gdb debug information.<br>
-Check <em>Temporary breakpoint at</em> and press <em>OK</em>.<br>
+Check <em>Temporary breakpoint on load at</em> and press <em>OK</em>.<br>
 Invoke <em>Debug --&gt; Run/Continue</em>.</p>
 
 <div>If everything went all right, several things will happen:</div>
@@ -124,7 +129,7 @@ Invoke <em>Debug --&gt; Run/Continue</em>.</p>
 neccessary<br>
 - The first line of code will be marked with brown arrow in the markers margin, or with brown
 background<br>
-- All source files will be marked as read-only (their tabs will turn green)<br>
+- All source files will be marked as read-only (their tab text will become green)<br>
 - The <em>Load</em> label will be replaced with a color-less <em>Debug</em>.
 </div>
 
@@ -139,11 +144,12 @@ from the lower Geany panel etc.</p>
 
 <ul>
 <li>Debug menu in the main Geany menu, containing the most commonly used commands (running,
-stepping, toggle breakpoint etc.) If Scope can't access the main menu, it'll place Debug under
-Tools.</li>
+stepping, toggle breakpoint etc.)<br>
+If Scope can't access the main menu, it'll place Debug under Tools.</li>
 <li>Debug page in the lower panel, with subpages that display the program output, threads,
 breakpoints etc.</li>
-<li>Inspect page in the side panel.</li>
+<li>Inspect and Registers pages in the side panel.</li>
+<li>Local menus for the Debug subpages, Inspect and Registers.</li>
 <li>Toolbar items - identical to their Debug menu counterparts.</li>
 <li>Command Dialog - to enter gdb commands. Will be closed automatically if gdb exits.</li>
 <li>A small label on the right of your Geany status bar, which displays the current debugging
@@ -166,12 +172,11 @@ stopped.</td></tr>
 program is not started yet, or is already terminated. Scope will automatically switch to this
 state in some situations.</td></tr>
 <tr><td>(blinking)</td><td class="tab"></td><td class="tab">Loading a program, signal
-received, error parsing gdb output, the requested action can not be performed in the current
-debug state etc.</td></tr>
+received, error parsing gdb output etc.</td></tr>
 </table>
 The bracketed letters are used to indicate the states supported by a command. For example,
-[RH] means "available in Ready and Hang states only". Debug and Assem are states are almost
-identical in this aspect and share [D].</li>
+[RH] means "available in Ready and Hang states only". Debug and Assem are almost identical in
+this aspect and share [D].</li>
 </ul>
 
 <h3><a name="debug_menu">Debug menu</a></h3>
@@ -183,30 +188,29 @@ and create them later.</p>
 
 <p><em>Arguments</em> are in gdb syntax.</p>
 
-<p><em>Environment</em> is one var=value per line.</p>
+<p><em>Environment</em> is one varname=value per line.</p>
 
-<p><em>Load script</em> is a gdb script file to be executed when gdb is loaded, before
-running the program (see <a href="#run_continue">Run/Continue</a>). If this script contains a
-gdb run command, it should contain at least one breakpoint command as well, because all Scope
-breakpoints are applied after the program is loaded - and it may be loaded by the script.</p>
+<p><em>Load script</em> is a gdb script, executed when gdb is loaded. May be used to setup the
+program. If no <em>Executable</em> is specified, Scope will assume that the script, if any,
+loads the program.</p>
 
 <p><em><a name="auto_run_exit">Auto run program/exit gdb</a></em> - with this box unchecked,
 the first <a href="#run_continue">Run/Continue</a> will load and setup the program without
-running it; and when the program terminates, gdb will not be unloaded. This is useful if you
-want to run a program several times without reloading, for example to run it unmodified with
-different sets of input data.</p>
+running it, and when the program terminates, gdb will not be unloaded. Useful if you want to
+run a program several times without reloading, for example to run it unmodified with different
+sets of input data.</p>
 
 <p><em>Non-stop mode</em> - gdb non-stop mode. You'd better activate gdb asynchronous mode
 from Scope preferences to take advantage of this.</p>
 
-<p><em>Temporary breakpoint at</em> - set a temporary breakpoint after the program is loaded.
-If you leave the text field empty, Scope will try to detect the 1st line of code and place a
-breakpoint on it. Any breakpoint options and location are allowed, for example <em>main</em>
-for C/C++ programs. Since setting a breakpoint requires a program, temporary breakpoint will
-be disabled if both <em>Executable</em> and <em>Load script</em> are empty.</p>
+<p><em>Temporary breakpoint on load at</em> - set a temporary breakpoint when the program is
+loaded. If you leave the text field empty, Scope will try to find the 1st line of code and
+place a breakpoint on it. Any breakpoint options and location are allowed in the text, for
+example <em>main</em> for C/C++ programs. Since setting a breakpoint requires a program, this
+option will be disabled if both <em>Executable</em> and <em>Load script</em> are empty.</p>
 
 <p><em>Delete all breakpoints, watches and inspects</em> - usually when setting up a new
-program. Scope will ask you to confirm.</p>
+program. Scope will ask for confirmation.</p>
 
 <p><em>Update all views</em> - update all relevant debug subpages when the current thread
 stops, or a different thread is selected. By default, only the current subpage is updated.</p>
@@ -223,34 +227,30 @@ print&quot; commands also affect display.</p>
 
 <p>When you start Geany, or open/close a project, Scope will try to load the debugging
 settings for a program that matches the second <em>Execute</em> command, if any [N]. The
-command will not be expanded. Letter case will be ignored under win~1.</p>
+command will not be expanded. Letter case will be ignored under Windows.</p>
 
 <p><b><a name="run_continue">Run/Continue</a></b> [NHD]</p>
 
 <div>Not debugging state (first run):</div>
 <div class="tab">
-- Checks the <em>Program</em> and <em>Working dir</em>, if any - they must exist and be
-user-executable at this point<br>
-- Checks the <em>Load script</em>, if any - it must exist and be readable<br>
-- Loads gdb<br>
-- Setups the asynchronous and/or non-stop modes<br>
-- Loads the <em>Program</em>, if any<br>
-- Executes the <em>Load script</em>, if any<br>
-- If either a program was loaded, or a load script was executed without errors:<br>
+- Load and setup gdb<br>
+- Load the <em>Executable</em> and execute the <em>Load script</em>, if any<br>
+- If an executable and/or a load script was processed, and there were no errors so far:<br>
 	<div class="tab1">
-	&bull; applies any breakpoints and inspects marked as <em>Apply on Run</em><br>
-	&bull; applies the temporary breakpoint, if any<br>
-	&bull; runs the program if, and only if:
-		<div class="tab2">
-		- <em>Auto run/exit</em> is checked<br>
-		- at least 1 breakpoint was applied<br>
-		- there were no errors in any of the previous steps.
-		</div>
+	&bull; apply any points and inspects marked as <em>Apply on Run</em> and create the
+	       <em>Temporary breakpoint on load</em><br>
+	&bull; run the program if <em>Auto run/exit</em> is checked, at least 1 breakpoint was
+	       applied, and there weren't any errors.
 	</div>
 </div>
 
-<p>Hang state: -exec-run. The temporary breakpoint, if any, will not be applied.<br>
-Debug/Assem: -exec-continue.</p>
+<p>On errors, Scope will enter Hang state, letting you execute commands manually, and fix or
+recreate any points or inspects if needed.</p>
+
+<p>Hang state: try to apply any unapplied points or inspects marked as <em>Apply on Run</em>,
+and -exec-run despite any errors.</p>
+
+<p>Debug/Assem: -exec-continue.</p>
 
 <p><b><a name="goto_cursor">Run to Cursor</a></b> [D]</p>
 
@@ -268,17 +268,19 @@ Assem state: -exec-step-instruction / -exec-next-instruction.</p>
 
 <p><b><a name="terminate">Terminate</a></b> [^N]</p>
 
-<p>Busy state: kill gdb, even if <a href="#auto_run_exit">Auto Run/exit is unchecked</a>. If
-you want to kill the program only, switch to <em>Threads</em> and use <em>Terminate</em> or
-<em>Send Signal</em>.</p>
+<p>Busy state: terminate gdb, even if <em>Auto Run/exit</em> is unchecked.<br>
+If you want to terminate the program without unloading gdb, switch to <em>Threads</em> and
+invoke <em>Terminate</em> or <em>Send Signal</em>.</p>
 
-<p>Debug or Ready state with <em>Auto Run/Exit</em> off: gdb kill command.</p>
+<p>Debug or Ready state with <em>Auto Run/Exit</em> off: (gdb) kill.</p>
 
 <p>Otherwise: -gdb-exit.</p>
 
 <p><b><a name="gdb_command">GDB Command</a></b> [^N]</p>
 
 <p>Commands starting with 0&lt;digit&gt; are used internally by Scope and will be blocked.</p>
+
+<p>Both MI and CLI commands are supported.</p>
 
 <p>Scope tries to keep track of the current gdb thread, and to emit a -thread-select command
 on <em>Send</em>/<em>Busy</em> if the gdb thread does not match the one (if any) selected in
@@ -289,7 +291,7 @@ a gdb frame selection command or --frame for the non-zero frames.</p>
 
 <p><b><a name="reset markers">Reset Markers</a></b></p>
 
-<p>Synchronizes the breakpoint and execution point markers for the current file with the Scope
+<p>Synchronize the breakpoint and execution point markers for the current file with the Scope
 data. They can become out of sync if you <em>Save as</em> a file with markers, set a source
 file type to non-source and edit it, and possibly in other situations.</p>
 
@@ -359,11 +361,29 @@ better to clear the other options.</td></tr>
 Breakpoint</em>, edit the <em>Ignore</em>, <em>Condition</em> and <em>Script</em> columns, or
 invoke <em>Add Break / Add Watch</em> [HRD], which brings up the command dialog.</p>
 
-<div>Only points created with MI commands are kept in the list permanently.<br>
-Due to MI limitations:</div>
+<p>Breakpoints created with MI commands are kept in the list permanently. When a temporary MI
+breakpoint is hit, it's <em>Id</em> column is cleared. <em>Toggle breakpoint</em>, <em>Add
+Break</em> and <em>Add Watch</em> use MI commands.</p>
+
+<p>Breakpoints created with CLI commands (from scripts or <em>GDB Command</em>) are removed
+when the program is unloaded. When a temporary CLI breakpoint is hit, it's removed. If a MI
+command produces none or invalid output, and the breapoint appears later (from Refresh or
+async message), Scope will consider it CLI.</p>
+
+<p>Scope remembers the total (initial) ignore count, and re-applies it on each run. When a
+breakpoint is applied, <em>Ignore</em> shows the current value, followed by the total value
+surrounded in brackets. On gdb 'ignore' (or -break-after followed by refresh), the total value
+will be set only if the new count is larger: there is no way to tell whether a smaller count
+resulted from a command execution or breakpoint hit(s). Edit the <em>Ignore</em> column to set
+a smaller count.</p>
+
+<p>The above paragraphs apply to watchpoints and tracepoints as well.</p>
+
+<div>Due to MI limitations and deficiencies:</div>
 <div class="tab">
-- The catchpoints are displayed incompletely<br>
-- Disposition "dis" is ignored, and "del" is saved for breakpoints and tracepoints only<br>
+- The catchpoints are displayed incompletely and removed on program unload<br>
+- Disposition "dis" is ignored, and "del" (i.e. temporary) is saved for break and trace points
+only<br>
 - The difference between software and hardware watchpoints is ignored, but gdb will create
 hardware watchpoints as needed.</div>
 
@@ -374,7 +394,7 @@ ignore for passcount), not the tracepoint-specific commands.</p>
 a local expression.</p>
 
 <p>Shift-clicking <em>Apply</em> applies the breakpoint for the currently selected thread
-only.</p>
+only, if any.</p>
 
 <p>GDB may report an error for invalid <em>Condition</em> and/or <em>Script</em>, but still
 accept them, and continue to emit errors each time they are evaluated.</p>
@@ -392,8 +412,8 @@ mode.</p>
 <p>For multi-address breakpoints, the individual locations are not loaded or saved, and are
 deleted as soon as the program is unloaded, so you may prefer to turn <em>Auto run/exit</em>
 off when using them. When a breakpoint is disabled, GDB treats all it's locations as disabled,
-despite their individual state. However, with at least enabled location for a file:line, the
-marker for enabled breakpoint will be used for that line.</p>
+despite their individual state. However, with at least one enabled location for a file:line,
+the marker for enabled breakpoint will be used for that line.</p>
 
 <p><b><a name="stack">Stack</a></b></p>
 
@@ -412,8 +432,8 @@ function. Depends on GDB &quot;print entry-values&quot;. Applies to <em>Locals</
 <p><b><a name="watch">Watches</a></b></p>
 
 <p>This is a flat list of expressions, evaluated each time the current thread stops or changes
-(subject to <em>update_all_views</em>), in the context of the current thread and frame. Unlike
-<em>Inspect</em>, any gdb-evaluatable expressions may be used, there is no need to apply 
+(subject to <em>Update all views</em>), in the context of the current thread and frame. Unlike
+<em>Inspect</em>, any gdb-evaluatable expressions may be used, and there is no need to apply 
 them.</p>
 
 <p><b><a name="local_watch">Locals/Watches</a></b></p>
@@ -437,9 +457,6 @@ in <em>Setup Program</em>.</p>
 <p>A maximum of 16K may be displayed (128 lines * 128 bytes); <em>gdb_buffer_length</em> also
 limits the size.</p>
 
-<p><em>Memory</em> empty but <em>Clear</em> available means that the subpage can not be
-updated ATM; if you explicitly <em>Clear</em> it, no further updates will take place.</p>
-
 <p><b><a name="console">Debug Console</a></b></p>
 
 <div><table>
@@ -456,10 +473,13 @@ if GDB is ready to receive commands. For example, in synchronous mode, GDB displ
 immediately resuming the program execution; or the prompt may be followed by asynchronous
 messages. The Scope state (Busy, Debug etc.) is more accurate.</p>
 
-<p><b><a name="inspect">Inspect Page</a></b></p>
+<h3>Side pages</h3>
 
-<p>All -var-* commands except -var-update will be ignored when entered from the command line,
-because their output does not provide enough information to identify the variable object.</p>
+<p><b><a name="inspect">Inspect</a></b></p>
+
+<p>-var-* commands entered from the command line will not update the <em>Inspect</em> view,
+because their output does not provide enough information to identify the variable object,
+and/or their PRINT-VALUES argument is unknown.</p>
 
 <p><em>Jump To</em> lists the top-level variables, which is useful if you have a lot of
 children displayed. It's disabled while gdb is inactive, because all variables are collapsed
@@ -482,6 +502,12 @@ will a letter (&quot;-&quot; will not do).</p>
 <p>The format and 7-bit mode are saved only for the top-level variables, not for children (but
 see <a href="#keeping_modes">Keeping modes</a>).</p>
 
+<p><b><a name="registers">Registers</a></b></p>
+
+<p>Scope will query the register names once after a program is loaded, or when the gdb
+executable is changed. If you switch to a different architecture, but your gdb name remains
+the same, invoke <em>Query</em> from the local menu.</p>
+
 <h3><a name="preferences">Preferences</a></h3>
 
 <p>Once again, trivial items are not included.</p>
@@ -491,7 +517,7 @@ see <a href="#keeping_modes">Keeping modes</a>).</p>
 <p><em>gdb_buffer_length</em> - the maximum length of a single gdb output message. Longer
 messages will be cut, and an "overflow" will be displayed in the debug console, possibly
 followed by a few other parsing errors. Default = 16383. Actual value is (the nearest larger
-power of 2) - 1, for example 16384 becomes 65535.
+power of 2) - 1, for example 32768 becomes 65535.
 
 <p><em>gdb_wait_death</em> - hundreds of seconds to wait(3) gdb death on scope unload.
 Default = 20. When closing Geany, gdb will be destroyed by the operating system.</p>
@@ -501,7 +527,13 @@ gdb if it's input buffer is full, in hundreds of seconds. Default = 5. The actua
 larger, for example Scope may be activated only 10 times per second if Geany is idle.</p>
 
 <p><em>async_break_bugs</em> (win~1 only) - whether gdb escapes slashes twice in the
-asynchronous break messages. If true, only <tt>=breakpoint-deleted</tt> will be handled.</p>
+asynchronous break messages. if true (the default), only <tt>=breakpoint-deleted</tt> will be
+handled.</p>
+
+<p><em>var_update_bug</em> - whether -var-update causes internal gdb error if the program is
+loaded but not running. If true (the default), the update of inspect expressions (including
+<em>Refresh</em>) will be disabled in <em>Hand</em> state. AFAIK, they will always have the
+globally initialized values (if any) in that state anyway.</p>
 
 <p><em>auto_view_source</em> - seek in source on single click in threads, breakpoints
 and stack.</p>
@@ -552,7 +584,7 @@ used by the tooltips, or decrease it if they appear slower than your gtk+ settin
 <p><em>pref_tooltips_length</em> - maximum length of a tooltip message, 0 = unlimited.
 Default = 2048.</p>
 
-<p><em>memory_line_bytes</em></p> - maximum bytes per <em>Memory</em> line</p>.
+<p><em>memory_line_bytes</em> - maximum bytes per <em>Memory</em> line.</p>
 
 
 <p>[terminal] (*nix only)</p>
@@ -562,7 +594,7 @@ Default = 2048.</p>
 <p><em>save_pos</em> - auto save window position and widget size</p>
 
 <p><em>padding</em> - whether <em>width</em> and <em>height</em> include the extra VTE widget
-padding. If <em>save_pos</em> is active, it will save them with the padding.</p>
+padding. If <em>save_pos</em> is active, they will be saved with the padding.</p>
 
 <p>[disabled_break], [enabled_break], [execution_line]</p>
 
@@ -584,7 +616,8 @@ them has Scope enabled. Otherwise, the list of programs and their settings may b
 <p>A disabled check button or check menu item means that the respective functionality is
 unavailable; it doesn't matter if the interface element is checked or not.</p>
 
-<p>All subpages will be updated faster if you keep them unsorted.</p>
+<p>Frame-dependent commands entered from the command line will not update the respective view,
+because their output does not contain thread and frame information.</p>
 
 <p><b><a name="editing_values">Editing values</a></b></p>
 
@@ -614,10 +647,24 @@ column, the entire value will be cleared - but that is not guaranteed to work ei
 <p><b><a name="keeping_modes">Keeping modes</a></b></p>
 
 <p>The 7-bit, .names etc. modes for temporary objects, such as local variables, are not saved.
-However, there is a global list with names and modes, and when you change a mode, it's saved
+However, there is a global list with names and modes, and when you change a mode, it is saved
 in that list. Then, when a temporary object is created, Scope searches the list, and sets the
 modes (if any) for that object. For inspect children, the displayed names are used (including
 numbers for array elements), not the fully qualified names.</p>
+
+<p><b><a name="shared_memory">Shared memory</a></b></p>
+
+<div>Scope does not know which Inspect/Watch expressions are thread and frame dependent, as
+well as whether the Memory address and range are process/thread dependent, so their handling
+is a compromise.<br>
+In particular:</div>
+<div class="tab">
+- the values will not be updated if threads exist, but none is selected, or if the selected
+thread is running<br>
+- for <em>Watches</em> and <em>Inspect</em>, Scope will try to select a frame before
+sending the update command(s)<br>
+- on a thread or frame change, if the values can not be updated at the moment, they will not
+be cleared.</div>
 
 <p><b><a name="xos4_colors">Sample dark colors</a></b></p>
 
@@ -663,8 +710,19 @@ GDB command line if you need it.</p>
 
 <p>A. They must be removed before sending the value to GDB. Leaving them while editing gives
 the false impression that you can assign selectively, while in fact omitting a &quot;foo =
-value, &quot; <em>moves</em> all values left by 1, and changing a name or index has
+value,&quot; <em>moves</em> all values left by 1, and changing a name or index has
 <em>no</em> effect.</p>
+
+<p>Q. A "signal `project-before-save' is invalid" warning is displayed on Geany startup, and
+an "assertion `handler_id > 0' failed" message on quit.</p>
+
+<p>A. Your Geany does not support this signal. Either apply the patch from Geany sourceforge
+patch tracker <a href="http://sourceforge.net/tracker/?func=detail&amp;aid=3594050&amp;
+group_id=153444&amp;atid=787793">ID 3594050</a> and recompile it, or make sure to
+<em>Terminate</em> the debugged program before quitting Geany or switching to another project.
+Otherwise, your source files will be marked as read-only when the current project is reopened.
+Of course, you can awlays unlock them manually (via <em>Document --&gt; Read Only</em>),
+so it's nothing serious.</p>
 
 <h3><a name="bugs">Bugs</a></h3>
 
@@ -675,7 +733,11 @@ program/thread. The other Geany debugger plugin has the same problem.</p>
 
 <h3><a name="todo">TODO</a></h3>
 
-<p>See TODO.</p>
+<p>Various tests, source code checks etc.<br>
+Format (natural, decimal...) for Watches?<br>
+Add clear icon to entries? not very useful.<br>
+Don't remove [index] along with member names?<br>
+libtool support / exec wrapper support.</p>
 
 <h3><a name="not_todo">Not TODO</a></h3>
 
@@ -704,7 +766,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.83, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.93.2, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>

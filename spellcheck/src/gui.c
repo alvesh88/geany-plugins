@@ -297,7 +297,7 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 		search_word = g_strdup(word);
 
 	/* ignore numbers or words starting with digits and non-text */
-	if (! NZV(search_word) || isdigit(*search_word) || ! sc_speller_is_text(doc, pos))
+	if (EMPTY(search_word) || isdigit(*search_word) || ! sc_speller_is_text(doc, pos))
 	{
 		g_free(search_word);
 		return;
@@ -405,6 +405,7 @@ static void indicator_clear_on_line(GeanyDocument *doc, gint line_number)
 	start_pos = sci_get_position_from_line(doc->editor->sci, line_number);
 	length = sci_get_line_length(doc->editor->sci, line_number);
 
+	sci_indicator_set(doc->editor->sci, GEANY_INDICATOR_ERROR);
 	sci_indicator_clear(doc->editor->sci, start_pos, length);
 }
 
@@ -412,21 +413,26 @@ static void indicator_clear_on_line(GeanyDocument *doc, gint line_number)
 static gboolean check_lines(gpointer data)
 {
 	GeanyDocument *doc = check_line_data.doc;
-	gchar *line;
-	gint line_number = check_line_data.line_number;
-	gint line_count = check_line_data.line_count;
-	gint i;
 
-	for (i = 0; i < line_count; i++)
+	/* since we're in an timeout callback, the document may have been closed */
+	if (DOC_VALID (doc))
 	{
-		line = sci_get_line(doc->editor->sci, line_number);
-		indicator_clear_on_line(doc, line_number);
-		if (sc_speller_process_line(doc, line_number, line) != 0)
+		gchar *line;
+		gint line_number = check_line_data.line_number;
+		gint line_count = check_line_data.line_count;
+		gint i;
+
+		for (i = 0; i < line_count; i++)
 		{
-			if (sc_info->use_msgwin)
-				msgwin_switch_tab(MSG_MESSAGE, FALSE);
+			line = sci_get_line(doc->editor->sci, line_number);
+			indicator_clear_on_line(doc, line_number);
+			if (sc_speller_process_line(doc, line_number, line) != 0)
+			{
+				if (sc_info->use_msgwin)
+					msgwin_switch_tab(MSG_MESSAGE, FALSE);
+			}
+			g_free(line);
 		}
-		g_free(line);
 	}
 	check_line_data.check_while_typing_idle_source_id = 0;
 	return FALSE;
@@ -651,4 +657,8 @@ void sc_gui_init(void)
 void sc_gui_free(void)
 {
 	g_free(clickinfo.word);
+	if (check_line_data.check_while_typing_idle_source_id != 0)
+	{
+		g_source_remove(check_line_data.check_while_typing_idle_source_id);
+	}
 }

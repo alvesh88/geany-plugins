@@ -4,8 +4,10 @@
  * See the file "geanylua.c" for copyright information.
  */
 
+#define _BSD_SOURCE /* for stat() and lstat() */
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <errno.h>
 
 
@@ -75,13 +77,11 @@ static const gchar *glspi_script_dir = NULL;
 
 static gint glspi_appinfo(lua_State* L)
 {
-	GeanyApp *app = geany->app;
-
 	lua_newtable(L);
-	SetTableBool("debug", app->debug_mode);
-	SetTableStr("configdir", app->configdir);
-	SetTableStr("datadir", app->datadir);
-	SetTableStr("docdir", app->docdir);
+	SetTableBool("debug", geany->app->debug_mode);
+	SetTableStr("configdir", geany->app->configdir);
+	SetTableStr("datadir", geany->app->datadir);
+	SetTableStr("docdir", geany->app->docdir);
 	SetTableStr("scriptdir", glspi_script_dir);
 	lua_pushstring(L,"template");
 	glspi_template(L);
@@ -91,7 +91,7 @@ static gint glspi_appinfo(lua_State* L)
 	glspi_tools(L);
 	lua_rawset(L,1);
 
-	if (app->project) {
+	if (geany->app->project) {
 		lua_pushstring(L,"project");
 		glspi_project(L);
 		lua_rawset(L,1);
@@ -171,10 +171,7 @@ static gint glspi_signal(lua_State* L) {
 
 #ifdef G_OS_WIN32
 #define lstat stat
-#define realpath(src,dst) _fullpath((dst),(src),_MAX_PATH)
 #include <io.h>
-#else
-#include <unistd.h>
 #endif
 
 typedef int (*statfunc) (const char *fn, struct stat *st);
@@ -252,7 +249,6 @@ static gint glspi_dirname(lua_State* L)
 
 
 
-
 static gint glspi_fullpath(lua_State* L)
 {
 	if (lua_gettop(L)>=1) {
@@ -260,10 +256,10 @@ static gint glspi_fullpath(lua_State* L)
 		const gchar *fn=NULL;
 		if (!lua_isstring(L,1)) { return FAIL_STRING_ARG(1); }
 		fn=lua_tostring(L,1);
-		rp=realpath(fn,NULL);
+		rp=tm_get_real_path(fn);
 		if (rp) {
 			lua_pushstring(L,rp);
-			free(rp);
+			g_free(rp);
 			return 1;
 		}
 	}
@@ -443,7 +439,6 @@ static guint My_Alt_R=0;
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
-#include <sys/time.h>
 
 
 #define IsShift ( (My_Shift_L == ev->xkey.keycode) || (My_Shift_R == ev->xkey.keycode) )
@@ -489,13 +484,7 @@ static GdkFilterReturn keygrab_cb(GdkXEvent *xevent, GdkEvent *event, gpointer d
 	return GDK_FILTER_CONTINUE;
 }
 
-static void dosleep(void)
-{
-	struct timespec req, rem;
-	req.tv_sec=0;
-	req.tv_nsec=1000;
-	nanosleep(&req, &rem);
-}
+#define dosleep() g_usleep(1)
 
 #else
 #include <windows.h>
@@ -582,7 +571,7 @@ static gint glspi_keygrab(lua_State* L)
 		gint pos=sci_get_position_from_line(doc->editor->sci, fvl+1);
 		scintilla_send_message(doc->editor->sci,SCI_CALLTIPSHOW,pos+3, (sptr_t)prompt);
 	}
-	gdk_window_add_filter(main_widgets->window->window, keygrab_cb, &km);
+	gdk_window_add_filter(gtk_widget_get_window(main_widgets->window), keygrab_cb, &km);
 	do {
 		while (gtk_events_pending()) {
 			if (km.group==2) { break; }
@@ -592,7 +581,7 @@ static gint glspi_keygrab(lua_State* L)
 		dosleep();
 	} while (km.group!=2);
 
-	gdk_window_remove_filter(main_widgets->window->window, keygrab_cb, &km);
+	gdk_window_remove_filter(gtk_widget_get_window(main_widgets->window), keygrab_cb, &km);
 	if (prompt && doc && doc->is_valid) {
 	sci_send_command(doc->editor->sci, SCI_CALLTIPCANCEL);
 	}

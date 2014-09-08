@@ -52,17 +52,88 @@ static void dict_describe(const gchar* const lang, const gchar* const name,
 }
 
 
+static gboolean is_word_sep(gunichar c)
+{
+	return (g_unichar_isspace(c) || g_unichar_ispunct(c)) && c != (gunichar)'\'';
+}
+
+
+/* Strip punctuation and white space, more or less Unicode-safe.
+ * The offset of the start of the word is stored in offset if non-NULL. */
+static gchar *strip_word(const gchar *word_to_check, gint *result_offset)
+{
+	gunichar c;
+	gchar *word = g_strdup(word_to_check);
+	gchar *word_start = word;
+	gchar *word_end;
+	gint offset = 0;
+	gint word_len;
+	gint new_word_len;
+
+	/* strip from the left */
+	do
+	{
+		c = g_utf8_get_char_validated(word, -1);
+		if (is_word_sep(c))
+		{	/* skip this character */
+			word = g_utf8_next_char(word);
+		}
+		else
+			break;
+	} while (c != (gunichar) -1 && c != 0 && *word != '\0');
+	word_len = strlen(word_to_check);
+	offset = word - word_start;
+	new_word_len = word_len - offset;
+
+	if (new_word_len <= 0)
+	{	/* empty or only punctuation in input string */
+		*result_offset = 0;
+		g_free(word_start);
+		return NULL;
+	}
+	/* move the string in-place and truncate it */
+	g_memmove(word_start, word, new_word_len);
+	word = word_start;
+	word[new_word_len] = '\0';
+	if (! NZV(word))
+	{
+		g_free(word);
+		return NULL;
+	}
+	/* strip from the right */
+	word_end = word + strlen(word);
+	do
+	{
+		word_end = g_utf8_prev_char(word_end);
+		c = g_utf8_get_char_validated(word_end, -1);
+		if (is_word_sep(c))
+		{	/* skip this character */
+			*word_end = '\0';
+		}
+		else
+			break;
+	} while (c != (gunichar) -1 && word_end >= word);
+
+	if (result_offset != NULL)
+		*result_offset = offset;
+
+	return word;
+}
+
+
 static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gchar *word,
 						   gint start_pos, gint end_pos)
 {
 	gsize n_suggs = 0;
+	gchar *word_to_check;
+	gint offset;
 
 	g_return_val_if_fail(sc_speller_dict != NULL, 0);
 	g_return_val_if_fail(doc != NULL, 0);
 	g_return_val_if_fail(word != NULL, 0);
 	g_return_val_if_fail(start_pos >= 0 && end_pos >= 0, 0);
 
-	if (! NZV(word))
+	if (EMPTY(word))
 		return 0;
 
 	/* ignore numbers or words starting with digits */
@@ -73,9 +144,24 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 	if (! sc_speller_is_text(doc, start_pos))
 		return 0;
 
-	/* early out if the word is spelled correctly */
-	if (enchant_dict_check(sc_speller_dict, word, -1) == 0)
+	/* strip punctuation and white space */
+	word_to_check = strip_word(word, &offset);
+	if (! NZV(word_to_check))
+	{
+		g_free(word_to_check);
 		return 0;
+	}
+
+	/* recalculate start_pos and end_pos */
+	start_pos += offset;
+	end_pos = start_pos + strlen(word_to_check);
+
+	/* early out if the word is spelled correctly */
+	if (enchant_dict_check(sc_speller_dict, word_to_check, -1) == 0)
+	{
+		g_free(word_to_check);
+		return 0;
+	}
 
 	editor_indicator_set_on_range(doc->editor, GEANY_INDICATOR_ERROR, start_pos, end_pos);
 
@@ -86,10 +172,10 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 		GString *str;
 
 		str = g_string_sized_new(256);
-		suggs = enchant_dict_suggest(sc_speller_dict, word, -1, &n_suggs);
+		suggs = enchant_dict_suggest(sc_speller_dict, word_to_check, -1, &n_suggs);
 		if (suggs != NULL)
 		{
-			g_string_append_printf(str, "line %d: %s | ",  line_number + 1, word);
+			g_string_append_printf(str, "line %d: %s | ",  line_number + 1, word_to_check);
 
 			g_string_append(str, _("Try: "));
 
@@ -108,6 +194,7 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 		g_string_free(str, TRUE);
 	}
 
+	g_free(word_to_check);
 	return n_suggs;
 }
 
@@ -118,7 +205,6 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 	gint wstart, wend;
 	GString *str;
 	gint suggestions_found = 0;
-	gchar c;
 
 	g_return_val_if_fail(sc_speller_dict != NULL, 0);
 	g_return_val_if_fail(doc != NULL, 0);
@@ -135,13 +221,6 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 		wend = scintilla_send_message(doc->editor->sci, SCI_WORDENDPOSITION, wstart, FALSE);
 		if (wstart == wend)
 			break;
-		c = sci_get_char_at(doc->editor->sci, wstart);
-		/* hopefully it's enough to check for these both */
-		if (ispunct(c) || isspace(c))
-		{
-			pos_start++;
-			continue;
-		}
 
 		/* ensure the string has enough allocated memory */
 		if (str->len < (guint)(wend - wstart))
@@ -259,7 +338,7 @@ gchar *sc_speller_get_default_lang(void)
 	const gchar *lang = g_getenv("LANG");
 	gchar *result = NULL;
 
-	if (NZV(lang))
+	if (! EMPTY(lang))
 	{
 		if (*lang == 'C' || *lang == 'c')
 			lang = "en";
@@ -267,7 +346,7 @@ gchar *sc_speller_get_default_lang(void)
 		{	/* if we have something like de_DE.UTF-8, strip everything from the period to the end */
 			gchar *period = strchr(lang, '.');
 			if (period != NULL)
-				result = g_strndup(lang, g_utf8_pointer_to_offset(lang, period));
+				result = g_strndup(lang, period - lang);
 		}
 	}
 	else
@@ -418,7 +497,7 @@ void sc_speller_reinit_enchant_dict(void)
 
 	/* Check if the stored default dictionary is (still) available, fall back to the first
 	 * one in the list if not */
-	if (! NZV(lang) || ! check_default_lang())
+	if (EMPTY(lang) || ! check_default_lang())
 	{
 		if (sc_info->dicts->len > 0)
 		{
@@ -431,7 +510,7 @@ void sc_speller_reinit_enchant_dict(void)
 	}
 
 	/* Request new dict object */
-	if (NZV(lang))
+	if (! EMPTY(lang))
 		sc_speller_dict = enchant_broker_request_dict(sc_speller_broker, lang);
 	else
 		sc_speller_dict = NULL;
@@ -479,6 +558,20 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 	lexer = scintilla_send_message(doc->editor->sci, SCI_GETLEXER, 0, 0);
 	switch (lexer)
 	{
+		case SCLEX_ABAQUS:
+		{
+			switch (style)
+			{
+				case SCE_ABAQUS_DEFAULT:
+				case SCE_ABAQUS_COMMENT:
+				case SCE_ABAQUS_COMMENTBLOCK:
+				case SCE_ABAQUS_STRING:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_ADA:
 		{
 			switch (style)
@@ -519,6 +612,18 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_SH_COMMENTLINE:
 				case SCE_SH_STRING:
 				case SCE_SH_CHARACTER:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_BATCH:
+		{
+			switch (style)
+			{
+				case SCE_BAT_DEFAULT:
+				case SCE_BAT_COMMENT:
 					return TRUE;
 				default:
 					return FALSE;
@@ -740,41 +845,34 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_H_SGML_DOUBLESTRING:
 				case SCE_H_SGML_SIMPLESTRING:
 				case SCE_H_SGML_1ST_PARAM_COMMENT:
-				case SCE_HJ_DEFAULT:
 				case SCE_HJ_COMMENT:
 				case SCE_HJ_COMMENTLINE:
 				case SCE_HJ_COMMENTDOC:
 				case SCE_HJ_DOUBLESTRING:
 				case SCE_HJ_SINGLESTRING:
 				case SCE_HJ_STRINGEOL:
-				case SCE_HB_DEFAULT:
 				case SCE_HB_COMMENTLINE:
 				case SCE_HB_STRING:
 				case SCE_HB_STRINGEOL:
-				case SCE_HBA_DEFAULT:
 				case SCE_HBA_COMMENTLINE:
 				case SCE_HBA_STRING:
 				case SCE_HBA_STRINGEOL:
-				case SCE_HJA_DEFAULT:
 				case SCE_HJA_COMMENT:
 				case SCE_HJA_COMMENTLINE:
 				case SCE_HJA_COMMENTDOC:
 				case SCE_HJA_DOUBLESTRING:
 				case SCE_HJA_SINGLESTRING:
 				case SCE_HJA_STRINGEOL:
-				case SCE_HP_DEFAULT:
 				case SCE_HP_COMMENTLINE:
 				case SCE_HP_STRING:
 				case SCE_HP_CHARACTER:
 				case SCE_HP_TRIPLE:
 				case SCE_HP_TRIPLEDOUBLE:
-				case SCE_HPA_DEFAULT:
 				case SCE_HPA_COMMENTLINE:
 				case SCE_HPA_STRING:
 				case SCE_HPA_CHARACTER:
 				case SCE_HPA_TRIPLE:
 				case SCE_HPA_TRIPLEDOUBLE:
-				case SCE_HPHP_DEFAULT:
 				case SCE_HPHP_SIMPLESTRING:
 				case SCE_HPHP_HSTRING:
 				case SCE_HPHP_COMMENT:
@@ -848,6 +946,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			break;
 		}
 		case SCLEX_MATLAB:
+		case SCLEX_OCTAVE:
 		{
 			switch (style)
 			{
@@ -905,6 +1004,21 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_PO_MSGID_TEXT:
 				case SCE_PO_MSGSTR_TEXT:
 				case SCE_PO_MSGCTXT_TEXT:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_POWERSHELL:
+		{
+			switch (style)
+			{
+				case SCE_POWERSHELL_DEFAULT:
+				case SCE_POWERSHELL_COMMENT:
+				case SCE_POWERSHELL_STRING:
+				case SCE_POWERSHELL_COMMENTSTREAM:
+				case SCE_POWERSHELL_COMMENTDOCKEYWORD:
 					return TRUE;
 				default:
 					return FALSE;
@@ -1055,5 +1169,3 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 	 * valid text to not ignore more than we want */
 	return TRUE;
 }
-
-

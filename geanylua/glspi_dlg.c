@@ -163,17 +163,17 @@ static gint glspi_choose(lua_State* L)
 	scroll=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 		GTK_POLICY_AUTOMATIC,  GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),scroll);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),scroll);
 	gtk_container_add(GTK_CONTAINER(scroll),tree);
 
 	gtk_widget_set_size_request(tree, 320, 240);
 	gtk_widget_show_all(dialog);
 	gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
 
-	gtk_signal_connect(GTK_OBJECT(tree), "button-press-event",
-		GTK_SIGNAL_FUNC(on_tree_clicked), dialog);
-	gtk_signal_connect(GTK_OBJECT(tree), "key-release-event",
-		GTK_SIGNAL_FUNC(on_tree_key_release), dialog);
+	g_signal_connect(G_OBJECT(tree), "button-press-event",
+		G_CALLBACK(on_tree_clicked), dialog);
+	g_signal_connect(G_OBJECT(tree), "key-release-event",
+		G_CALLBACK(on_tree_key_release), dialog);
 
 	rv=glspi_dialog_run(GTK_DIALOG(dialog));
 
@@ -294,7 +294,7 @@ static gint glspi_input(lua_State* L)
 	gtk_widget_grab_default(ok_btn);
 	entry=gtk_entry_new();
 	if (arg2) { gtk_entry_set_text(GTK_ENTRY(entry), arg2); }
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), entry);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), entry);
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 	set_dialog_title(L,dialog);
 	gtk_widget_set_size_request(entry, 320, -1);
@@ -412,7 +412,7 @@ static gchar *file_dlg(lua_State* L, gboolean save, const gchar *path,	const gch
 					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,	NULL);
 #if NEED_OVERWRITE_PROMPT
-		gtk_signal_connect(GTK_OBJECT(dlg),"response",G_CALLBACK(on_file_dlg_response),&accepted);
+		g_signal_connect(G_OBJECT(dlg),"response",G_CALLBACK(on_file_dlg_response),&accepted);
 #else
 		gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dlg), TRUE);
 #endif
@@ -425,9 +425,11 @@ static gchar *file_dlg(lua_State* L, gboolean save, const gchar *path,	const gch
 	if (name && *name) {
 		if (g_path_is_absolute(name)) {
 			fullname=g_strdup(name);
-		} else if (path) {fullname=g_build_filename(path,name,NULL);}
-			gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dlg), fullname);
-			if (save) gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dlg), name);
+		} else if (path) {
+			fullname=g_build_filename(path,name,NULL);
+		}
+		gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dlg), fullname);
+		if (save) { gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dlg), name); }
 	}
 	if (path && *path) {
 		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dlg), path);
@@ -437,6 +439,7 @@ static gchar *file_dlg(lua_State* L, gboolean save, const gchar *path,	const gch
 			"failed to parse filter string at argument #3.\n"),
 			LUA_MODULE_NAME);
 		lua_error(L);
+		g_free(fullname);
 		return NULL;
 	}
 
@@ -454,7 +457,7 @@ static gchar *file_dlg(lua_State* L, gboolean save, const gchar *path,	const gch
 		rv=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dlg));
 	}
 	gtk_widget_destroy(dlg);
-	if (fullname) {g_free(fullname);}
+	g_free(fullname);
 	return rv;
 }
 
@@ -479,10 +482,10 @@ static gint glspi_pickfile(lua_State* L)
 	if (argc >= 1) {
 		if  (lua_isstring(L,1))	{
 			const gchar*tmp=lua_tostring(L,1);
-			if (strcasecmp(tmp,"save")==0) {
+			if (g_ascii_strcasecmp(tmp,"save")==0) {
 				save=TRUE;
 			} else
-			if ( (*tmp != '\0') && (strcasecmp(tmp,"open")!=0) ) {
+			if ( (*tmp != '\0') && (g_ascii_strcasecmp(tmp,"open")!=0) ) {
 				lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 							"expected string \"open\" or \"save\" for argument #1.\n"),
 							LUA_MODULE_NAME, &__FUNCTION__[6]);

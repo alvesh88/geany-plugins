@@ -32,7 +32,8 @@ GeanyFunctions *geany_functions;
 PLUGIN_VERSION_CHECK(215)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Scope Debugger"),
-	_("Simple GDB front-end."), "0.83" , "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	_("Relatively simple GDB front-end."), "0.93.2",
+	"Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
@@ -55,8 +56,6 @@ enum
 	INSPECT_KB,
 	COUNT_KB
 };
-
-PLUGIN_KEY_GROUP(scope, COUNT_KB)
 
 static MenuKey debug_menu_keys[EVALUATE_KB] =
 {
@@ -206,6 +205,8 @@ static void toolbar_update_state(DebugState state)
 			gtk_widget_set_sensitive(item->widget,
 				menu_item_matches_state(debug_menu_items + item->index, state));
 		}
+
+		last_state = state;
 	}
 }
 
@@ -235,11 +236,19 @@ void statusbar_update_state(DebugState state)
 		if (state == DS_INACTIVE)
 		{
 			gtk_widget_hide(debug_statusbar);
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			gtk_window_set_has_resize_grip(GTK_WINDOW(geany->main_widgets->window), TRUE);
+		#else
 			gtk_statusbar_set_has_resize_grip(geany_statusbar, TRUE);
+		#endif
 		}
 		else if (last_state == DS_INACTIVE)
 		{
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			gtk_window_set_has_resize_grip(GTK_WINDOW(geany->main_widgets->window), FALSE);
+		#else
 			gtk_statusbar_set_has_resize_grip(geany_statusbar, FALSE);
+		#endif
 			gtk_widget_show(debug_statusbar);
 		}
 
@@ -303,9 +312,9 @@ static void on_document_open(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 		threads_mark(doc);
 }
 
-static guint resync_id = 0;
+static guint saved_id = 0;
 
-static gboolean resync_readonly(G_GNUC_UNUSED gpointer gdata)
+static gboolean settings_saved(gpointer gdata)
 {
 	guint i;
 
@@ -315,30 +324,40 @@ static gboolean resync_readonly(G_GNUC_UNUSED gpointer gdata)
 			SCI_GETREADONLY, 0, 0);
 	}
 
-	resync_id = 0;
+	if (gdata)
+	{
+		conterm_load_config();
+		conterm_apply_config();
+	}
+
+	saved_id = 0;
 	return FALSE;
 }
 
-static void unlock_readonly(void)
+static void schedule_settings_saved(gboolean conterm)
 {
 	guint i;
+
+	saved_id = plugin_idle_add(geany_plugin, settings_saved, GINT_TO_POINTER(conterm));
 
 	foreach_document(i)
 	{
 		if (utils_attrib(documents[i], SCOPE_LOCK))
-		{
 			documents[i]->readonly = FALSE;
-
-			if (!resync_id)
-				resync_id = plugin_idle_add(geany_plugin, resync_readonly, NULL);
-		}
 	}
 }
 
-static void on_session_save(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *keyfile,
+static void on_settings_save(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *keyfile,
 	G_GNUC_UNUSED gpointer gdata)
 {
-	unlock_readonly();
+	configure_panel();
+	schedule_settings_saved(TRUE);
+}
+
+static void on_project_before_save(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *keyfile,
+	G_GNUC_UNUSED gpointer gdata)
+{
+	schedule_settings_saved(FALSE);
 }
 
 static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor,
@@ -364,7 +383,15 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 static void on_document_filetype_set(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED GeanyFiletype *filetype_old, G_GNUC_UNUSED gpointer gdata)
 {
-	utils_lock_unlock(doc, debug_state() != DS_INACTIVE && utils_source_document(doc));
+	DebugState state = debug_state();
+	utils_lock_unlock(doc, state != DS_INACTIVE && utils_source_document(doc));
+	toolbar_update_state(state);
+}
+
+static void on_document_activate(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDocument *doc,
+	G_GNUC_UNUSED gpointer user_data)
+{
+	toolbar_update_state(debug_state());
 }
 
 static void on_project_open(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config)
@@ -409,10 +436,12 @@ static const ScopeCallback scope_callbacks[] =
 	{ "document-new",             G_CALLBACK(on_document_new) },
 	{ "document-open",            G_CALLBACK(on_document_open) },
 	{ "document-reload",          G_CALLBACK(on_document_open) },
-	{ "save-settings",            G_CALLBACK(on_session_save) },
+	{ "save-settings",            G_CALLBACK(on_settings_save) },
 	{ "editor-notify",            G_CALLBACK(on_editor_notify) },
 	{ "document-filetype-set",    G_CALLBACK(on_document_filetype_set) },
-	{ "project-before-save",      G_CALLBACK(on_session_save) },
+	{ "document-activate",        G_CALLBACK(on_document_activate) },
+	{ "document-save",            G_CALLBACK(on_document_activate) },
+	{ "project-before-save",      G_CALLBACK(on_project_before_save) },
 	{ "project-open",             G_CALLBACK(on_project_open) },
 	{ "project-close",            G_CALLBACK(on_project_close) },
 	{ "geany-startup-complete",   G_CALLBACK(on_geany_startup_complete) },
@@ -420,7 +449,7 @@ static const ScopeCallback scope_callbacks[] =
 	{ NULL, NULL }
 };
 
-static GtkBuilder *builder = NULL;
+static GtkBuilder *builder;
 
 GObject *get_object(const char *name)
 {
@@ -456,7 +485,7 @@ GtkWidget *get_widget(const char *name)
 #endif  /* G_DISABLE_ASSERT */
 }
 
-void scope_configure(void)
+void configure_toolbar(void)
 {
 	guint item;
 	ToolItem *tool_item = toolbar_items;
@@ -483,23 +512,43 @@ void open_debug_panel(void)
 	gtk_widget_grab_focus(debug_panel);
 }
 
+void configure_panel(void)
+{
+	gboolean short_tab_names = pref_panel_tab_pos == GTK_POS_LEFT ||
+		pref_panel_tab_pos == GTK_POS_RIGHT ||
+		geany_data->interface_prefs->msgwin_orientation == GTK_ORIENTATION_HORIZONTAL;
+
+	gtk_label_set_label(GTK_LABEL(get_widget("program_terminal_label")),
+		short_tab_names ? _("Program") : _("Program Terminal"));
+	gtk_label_set_label(GTK_LABEL(get_widget("break_view_label")),
+		short_tab_names ? _("Breaks") : _("Breakpoints"));
+	gtk_label_set_label(GTK_LABEL(get_widget("debug_console_label")),
+		short_tab_names ? _("Console") : _("Debug Console"));
+
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(debug_panel), pref_panel_tab_pos);
+}
+
 void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 {
+	GeanyKeyGroup *scope_key_group;
+	char *gladefile = g_build_filename(PLUGINDATADIR, "scope.glade", NULL);
 	GError *gerror = NULL;
-	GtkWidget *menubar1 = find_widget(geany->main_widgets->window, "menubar1");
+	GtkWidget *menubar1 = ui_lookup_widget(geany->main_widgets->window, "menubar1");
 	guint item;
 	const MenuKey *menu_key = debug_menu_keys;
 	ToolItem *tool_item = toolbar_items;
 	const ScopeCallback *scb;
-	char *gladefile = g_build_filename(PLUGINDATADIR, "scope.glade", NULL);
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+	scope_key_group = plugin_set_key_group(geany_plugin, "scope", COUNT_KB, NULL);
 	builder = gtk_builder_new();
 	gtk_builder_set_translation_domain(builder, GETTEXT_PACKAGE);
+	scp_tree_store_register_dynamic();
 
 	if (!gtk_builder_add_from_file(builder, gladefile, &gerror))
 	{
 		msgwin_status_add(_("Scope: %s."), gerror->message);
+		g_warning(_("Scope: %s."), gerror->message);
 		g_error_free(gerror);
 		g_object_unref(builder);
 		builder = NULL;
@@ -515,7 +564,13 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 #endif
 	debug_item = get_widget("debug_item");
 	if (menubar1)
-		gtk_menu_shell_insert(GTK_MENU_SHELL(menubar1), debug_item, DEBUG_MENU_ITEM_POS);
+	{
+		GList *children = gtk_container_get_children(GTK_CONTAINER(menubar1));
+		GtkWidget *menu_build1 = ui_lookup_widget(menubar1, "menu_build1");
+
+		gtk_menu_shell_insert(GTK_MENU_SHELL(menubar1), debug_item,
+			menu_build1 ? g_list_index(children, menu_build1) + 1 : DEBUG_MENU_ITEM_POS);
+	}
 	else
 		gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), debug_item);
 
@@ -525,7 +580,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 
 	for (item = 0; item < EVALUATE_KB; item++, menu_key++)
 	{
-		keybindings_set_item(plugin_key_group, item, on_scope_key, 0, 0, menu_key->name,
+		keybindings_set_item(scope_key_group, item, on_scope_key, 0, 0, menu_key->name,
 			_(menu_key->label), debug_menu_items[item].widget);
 	}
 
@@ -542,10 +597,11 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 	gtk216_init();
 	program_init();
 	prefs_init();
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(debug_panel), pref_panel_tab_pos);
 	conterm_init();
 	inspect_init();
+	register_init();
 	parse_init();
+	utils_init();
 	debug_init();
 	views_init();
 	thread_init();
@@ -555,7 +611,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 	local_init();
 	memory_init();
 	menu_init();
-	menu_set_popup_keybindings(item);
+	menu_set_popup_keybindings(scope_key_group, item);
 
 	for (item = 0; tool_item->index != -1; item++, tool_item++)
 	{
@@ -574,7 +630,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 
 	toolbar_update_state(DS_INACTIVE);
 	views_update_state(DS_INACTIVE);
-	scope_configure();
+	configure_toolbar();
 
 	g_signal_connect(debug_panel, "switch-page", G_CALLBACK(on_view_changed), NULL);
 	for (scb = scope_callbacks; scb->name; scb++)
@@ -598,18 +654,17 @@ void plugin_cleanup(void)
 	tooltip_finalize();
 	program_finalize();
 	conterm_finalize();
+	registers_finalize();
 	inspect_finalize();
 	thread_finalize();
 	break_finalize();
 	memory_finalize();
-	stack_finalize();
 	menu_finalize();
 	views_finalize();
 	utils_finalize();
 	parse_finalize();
 	prefs_finalize();
 	debug_finalize();
-	gtk216_finalize();
 
 	gtk_widget_destroy(debug_statusbar);
 	g_object_unref(builder);

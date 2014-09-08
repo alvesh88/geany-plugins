@@ -1,9 +1,18 @@
-ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled --install
+ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled -I geanypy/m4 --install
+AM_DISTCHECK_CONFIGURE_FLAGS = --with-geany-libdir='$${libdir}'
 
 SUBDIRS = po
 
 if ENABLE_ADDONS
 SUBDIRS += addons
+endif
+
+if ENABLE_AUTOCLOSE
+SUBDIRS += autoclose
+endif
+
+if ENABLE_AUTOMARK
+SUBDIRS += automark
 endif
 
 if ENABLE_CODENAV
@@ -16,6 +25,10 @@ endif
 
 if ENABLE_DEBUGGER
 SUBDIRS += debugger
+endif
+
+if ENABLE_DEFINEFORMAT
+SUBDIRS += defineformat
 endif
 
 if ENABLE_DEVHELP
@@ -70,6 +83,10 @@ if ENABLE_GEANYPRJ
 SUBDIRS += geanyprj
 endif
 
+if ENABLE_GEANYPY
+SUBDIRS += geanypy
+endif
+
 if ENABLE_GEANYSENDMAIL
 SUBDIRS += geanysendmail
 endif
@@ -92,6 +109,14 @@ endif
 
 if ENABLE_MULTITERM
 SUBDIRS += multiterm
+endif
+
+if ENABLE_PAIRTAGHIGHLIGHTER
+SUBDIRS += pairtaghighlighter
+endif
+
+if ENABLE_POHELPER
+SUBDIRS += pohelper
 endif
 
 if ENABLE_PRETTY_PRINTER

@@ -41,7 +41,9 @@ void show_errno(const char *prefix)
 
 void show_errno(const char *prefix)
 {
-	show_error(_("%s: error %lu."), prefix, (unsigned long) GetLastError());
+	gchar *error = g_win32_error_message(GetLastError());
+	show_error(_("%s: %s"), prefix, error);
+	g_free(error);
 }
 #endif  /* G_OS_UNIX */
 
@@ -134,74 +136,41 @@ void utils_strchrepl(char *text, char c, char rep)
 		*p = '\0';
 }
 
-gchar *array_append(GArray *array)
+gboolean store_find(ScpTreeStore *store, GtkTreeIter *iter, guint column, const char *key)
 {
-	g_array_set_size(array, array->len + 1);
-	return array->data + g_array_get_element_size(array) * (array->len - 1);
+	if (scp_tree_store_get_column_type(store, column) == G_TYPE_STRING)
+		return scp_tree_store_search(store, FALSE, FALSE, iter, NULL, column, key);
+
+	return scp_tree_store_search(store, FALSE, FALSE, iter, NULL, column, atoi(key));
 }
 
-#ifdef G_OS_UNIX
-gchar *array_find(GArray *array, const char *key, G_GNUC_UNUSED gboolean filename)
-#else
-gchar *array_find(GArray *array, const char *key, gboolean filename)
-#endif
+void store_foreach(ScpTreeStore *store, GFunc each_func, gpointer gdata)
 {
-	guint size = g_array_get_element_size(array);
-	gchar *end = array->data + size * array->len;
-	gchar *data;
-#ifdef G_OS_UNIX
-	int (*const compare)(const char *s1, const char *s2) = strcmp;
-#else
-	int (*compare)(const char *s1, const char *s2) = filename ? utils_str_casecmp : strcmp;
-#endif
+	GtkTreeIter iter;
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 
-	for (data = array->data; data < end; data += size)
-		if (!compare(*(const char **) data, key))
-			return data;
-
-	return NULL;
+	while (valid)
+	{
+		each_func(&iter, gdata);
+		valid = scp_tree_store_iter_next(store, &iter);
+	}
 }
 
-void array_foreach(GArray *array, GFunc each_func, gpointer gdata)
+void store_save(ScpTreeStore *store, GKeyFile *config, const gchar *prefix,
+	gboolean (*save_func)(GKeyFile *config, const char *section, GtkTreeIter *iter))
 {
-	guint size = g_array_get_element_size(array);
-	gchar *end = array->data + size * array->len;
-	gchar *data;
+	guint i = 0;
+	GtkTreeIter iter;
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 
-	for (data = array->data; data < end; data += size)
-		each_func(data, gdata);
-}
+	while (valid)
+	{
+		char *section = g_strdup_printf("%s_%d", prefix, i);
 
-guint array_index(GArray *array, gconstpointer element)
-{
-	return ((const gchar *) element - array->data) / g_array_get_element_size(array);
-}
-
-void array_remove(GArray *array, gconstpointer element)
-{
-	g_array_remove_index(array, array_index(array, element));
-}
-
-static void array_free_element(gpointer element, GFreeFunc free_func)
-{
-	free_func(element);
-}
-
-void array_clear(GArray *array, GFreeFunc free_func)
-{
-	array_foreach(array, (GFunc) array_free_element, free_func);
-	g_array_set_size(array, 0);
-}
-
-void array_free(GArray *array, GFreeFunc free_func)
-{
-	array_foreach(array, (GFunc) array_free_element, free_func);
-	g_array_free(array, TRUE);
-}
-
-static void utils_clear_sections(GKeyFile *config, const char *prefix, guint i)
-{
-	gboolean valid;
+		i += save_func(config, section, &iter);
+		valid = scp_tree_store_iter_next(store, &iter);
+		g_free(section);
+	}
 
 	do
 	{
@@ -211,128 +180,26 @@ static void utils_clear_sections(GKeyFile *config, const char *prefix, guint i)
 	} while (valid);
 }
 
-void array_save(GArray *array, GKeyFile *config, const gchar *prefix, ASaveFunc save_func)
+gint store_gint_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata)
 {
-	guint size = g_array_get_element_size(array);
-	gchar *end = array->data + size * array->len;
-	gchar *data;
-	guint n = 0;
+	const gchar *s1, *s2;
 
-	for (data = array->data; data < end; data += size)
-	{
-		char *section = g_strdup_printf("%s_%d", prefix, n);
-		n += save_func(config, section, data);
-		g_free(section);
-	}
-
-	utils_clear_sections(config, prefix, n);
+	scp_tree_store_get(store, a, GPOINTER_TO_INT(gdata), &s1, -1);
+	scp_tree_store_get(store, b, GPOINTER_TO_INT(gdata), &s2, -1);
+	return utils_atoi0(s1) - utils_atoi0(s2);
 }
 
-gboolean model_find(GtkTreeModel *model, GtkTreeIter *iter, guint column, const char *key)
-{
-	gboolean string = gtk_tree_model_get_column_type(model, column) == G_TYPE_STRING;
-	gboolean valid = gtk_tree_model_get_iter_first(model, iter);
-	gint i = atoi(key);
-
-	while (valid)
-	{
-		gboolean match;
-		union
-		{
-			gchar *s;
-			gint i;
-		} data;
-
-		gtk_tree_model_get(model, iter, column, &data, -1);
-
-		if (string)
-		{
-			match = !g_strcmp0(data.s, key);
-			g_free(data.s);
-		}
-		else
-			match = data.i == i;
-
-		if (match)
-			return TRUE;
-
-		valid = gtk_tree_model_iter_next(model, iter);
-	}
-
-	return FALSE;
-}
-
-void model_foreach(GtkTreeModel *model, GFunc each_func, gpointer gdata)
-{
-	GtkTreeIter iter;
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
-
-	while (valid)
-	{
-		each_func(&iter, gdata);
-		valid = gtk_tree_model_iter_next(model, &iter);
-	}
-}
-
-void model_save(GtkTreeModel *model, GKeyFile *config, const gchar *prefix,
-	gboolean (*save_func)(GKeyFile *config, const char *section, GtkTreeIter *iter))
-{
-	guint i = 0;
-	GtkTreeIter iter;
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
-
-	while (valid)
-	{
-		char *section = g_strdup_printf("%s_%d", prefix, i);
-
-		i += save_func(config, section, &iter);
-		valid = gtk_tree_model_iter_next(model, &iter);
-		g_free(section);
-	}
-
-	utils_clear_sections(config, prefix, i);
-}
-
-gint model_string_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gint column)
-{
-	gchar *s1, *s2;
-	gint result;
-
-	gtk_tree_model_get(model, a, column, &s1, -1);
-	gtk_tree_model_get(model, b, column, &s2, -1);
-	result = g_strcmp0(s1, s2);
-	g_free(s1);
-	g_free(s2);
-	return result;
-}
-
-static gint model_atoint(GtkTreeModel *model, GtkTreeIter *iter, gpointer gdata)
-{
-	gchar *s;
-	gint i;
-
-	gtk_tree_model_get(model, iter, GPOINTER_TO_INT(gdata), &s, -1);
-	i = utils_atoi0(s);
-	g_free(s);
-	return i;
-}
-
-gint model_gint_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata)
-{
-	return model_atoint(model, a, gdata) - model_atoint(model, b, gdata);
-}
-
-gint model_seek_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
+gint store_seek_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b,
 	G_GNUC_UNUSED gpointer gdata)
 {
-	gint result = model_string_compare(model, a, b, COLUMN_FILE);
+	gint result = scp_tree_store_compare_func(store, a, b, GINT_TO_POINTER(COLUMN_FILE));
 
 	if (!result)
 	{
 		gint i1, i2;
 
-		gtk_tree_model_get(model, a, COLUMN_LINE, &i1, -1);
-		gtk_tree_model_get(model, b, COLUMN_LINE, &i2, -1);
+		scp_tree_store_get(store, a, COLUMN_LINE, &i1, -1);
+		scp_tree_store_get(store, b, COLUMN_LINE, &i2, -1);
 		result = i1 - i2;
 	}
 
@@ -393,7 +260,8 @@ void utils_seek(const char *file, gint line, gboolean focus, SeekerType seeker)
 			if (seeker == SK_EXEC_MARK)
 				sci_set_marker_at_line(sci, line - 1, MARKER_EXECUTE);
 		}
-		else if ((doc = document_open_file(file, FALSE, NULL, NULL)) != NULL)
+		else if (g_file_test(file, G_FILE_TEST_EXISTS) &&
+			(doc = document_open_file(file, FALSE, NULL, NULL)) != NULL)
 		{
 			sci = doc->editor->sci;
 			if (seeker == SK_EXECUTE || seeker == SK_EXEC_MARK)
@@ -446,9 +314,9 @@ gboolean utils_source_filetype(GeanyFiletype *ft)
 	{
 		static const filetype_id ft_id[] = { GEANY_FILETYPES_C, GEANY_FILETYPES_CPP,
 			GEANY_FILETYPES_D, GEANY_FILETYPES_OBJECTIVEC, GEANY_FILETYPES_FORTRAN,
-			GEANY_FILETYPES_JAVA, /* GEANY_FILETYPES_OPENCL_C, */ GEANY_FILETYPES_PASCAL,
-			/* GEANY_FILETYPES_S, */ GEANY_FILETYPES_ASM, /* GEANY_FILETYPES_MODULA_2, */
-			GEANY_FILETYPES_ADA };
+			GEANY_FILETYPES_F77, GEANY_FILETYPES_JAVA, /* GEANY_FILETYPES_OPENCL_C, */
+			GEANY_FILETYPES_PASCAL, /* GEANY_FILETYPES_S, */ GEANY_FILETYPES_ASM,
+			/* GEANY_FILETYPES_MODULA_2, */ GEANY_FILETYPES_ADA,  };
 
 		guint i;
 
@@ -476,11 +344,22 @@ static void line_mark_unmark(GeanyDocument *doc, gboolean lock)
 	}
 }
 
+static GtkCheckMenuItem *set_file_readonly1;
+
 static void doc_lock_unlock(GeanyDocument *doc, gboolean lock)
 {
-	scintilla_send_message(doc->editor->sci, SCI_SETREADONLY, lock, 0);
-	doc->readonly = lock;
-	document_set_text_changed(doc, doc->changed);  /* to redraw tab and update sidebar */
+	if (set_file_readonly1 && doc == document_get_current())
+	{
+		/* to ensure correct state of Document -> [ ] Read Only */
+		if (gtk_check_menu_item_get_active(set_file_readonly1) != lock)
+			gtk_check_menu_item_set_active(set_file_readonly1, lock);
+	}
+	else
+	{
+		scintilla_send_message(doc->editor->sci, SCI_SETREADONLY, lock, 0);
+		doc->readonly = lock;
+		document_set_text_changed(doc, doc->changed);  /* to redraw tab & update sidebar */
+	}
 }
 
 void utils_lock(GeanyDocument *doc)
@@ -583,13 +462,6 @@ gchar *utils_key_file_get_string(GKeyFile *config, const char *section, const ch
 	}
 
 	return string;
-}
-
-void utils_key_file_set_string(GKeyFile *config, const char *section, const char *key,
-	char *value)
-{
-	g_key_file_set_string(config, section, key, value);
-	g_free(value);
 }
 
 gchar *utils_get_utf8_basename(const char *file)
@@ -746,6 +618,14 @@ static void on_insert_text(GtkEditable *editable, gchar *new_text, gint new_text
 		g_signal_stop_emission_by_name(editable, "insert-text");
 }
 
+gboolean utils_matches_frame(const char *token)
+{
+	size_t len = *token - '0' + 1;
+
+	return thread_id && len == strlen(thread_id) && strlen(++token) > len &&
+		!memcmp(token, thread_id, len) && !g_strcmp0(token + len, frame_id);
+}
+
 void validator_attach(GtkEditable *editable, gint validator)
 {
 	g_signal_connect(editable, "insert-text", G_CALLBACK(on_insert_text),
@@ -837,6 +717,12 @@ void utils_tree_set_cursor(GtkTreeSelection *selection, GtkTreeIter *iter, gdoub
 
 	gtk_tree_view_set_cursor(tree, path, NULL, FALSE);
 	gtk_tree_path_free(path);
+}
+
+void utils_init(void)
+{
+	set_file_readonly1 = GTK_CHECK_MENU_ITEM(ui_lookup_widget(geany->main_widgets->window,
+		"set_file_readonly1"));
 }
 
 void utils_finalize(void)

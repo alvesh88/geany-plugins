@@ -24,6 +24,7 @@
 	#include "config.h"
 #endif
 #include <geanyplugin.h>
+#include <gtkcompat.h>
 
 #include "gproject-utils.h"
 #include "gproject-project.h"
@@ -44,6 +45,14 @@ static GtkWidget *s_file_view_vbox = NULL;
 static GtkWidget *s_file_view = NULL;
 static GtkTreeStore *s_file_store = NULL;
 static gboolean s_follow_editor = FALSE;
+
+static struct
+{
+	GtkWidget *expand;
+	GtkWidget *collapse;
+	GtkWidget *follow;
+} s_project_toolbar = {NULL, NULL, NULL};
+
 
 static struct
 {
@@ -92,7 +101,7 @@ static gint show_dialog_find_file(gchar *path, gchar **pattern, gboolean *case_s
 		label = gtk_label_new(_("Search for:"));
 		gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 		gtk_size_group_add_widget(size_group, label);
-		s_fif_dialog.combo = gtk_combo_box_entry_new_text();
+		s_fif_dialog.combo = gtk_combo_box_text_new_with_entry();
 		entry = gtk_bin_get_child(GTK_BIN(s_fif_dialog.combo));
 		gtk_entry_set_width_chars(GTK_ENTRY(entry), 40);
 		gtk_label_set_mnemonic_widget(GTK_LABEL(label), entry);
@@ -146,7 +155,7 @@ static gint show_dialog_find_file(gchar *path, gchar **pattern, gboolean *case_s
 		*pattern = g_strconcat("*", str, "*", NULL);
 		*case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s_fif_dialog.case_sensitive));
 		*full_path = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s_fif_dialog.full_path));
-		ui_combo_box_add_to_history(GTK_COMBO_BOX_ENTRY(s_fif_dialog.combo), str, 0);
+		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(s_fif_dialog.combo), str, 0);
 	}
 
 	gtk_widget_hide(s_fif_dialog.widget);
@@ -176,12 +185,14 @@ static gchar *build_path(GtkTreeIter *iter)
 			path = g_strdup(name);
 		else
 			setptr(path, g_build_filename(name, path, NULL));
+		g_free(name);
 
 		node = parent;
 	}
 
 	gtk_tree_model_get(model, &node, FILEVIEW_COLUMN_NAME, &name, -1);
 	setptr(path, g_build_filename(name, path, NULL));
+	g_free(name);
 
 	setptr(path, g_build_filename(geany_data->app->project->base_path, path, NULL));
 
@@ -345,10 +356,10 @@ static void on_open_clicked(void)
 		else
 		{
 			gchar *name;
-			gchar *icon;
+			GIcon *icon;
 
 			gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ICON, &icon, -1);
-			
+
 			if (!icon)
 			{
 				/* help string doesn't have icon */
@@ -358,6 +369,7 @@ static void on_open_clicked(void)
 			name = build_path(&iter);
 			open_file(name);
 			g_free(name);
+			g_object_unref(icon);
 		}
 	}
 }
@@ -456,6 +468,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		GtkTreeIter iter;
 		gchar **path_arr = dir_list->data;
 		gchar *last_dir_name;
+		GIcon *icon_dir = g_icon_new_for_string("gtk-directory", NULL);
 
 		last_dir_name = path_arr[level];
 
@@ -470,7 +483,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 			{
 				gtk_tree_store_append(s_file_store, &iter, parent);
 				gtk_tree_store_set(s_file_store, &iter,
-					FILEVIEW_COLUMN_ICON, "gtk-directory",
+					FILEVIEW_COLUMN_ICON, icon_dir,
 					FILEVIEW_COLUMN_NAME, last_dir_name, -1);
 
 				create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns);
@@ -485,39 +498,60 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 
 		gtk_tree_store_append(s_file_store, &iter, parent);
 		gtk_tree_store_set(s_file_store, &iter,
-			FILEVIEW_COLUMN_ICON, "gtk-directory",
+			FILEVIEW_COLUMN_ICON, icon_dir,
 			FILEVIEW_COLUMN_NAME, last_dir_name, -1);
 
 		create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns);
 
 		g_slist_free(tmp_list);
 		g_slist_free(dir_list);
+		g_object_unref(icon_dir);
 	}
 
 	for (elem = file_list; elem != NULL; elem = g_slist_next(elem))
 	{
 		GtkTreeIter iter;
 		gchar **path_arr = elem->data;
+		GIcon *icon = NULL;
+		gchar *content_type = g_content_type_guess(path_arr[level], NULL, 0, NULL);
+
+		if (content_type)
+		{
+			icon = g_content_type_get_icon(content_type);
+			g_free(content_type);
+		}
 
 		gtk_tree_store_append(s_file_store, &iter, parent);
 		if (patterns_match(header_patterns, path_arr[level]))
 		{
+			if (! icon)
+				icon = g_icon_new_for_string("gproject-header", NULL);
+
 			gtk_tree_store_set(s_file_store, &iter,
-				FILEVIEW_COLUMN_ICON, "gproject-header",
+				FILEVIEW_COLUMN_ICON, icon,
 				FILEVIEW_COLUMN_NAME, path_arr[level], -1);
 		}
 		else if (patterns_match(source_patterns, path_arr[level]))
 		{
+			if (! icon)
+				icon = g_icon_new_for_string("gproject-source", NULL);
+
 			gtk_tree_store_set(s_file_store, &iter,
-				FILEVIEW_COLUMN_ICON, "gproject-source",
+				FILEVIEW_COLUMN_ICON, icon,
 				FILEVIEW_COLUMN_NAME, path_arr[level], -1);
 		}
 		else
 		{
+			if (! icon)
+				icon = g_icon_new_for_string("gproject-file", NULL);
+
 			gtk_tree_store_set(s_file_store, &iter,
-				FILEVIEW_COLUMN_ICON, "gproject-file",
+				FILEVIEW_COLUMN_ICON, icon,
 				FILEVIEW_COLUMN_NAME, path_arr[level], -1);
 		}
+
+		if (icon)
+			g_object_unref(icon);
 	}
 
 	g_slist_free(file_list);
@@ -550,7 +584,13 @@ static void load_project(void)
 	}
 
 	if (path_list != NULL)
+	{
 		create_branch(0, path_list, NULL, header_patterns, source_patterns);
+		
+		gtk_widget_set_sensitive(s_project_toolbar.expand, TRUE);
+		gtk_widget_set_sensitive(s_project_toolbar.collapse, TRUE);
+		gtk_widget_set_sensitive(s_project_toolbar.follow, TRUE);
+	}
 	else
 	{
 		GtkTreeIter iter;
@@ -558,6 +598,10 @@ static void load_project(void)
 		gtk_tree_store_append(s_file_store, &iter, NULL);
 		gtk_tree_store_set(s_file_store, &iter,
 			FILEVIEW_COLUMN_NAME, "Set file patterns under Project->Properties", -1);
+
+		gtk_widget_set_sensitive(s_project_toolbar.expand, FALSE);
+		gtk_widget_set_sensitive(s_project_toolbar.collapse, FALSE);
+		gtk_widget_set_sensitive(s_project_toolbar.follow, FALSE);
 	}
 
 	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
@@ -688,6 +732,7 @@ void gprj_sidebar_init(void)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *sel;
 	PangoFontDescription *pfd;
+	GList *focus_chain = NULL;
 
 	s_file_view_vbox = gtk_vbox_new(FALSE, 0);
 
@@ -711,12 +756,14 @@ void gprj_sidebar_init(void)
 	ui_widget_set_tooltip_text(item, _("Expand all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_expand_all), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
+	s_project_toolbar.expand = item;
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "gproject-collapse");
 	ui_widget_set_tooltip_text(item, _("Collapse all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_collapse_all), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
+	s_project_toolbar.collapse = item;
 
 	item = GTK_WIDGET(gtk_separator_tool_item_new());
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
@@ -726,6 +773,7 @@ void gprj_sidebar_init(void)
 	ui_widget_set_tooltip_text(item, _("Follow active editor"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_follow_active), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
+	s_project_toolbar.follow = item;
 
 	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), toolbar, FALSE, FALSE, 0);
 
@@ -733,13 +781,13 @@ void gprj_sidebar_init(void)
 
 	s_file_view = gtk_tree_view_new();
 
-	s_file_store = gtk_tree_store_new(FILEVIEW_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
+	s_file_store = gtk_tree_store_new(FILEVIEW_N_COLUMNS, G_TYPE_ICON, G_TYPE_STRING);
 	gtk_tree_view_set_model(GTK_TREE_VIEW(s_file_view), GTK_TREE_MODEL(s_file_store));
 
 	renderer = gtk_cell_renderer_pixbuf_new();
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
-	gtk_tree_view_column_set_attributes(column, renderer, "icon-name", FILEVIEW_COLUMN_ICON, NULL);
+	gtk_tree_view_column_set_attributes(column, renderer, "gicon", FILEVIEW_COLUMN_ICON, NULL);
 
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
@@ -811,11 +859,13 @@ void gprj_sidebar_init(void)
 
 	/**** the rest ****/
 
+	focus_chain = g_list_prepend(focus_chain, s_file_view);
+	gtk_container_set_focus_chain(GTK_CONTAINER(s_file_view_vbox), focus_chain);
 	scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scrollwin), s_file_view);
-	gtk_container_add(GTK_CONTAINER(s_file_view_vbox), scrollwin);
+	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), scrollwin, TRUE, TRUE, 0);
 
 	gtk_widget_show_all(s_file_view_vbox);
 	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
